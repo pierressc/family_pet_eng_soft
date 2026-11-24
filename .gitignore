@@ -1,0 +1,12 @@
+# Dependências e saída de distribuição do MVP
+mvp/node_modules/
+mvp/dist/
+mvp/.vite/
+
+# Logs e arquivos locais do sistema
+*.log
+npm-debug.log*
+.DS_Store
+Thumbs.db
+.env.local
+.env.*.local

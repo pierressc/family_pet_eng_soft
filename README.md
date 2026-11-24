@@ -17,9 +17,12 @@ Plataforma web comunitária de caráter extensionista direcionada ao município 
 
 ---
 
-## Documento Mestre Consolidado
+## Acesso Rápido — MVP, Demonstração e Gestão Ágil
 
-- [**DOCUMENTO_FINAL.md**](DOCUMENTO_FINAL.md) — Documento completo e revisado contendo capa, tabela de controle de versões, sumário navegável e a consolidação integral das Seções 1 a 9.
+- **MVP Funcional (Código em React + Vite):** [mvp/](mvp/)
+- **Demonstração Online (GitHub Pages):** https://pierressc.github.io/family_pet_eng_soft/
+- **Quadro Kanban (GitHub Projects):** https://github.com/users/pierressc/projects/2
+- **Documento Mestre Consolidado:** [**DOCUMENTO_FINAL.md**](DOCUMENTO_FINAL.md) — Documento completo e revisado contendo capa, tabela de controle de versões, sumário navegável e a consolidação integral das Seções 1 a 9.
 
 ---
 

@@ -1319,7 +1319,8 @@ Como entrega opcional complementar da disciplina de Engenharia de Software (bôn
 - **Pilha tecnológica adotada:** React + Vite + HTML5 semântico + CSS3 responsivo (360 px a 1440 px) com contraste WCAG 2.1 Nível AA (`NF002`, `NF003`, `NF004`).
 - **Camada de dados local:** catálogo estático estruturado em arquivo JSON contendo **ao menos 15 estabelecimentos representativos de bairros de João Pessoa (PB)** (como Manaíra, Tambaú, Cabo Branco, Bessa e Bancários), somado ao armazenamento local do navegador (`localStorage`) para gravar avaliações submetidas e listas de favoritos criadas durante o uso (`NF006`).
 - **Escopo negativo preservado:** o MVP não realiza pagamentos online, checkout financeiro, delivery próprio, autenticação em servidor remoto nem avaliação individual por item do cardápio (`RF016`, `RD003`).
-- **Repositório e Ambiente de Demonstração:** `[INSERIR LINK DO REPOSITÓRIO E DEPLOY DO MVP]`
+- **Código do MVP:** https://github.com/pierressc/family_pet_eng_soft/tree/main/mvp
+- **Demonstração Online (GitHub Pages):** https://pierressc.github.io/family_pet_eng_soft/
 
 ---
 
@@ -1349,9 +1350,9 @@ O escopo funcional do MVP abrange exclusivamente os **10 Requisitos Funcionais *
 Pré-requisitos de ambiente: **Node.js (versão LTS >= 18)** e **npm** instalados localmente.
 
 ```bash
-# 1. Clonar o repositório do MVP e acessar o diretório do projeto
-git clone [INSERIR LINK DO REPOSITÓRIO E DEPLOY DO MVP]
-cd family-place-mvp
+# 1. Clonar o repositório e acessar a pasta do MVP
+git clone https://github.com/pierressc/family_pet_eng_soft.git
+cd family_pet_eng_soft/mvp
 
 # 2. Instalar as dependências do projeto React
 npm install
