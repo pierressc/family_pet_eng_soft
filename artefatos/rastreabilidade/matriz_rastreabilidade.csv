@@ -1,0 +1,16 @@
+Necessidade_Comunidade,Objetivo_SMART,Requisito_Usuario,Requisito_Sistema,Item_EAP_e_Marco,Historia_Usuario,Pontos
+"Localizar estabelecimentos em bairros de João Pessoa (Q01-Q04; ENT-01 a ENT-03)","OBJ1; OBJ4",RU01,"RF001; NF001; NF003; NF004","EAP 2.2, 2.4, 4.1, 4.4 (M2, M3, M5)",H01,3
+"Combinar múltiplos filtros inclusivos em uma consulta (Q02, Q05-Q08; ENT-01 a ENT-03)","OBJ1; OBJ4",RU01,"RF002; NF003; NF005","EAP 2.2, 2.3, 2.4, 4.1, 4.4 (M2, M3, M5)",H02,8
+"Visualizar contagem, limpar filtros e tratar busca vazia (Q05, Q16; WF-01)",OBJ1,RU01,"RF003; NF005","EAP 2.3, 2.4, 4.1 (M2, M3, M5)",H03,2
+"Verificar previamente tags de infraestrutura inclusiva (Q06-Q08; ENT-01 a ENT-04)","OBJ1; OBJ3; OBJ4",RU02,"RF004; NF002; NF003","EAP 2.2, 2.3, 2.4, 4.1 (M2, M3, M5)",H04,5
+"Consultar vitrine informativa com Favoritos da Casa sem compras internas (Q11; ENT-04)",OBJ3,RU02,"RF005; RD003","EAP 1.2, 2.3, 2.4, 4.1 (M1, M2, M3, M5)",H05,3
+"Acionar contato direto por WhatsApp ou site sem intermediação financeira (Q11; ENT-03, ENT-04)",OBJ3,RU02,"RF006; RD003","EAP 1.2, 2.4, 4.1 (M1, M3, M5)",H06,2
+"Consultar médias independentes nos 4 pilares e comentários (Q09, Q16; ENT-01 a ENT-04)","OBJ2; OBJ4",RU03,"RF007; NF002; RD002","EAP 2.2, 2.3, 2.4, 4.2 (M2, M3, M5)",H07,5
+"Registrar avaliação de 1 a 5 estrelas nos 4 pilares com privacidade (Q09, Q16; ENT-01 a ENT-03)","OBJ2; OBJ4",RU03,"RF008; NF005; NF006; RD001; RD002","EAP 2.3, 2.4, 4.2, 4.4 (M2, M3, M5)",H08,8
+"Organizar favoritos em listas temáticas personalizadas por critério (Q10; ENT-01 a ENT-03)",OBJ2,RU04,"RF009; NF006","EAP 2.3, 2.4, 4.2 (M2, M3, M5)",H09,3
+"Salvar um mesmo local em várias listas e consultar favoritos (Q10; WF-04)","OBJ2; OBJ4",RU04,"RF010; NF006","EAP 2.3, 2.4, 4.2, 4.3 (M2, M3, M5)",H10,5
+"Autenticar contas distintas de clientes e estabelecimentos com LGPD (ENT-04; Q16)",OBJ3,RU05,"RF011; RD001","EAP 2.4, 3.2, 3.3 (M3, M4)",H11,5
+"Permitir ao estabelecimento atualizar perfil, tags e vitrine (ENT-04)",OBJ3,RU05,"RF012; RD003","EAP 2.4, 3.2, 3.3 (M3, M4)",H12,8
+"Disponibilizar e resgatar cupons presenciais no Clube de Fidelidade (Q12; ENT-02, ENT-04)",OBJ3,RU06,"RF013; RD003","EAP 2.4, 3.2, 3.3 (M3, M4)",H13,5
+"Seguir estabelecimentos e acompanhar timeline curta com foto e categoria (Q13; ENT-02, ENT-04)",OBJ3,RU07,"RF014; RD001","EAP 2.4, 3.2, 3.3 (M3, M4)",H14,8
+"Receber recomendações por fluxo guiado ou linguagem natural (Q14; ENT-03)",OBJ3,RU08,"RF015; NF005","EAP 2.4, 3.2, 3.3 (M3, M4)",H15,13

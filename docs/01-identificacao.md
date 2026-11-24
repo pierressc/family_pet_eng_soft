@@ -50,17 +50,25 @@ A estrutura oficial do repositório separa a documentação textual numerada (`/
 
 | Caminho no Repositório | Finalidade |
 | :--- | :--- |
+| `/README.md` | Apresentação geral do projeto e índice navegável do repositório. |
+| `/DOCUMENTO_FINAL.md` | Documento mestre consolidado com capa, controle de versões, sumário e Seções 1 a 9. |
 | `/docs/01-identificacao.md` | Identificação do projeto, equipe, responsabilidades e controle de versões. |
 | `/docs/02-processo-desenvolvimento.md` | Definição e justificativa do processo híbrido (Scrum + Kanban) e limitações assumidas. |
 | `/docs/03-tap-escopo-viabilidade.md` | Termo de Abertura do Projeto (TAP), declaração de escopo e estudo de viabilidade. |
-| `/artefatos/pmcanvas/` | Project Model Canvas (PMCanvas) em formato visual autônomo. |
-| `/artefatos/elicitacao/` | Instrumentos e registros de elicitação comunitária em João Pessoa (PB). |
-| `/artefatos/wireframes/` | Protótipos de baixa fidelidade das interfaces principais do sistema. |
-| `/artefatos/requisitos/` | Artefatos auxiliares da especificação de requisitos. |
-| `/artefatos/planejamento/` | Estrutura Analítica do Projeto (EAP), marcos e cronograma detalhado. |
-| `/artefatos/backlog/` | Personas, histórias de usuário, Planning Poker e evidências do quadro Kanban. |
-| `/artefatos/rastreabilidade/` | Matriz de rastreabilidade bidirecional completa do projeto. |
-| `/artefatos/atas/` | Atas formais das reuniões de alinhamento, planejamento e revisão. |
+| `/docs/04-elicitacao-prototipos.md` | Plano e resultados da elicitação comunitária em João Pessoa e validação dos protótipos de baixa fidelidade. |
+| `/docs/05-especificacao-requisitos.md` | Especificação formal de requisitos (`RU01`–`RU08`, `RF001`–`RF016`, `NF001`–`NF006`, `RD001`–`RD003`). |
+| `/docs/06-eap-marcos-cronograma.md` | EAP hierárquica, marcos verificáveis (`M1`–`M5`) e cronograma com Regra de Sommerville (+50%). |
+| `/docs/07-backlog-estimativas.md` | Personas, epics, histórias de usuário (`H01`–`H15`), Definição de Pronto, Planning Poker e Kanban. |
+| `/docs/08-mvp.md` | Organização do MVP em React sem banco de dados, instruções de execução e roteiro de demonstração. |
+| `/docs/09-referencias-anexos-ia.md` | Matriz de Rastreabilidade completa, referências bibliográficas, anexos e Declaração de Uso de IA. |
+| `/artefatos/pmcanvas/` | Project Model Canvas (`pmcanvas.html`) em formato visual autônomo. |
+| `/artefatos/elicitacao/` | Questionário, roteiro de entrevista e consolidação dos resultados em João Pessoa (PB). |
+| `/artefatos/wireframes/` | Protótipos de baixa fidelidade das quatro telas essenciais (`wireframes.html`). |
+| `/artefatos/requisitos/` | Catálogo tabular consolidado dos 33 requisitos (`requisitos.csv`). |
+| `/artefatos/planejamento/` | Diagrama da EAP (`eap.html`), cronograma (`cronograma.csv`) e gráfico Gantt (`gantt.html`). |
+| `/artefatos/backlog/` | Quadro Kanban visual (`kanban.html`) e planilha de histórias (`backlog.csv`). |
+| `/artefatos/rastreabilidade/` | Matriz de rastreabilidade bidirecional completa (`matriz_rastreabilidade.csv`). |
+| `/artefatos/atas/` | Atas formais dos sete ciclos semanais de reuniões (`atas-reunioes.md`). |
 
 ---
 

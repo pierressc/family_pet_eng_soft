@@ -51,7 +51,7 @@ A Estrutura Analítica do Projeto (EAP) decompõe 100% do escopo aprovado do **F
   - Entregáveis: registro de Planning Poker na Seção 7, `/artefatos/backlog/kanban.html` e `/artefatos/backlog/backlog.csv`.
   - Vínculo: `OBJ4`, `H01`–`H15`.
 - **3.4 Organização e Arquitetura do MVP em React sem Banco de Dados** *(Responsável: Renan Mendes)*
-  - Entregáveis: Seção 8 (`/docs/08-organizacao-mvp.md`) com estrutura de componentes, dados estáticos de 15 locais de João Pessoa e critérios de demonstração.
+  - Entregáveis: Seção 8 (`/docs/08-mvp.md`) com estrutura de componentes, dados estáticos de 15 locais de João Pessoa e critérios de demonstração.
   - Vínculo: `OBJ1`, `OBJ2`, `OBJ3`, `RF001`–`RF010`, `NF001`–`NF006`.
 
 ### Pacote 4 — Entrega e MVP
@@ -62,7 +62,7 @@ A Estrutura Analítica do Projeto (EAP) decompõe 100% do escopo aprovado do **F
   - Entregáveis: módulos React de consulta/submissão de notas nos 4 pilares (`RD002`), gestão de listas de favoritos por critério e gravação em `localStorage` (`NF006`).
   - Vínculo: `OBJ2`, `RF007`–`RF010`, `NF005`, `NF006`, `RD001`, `RD002`.
 - **4.3 Matriz de Rastreabilidade, Auditoria de Qualidade e Seção 9** *(Responsável: Caio Augusto)*
-  - Entregáveis: Seção 9 (`/docs/09-rastreabilidade-qualidade.md`), matriz bidirecional completa em `/artefatos/rastreabilidade/`, referências e revisão de qualidade.
+  - Entregáveis: Seção 9 (`/docs/09-referencias-anexos-ia.md`), matriz bidirecional completa em `/artefatos/rastreabilidade/matriz_rastreabilidade.csv`, referências e revisão de qualidade.
   - Vínculo: `OBJ4`, `RU01`–`RU08`, `RF001`–`RF016`, `NF001`–`NF006`, `RD001`–`RD003`.
 - **4.4 Validação Comunitária, Homologação v1.0 e Apresentação Final** *(Responsável: Pierre Simon)*
   - Entregáveis: registros de testes com ao menos 12 moradores e 3 representantes de estabelecimentos de João Pessoa, documentação homologada na versão v1.0 e apresentação final na disciplina.
@@ -79,7 +79,7 @@ Os cinco marcos do projeto coincidem integralmente com as datas definidas na Se�
 | **M1** | Aprovação do TAP, Escopo, Viabilidade e PMCanvas | **20/10/2026** | Documentos `/docs/01-identificacao.md`, `/docs/02-processo-desenvolvimento.md`, `/docs/03-tap-escopo-viabilidade.md` e `/artefatos/pmcanvas/pmcanvas.html` revisados e integrados ao repositório Git. | Pierre Simon e Kewy Huang |
 | **M2** | Conclusão da Elicitação e Protótipos de Baixa Fidelidade | **03/11/2026** | Artefatos em `/artefatos/elicitacao/` (28 respostas e 4 entrevistas consolidadas), `/artefatos/wireframes/wireframes.html` (`WF-01` a `WF-04`) e `/docs/04-elicitacao-prototipos.md` validados e aprovados. | Kewy Huang |
 | **M3** | Linha de Base de Requisitos e Planejamento Detalhado | **10/11/2026** | Documentos `/docs/05-especificacao-requisitos.md`, `/artefatos/requisitos/requisitos.csv`, `/docs/06-eap-marcos-cronograma.md` e artefatos em `/artefatos/planejamento/` (`eap.html`, `cronograma.csv`, `gantt.html`) auditados e publicados. | Caio Augusto e Pierre Simon |
-| **M4** | Consolidação do Backlog, Estimativas e Plano do MVP | **17/11/2026** | Documentos `/docs/07-backlog-estimativas.md`, `/docs/08-organizacao-mvp.md` e artefatos em `/artefatos/backlog/` (`kanban.html` e `backlog.csv`) com sessão de Planning Poker registrada e escopo do MVP fechado. | Renan Mendes |
+| **M4** | Consolidação do Backlog, Estimativas e Plano do MVP | **17/11/2026** | Documentos `/docs/07-backlog-estimativas.md`, `/docs/08-mvp.md` e artefatos em `/artefatos/backlog/` (`kanban.html` e `backlog.csv`) com sessão de Planning Poker registrada e escopo do MVP fechado. | Renan Mendes |
 | **M5** | Entrega Final da Documentação Integrada e Apresentação do MVP | **01/12/2026** | Versão v1.0 das Seções 1 a 9, Matriz de Rastreabilidade com cobertura integral sem células órfãs, MVP funcional em React validado junto à comunidade de João Pessoa e apresentação realizada em sala. | Toda a Equipe (coord. Pierre Simon) |
 
 ---
