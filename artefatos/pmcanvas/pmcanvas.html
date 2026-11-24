@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>PMCanvas — Family Place</title>
+  <style>
+    :root {
+      --bg-page: #f4f6f9;
+      --bg-card: #ffffff;
+      --border: #cbd5e1;
+      --border-strong: #94a3b8;
+      --text-main: #0f172a;
+      --text-muted: #475569;
+      --navy: #1e293b;
+      --col-porque: #1d4ed8;
+      --col-porque-bg: #eff6ff;
+      --col-oque: #0f766e;
+      --col-oque-bg: #f0fdfa;
+      --col-quem: #7c3aed;
+      --col-quem-bg: #f5f3ff;
+      --col-como: #b45309;
+      --col-como-bg: #fffbeb;
+      --col-quando: #be123c;
+      --col-quando-bg: #fff1f2;
+      --tag-bg: #e2e8f0;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+      background-color: var(--bg-page);
+      color: var(--text-main);
+      line-height: 1.38;
+      padding: 16px;
+    }
+
+    .canvas-wrapper {
+      max-width: 1600px;
+      margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-strong);
+      border-radius: 8px;
+      box-shadow: 0 4px 18px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    .canvas-header {
+      background: var(--navy);
+      color: #ffffff;
+      padding: 14px 20px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      border-bottom: 3px solid #334155;
+    }
+
+    .header-title h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: 0.02em;
+    }
+
+    .header-title p {
+      font-size: 0.8rem;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    .header-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .meta-pill {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 4px;
+      padding: 4px 10px;
+      font-size: 0.74rem;
+      color: #f1f5f9;
+    }
+
+    .meta-pill strong {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .btn-print {
+      background: #ffffff;
+      color: var(--navy);
+      border: none;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 0.76rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .btn-print:hover {
+      background: #e2e8f0;
+    }
+
+    .canvas-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      border-top: 1px solid var(--border);
+    }
+
+    .pm-column {
+      display: flex;
+      flex-direction: column;
+      border-right: 1px solid var(--border-strong);
+      min-width: 0;
+    }
+
+    .pm-column:last-child {
+      border-right: none;
+    }
+
+    .col-banner {
+      text-align: center;
+      font-size: 0.76rem;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: #ffffff;
+      padding: 7px 8px;
+    }
+
+    .col-porque .col-banner { background: var(--col-porque); }
+    .col-oque .col-banner { background: var(--col-oque); }
+    .col-quem .col-banner { background: var(--col-quem); }
+    .col-como .col-banner { background: var(--col-como); }
+    .col-quando .col-banner { background: var(--col-quando); }
+
+    .pm-block {
+      padding: 10px 11px;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      flex: 1 1 auto;
+    }
+
+    .pm-block:last-child {
+      border-bottom: none;
+    }
+
+    .block-title {
+      font-size: 0.76rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      padding: 4px 7px;
+      border-radius: 4px;
+      border-left: 3px solid transparent;
+    }
+
+    .col-porque .block-title {
+      background: var(--col-porque-bg);
+      color: var(--col-porque);
+      border-left-color: var(--col-porque);
+    }
+
+    .col-oque .block-title {
+      background: var(--col-oque-bg);
+      color: var(--col-oque);
+      border-left-color: var(--col-oque);
+    }
+
+    .col-quem .block-title {
+      background: var(--col-quem-bg);
+      color: var(--col-quem);
+      border-left-color: var(--col-quem);
+    }
+
+    .col-como .block-title {
+      background: var(--col-como-bg);
+      color: var(--col-como);
+      border-left-color: var(--col-como);
+    }
+
+    .col-quando .block-title {
+      background: var(--col-quando-bg);
+      color: var(--col-quando);
+      border-left-color: var(--col-quando);
+    }
+
+    .note-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .note {
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      border-radius: 5px;
+      padding: 6px 8px;
+      font-size: 0.73rem;
+      color: var(--text-main);
+    }
+
+    .note strong {
+      font-weight: 700;
+      color: #0f172a;
+    }
+
+    .note-sub {
+      display: block;
+      margin-top: 2px;
+      color: var(--text-muted);
+      font-size: 0.69rem;
+    }
+
+    .badge {
+      display: inline-block;
+      font-size: 0.65rem;
+      font-weight: 700;
+      padding: 1px 5px;
+      border-radius: 3px;
+      background: var(--tag-bg);
+      color: var(--navy);
+      margin-right: 4px;
+      vertical-align: middle;
+    }
+
+    .badge-must { background: #dcfce7; color: #166534; }
+    .badge-should { background: #dbeafe; color: #1e40af; }
+    .badge-could { background: #fef3c7; color: #92400e; }
+    .badge-wont { background: #ffe4e6; color: #9f1239; }
+
+    .timeline-item {
+      display: flex;
+      gap: 7px;
+      align-items: flex-start;
+    }
+
+    .timeline-date {
+      flex-shrink: 0;
+      font-size: 0.68rem;
+      font-weight: 700;
+      background: var(--col-quando-bg);
+      color: var(--col-quando);
+      border: 1px solid #fecdd3;
+      border-radius: 3px;
+      padding: 2px 5px;
+      text-align: center;
+      min-width: 64px;
+    }
+
+    .cost-summary {
+      background: #f1f5f9;
+      border: 1px solid #cbd5e1;
+      border-radius: 5px;
+      padding: 7px 8px;
+      font-size: 0.74rem;
+    }
+
+    .cost-total {
+      font-size: 0.92rem;
+      font-weight: 700;
+      color: #0f766e;
+      margin-bottom: 3px;
+    }
+
+    .canvas-footer {
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 8px;
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    @media (max-width: 1180px) {
+      .canvas-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .pm-column {
+        border-bottom: 1px solid var(--border-strong);
+      }
+    }
+
+    @media (max-width: 680px) {
+      body {
+        padding: 8px;
+      }
+      .canvas-grid {
+        grid-template-columns: 1fr;
+      }
+      .pm-column {
+        border-right: none;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 6mm;
+      }
+
+      body {
+        background: #ffffff;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .canvas-wrapper {
+        box-shadow: none;
+        border: 1px solid #94a3b8;
+        border-radius: 0;
+        max-width: 100%;
+      }
+
+      .canvas-header {
+        padding: 8px 12px;
+      }
+
+      .header-title h1 {
+        font-size: 1rem;
+      }
+
+      .header-title p,
+      .meta-pill {
+        font-size: 0.66rem;
+      }
+
+      .canvas-grid {
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+      }
+
+      .pm-block {
+        padding: 6px 7px;
+        gap: 4px;
+      }
+
+      .block-title {
+        font-size: 0.65rem;
+        padding: 3px 5px;
+      }
+
+      .note,
+      .cost-summary {
+        padding: 4px 5px;
+        font-size: 0.61rem;
+        line-height: 1.28;
+      }
+
+      .note-sub,
+      .timeline-date,
+      .badge {
+        font-size: 0.58rem;
+      }
+
+      .canvas-footer {
+        padding: 5px 10px;
+        font-size: 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="canvas-wrapper">
+    <header class="canvas-header">
+      <div class="header-title">
+        <h1>PROJECT MODEL CANVAS — FAMILY PLACE</h1>
+        <p>Engenharia de Software • Ciência da Computação • Prof. Fernando Marlon Soares Figueiredo • Extensão em João Pessoa (PB)</p>
+      </div>
+      <div class="header-meta">
+        <span class="meta-pill"><strong>Gerente de Projeto:</strong> Pierre Simon</span>
+        <span class="meta-pill"><strong>Período:</strong> 13/10/2026 a 01/12/2026</span>
+        <span class="meta-pill"><strong>Processo:</strong> Híbrido (Scrum + Kanban)</span>
+        <span class="meta-pill"><strong>Marco:</strong> M1 (20/10/2026)</span>
+        <button type="button" class="btn-print no-print" onclick="window.print()">Imprimir / PDF</button>
+      </div>
+    </header>
+
+    <section class="canvas-grid" aria-label="Quadro Project Model Canvas do Family Place">
+      <!-- COLUNA 1: POR QUE? -->
+      <div class="pm-column col-porque">
+        <div class="col-banner">Por quê?</div>
+
+        <article class="pm-block">
+          <h2 class="block-title">1. Justificativa</h2>
+          <ul class="note-list">
+            <li class="note">
+              <strong>Lacuna de informações confiáveis em João Pessoa (PB):</strong> ausência de dados objetivos antes de sair de casa sobre acessibilidade física, conforto intelectual/sensorial, estrutura infantil e regras pet friendly.
+            </li>
+            <li class="note">
+              <strong>Limitação das avaliações genéricas:</strong> plataformas comuns exibem nota única e omitem critérios essenciais para famílias, tutores de pets, idosos, PCD e neurodivergentes (ex.: autismo e TDAH).
+            </li>
+            <li class="note">
+              <strong>Baixa visibilidade do comércio inclusivo local:</strong> estabelecimentos preparados precisam de canal direto de divulgação sem taxas de intermediação financeira.
+            </li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">2. Objetivo SMART</h2>
+          <ul class="note-list">
+            <li class="note">
+              <span class="badge">OBJ1</span> Entregar até <strong>01/12/2026</strong> MVP web em React com ao menos <strong>15 locais de João Pessoa</strong>, <strong>4 categorias combináveis</strong> de filtros e taxa mínima de <strong>90%</strong> de conclusão em testes de busca.
+            </li>
+            <li class="note">
+              <span class="badge">OBJ2</span> Implementar avaliação multicritério em <strong>4 pilares</strong> (1 a 5 estrelas + comentário) com cálculo automático de médias em <strong>100%</strong> dos pilares e listas de favoritos por critério.
+            </li>
+            <li class="note">
+              <span class="badge">OBJ3</span> Estruturar vitrines com <strong>"Favoritos da Casa"</strong> e redirecionamento direto (WhatsApp/site) em <strong>100%</strong> dos perfis sem pagamentos/delivery, além de especificar 100% dos módulos evolutivos.
+            </li>
+            <li class="note">
+              <span class="badge">OBJ4</span> Entregar Seções 1 a 9 e validar o MVP com ao menos <strong>12 moradores</strong> e <strong>3 estabelecimentos</strong> de João Pessoa, com <strong>100%</strong> de cobertura na Matriz de Rastreabilidade.
+            </li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">3. Benefícios</h2>
+          <ul class="note-list">
+            <li class="note">
+              <strong>Previsibilidade e segurança:</strong> decisão informada antes do deslocamento para famílias, idosos, PCD, neurodivergentes e tutores de pets.
+            </li>
+            <li class="note">
+              <strong>Fortalecimento do comércio local:</strong> divulgação orgânica e contato direto com clientes em João Pessoa sem comissões sobre vendas.
+            </li>
+            <li class="note">
+              <strong>Impacto extensionista e acadêmico:</strong> aplicação prática de Engenharia de Software com benefício social mensurável.
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- COLUNA 2: O QUE? -->
+      <div class="pm-column col-oque">
+        <div class="col-banner">O quê?</div>
+
+        <article class="pm-block">
+          <h2 class="block-title">4. Produto</h2>
+          <ul class="note-list">
+            <li class="note">
+              <strong>Plataforma Web Comunitária Family Place:</strong> aplicação web responsiva (MVP em React sem banco de dados remoto) direcionada inicialmente a João Pessoa (PB), com potencial futuro para aplicativo mobile.
+            </li>
+            <li class="note">
+              <strong>Dois perfis atendidos:</strong> <em>Cliente</em> (busca, consulta de pilares, avaliação, favoritos, contato direto, cupons e comunidade) e <em>Estabelecimento</em> (perfil, tags inclusivas, vitrine, timeline e cupons).
+            </li>
+            <li class="note">
+              <strong>Diferencial central:</strong> avaliação segmentada em 4 pilares (Estrutura Infantil; Acessibilidade e Conforto; Receptividade Pet; Atendimento e Custo-Benefício).
+            </li>
+            <li class="note">
+              <strong>Escopo negativo explícito:</strong> sem pagamento online, checkout financeiro, delivery próprio, app mobile nativo ou avaliação individual por item do cardápio.
+            </li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">5. Requisitos Principais</h2>
+          <ul class="note-list">
+            <li class="note">
+              <span class="badge badge-must">MUST (~60% — MVP)</span>
+              Busca com filtros combinados em João Pessoa; página detalhada com tags, vitrine ("Favoritos da Casa") e contato direto via WhatsApp/site; avaliação nos 4 pilares (1 a 5 estrelas + comentário); favoritos organizados por critério.
+            </li>
+            <li class="note">
+              <span class="badge badge-should">SHOULD (~20%)</span>
+              Cadastro e autenticação simples (Clientes e Estabelecimentos); painel do estabelecimento (perfil, tags e vitrine); Clube de Fidelidade com resgate presencial de cupons.
+            </li>
+            <li class="note">
+              <span class="badge badge-could">COULD (~15%)</span>
+              Seguidores e Timeline (texto curto + 1 imagem + tag de categoria); Assistente Virtual de recomendação por fluxo guiado/linguagem natural.
+            </li>
+            <li class="note">
+              <span class="badge badge-wont">WON'T (~5%)</span>
+              Pagamentos online, checkout, delivery próprio, aplicativo mobile nativo e avaliação individual por item do cardápio.
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- COLUNA 3: QUEM? -->
+      <div class="pm-column col-quem">
+        <div class="col-banner">Quem?</div>
+
+        <article class="pm-block">
+          <h2 class="block-title">6. Stakeholders</h2>
+          <ul class="note-list">
+            <li class="note">
+              <strong>Prof. Fernando Marlon Soares Figueiredo</strong>
+              <span class="note-sub">Interno • Patrocinador acadêmico, orientador e avaliador da disciplina.</span>
+            </li>
+            <li class="note">
+              <strong>Equipe de Projeto (4 integrantes)</strong>
+              <span class="note-sub">Interno • Concepção, engenharia de requisitos, gestão, qualidade e MVP.</span>
+            </li>
+            <li class="note">
+              <strong>Moradores de João Pessoa (Clientes)</strong>
+              <span class="note-sub">Externo • Famílias com crianças, tutores de pets, idosos, PCD físico/intelectual, neurodivergentes e cuidadores.</span>
+            </li>
+            <li class="note">
+              <strong>Estabelecimentos Locais de João Pessoa</strong>
+              <span class="note-sub">Externo • Restaurantes, cafeterias, serviços e espaços de lazer interessados em divulgar estrutura inclusiva.</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">7. Equipe</h2>
+          <ul class="note-list">
+            <li class="note">
+              <strong>Pierre Simon</strong>
+              <span class="note-sub">Gerente de Projeto / Coordenação e Planejamento — Seções 1, 2, 3 (TAP e Escopo), 6 (EAP, Marcos e Cronograma), PMCanvas e Atas.</span>
+            </li>
+            <li class="note">
+              <strong>Kewy Huang</strong>
+              <span class="note-sub">Requisitos (Elicitação e Prototipação) — Seção 3 (Estudo de Viabilidade) e Seção 4 (Elicitação e Protótipos de Baixa Fidelidade).</span>
+            </li>
+            <li class="note">
+              <strong>Caio Augusto</strong>
+              <span class="note-sub">Requisitos (Especificação) e Qualidade — Seção 5 (Especificação de Requisitos) e Seção 9 (Matriz de Rastreabilidade, Referências, Anexos e Qualidade).</span>
+            </li>
+            <li class="note">
+              <strong>Renan Mendes</strong>
+              <span class="note-sub">Backlog e Estimativas — Seção 7 (Personas, Histórias, Definição de Pronto, Planning Poker e Kanban) e Seção 8 (Organização do MVP).</span>
+            </li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- COLUNA 4: COMO? -->
+      <div class="pm-column col-como">
+        <div class="col-banner">Como?</div>
+
+        <article class="pm-block">
+          <h2 class="block-title">8. Premissas</h2>
+          <ul class="note-list">
+            <li class="note">
+              <span class="badge">PRE1</span> Equipe dispõe de computadores pessoais e conexão à internet durante todo o semestre.
+            </li>
+            <li class="note">
+              <span class="badge">PRE2</span> Participação de moradores e comerciantes de João Pessoa nas etapas de elicitação e validação.
+            </li>
+            <li class="note">
+              <span class="badge">PRE3</span> Disponibilidade contínua de ferramentas gratuitas (GitHub, VS Code, Node.js e React).
+            </li>
+            <li class="note">
+              <span class="badge">PRE4</span> MVP validado em navegador com dados estáticos locais e armazenamento local, sem banco remoto.
+            </li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">9. Grupo de Entregas</h2>
+          <ul class="note-list">
+            <li class="note"><strong>E1 — Base e Governança:</strong> Seções 1 a 3, PMCanvas e Atas de Reunião.</li>
+            <li class="note"><strong>E2 — Descoberta e UX:</strong> Relatório de Elicitação comunitária e Protótipos de Baixa Fidelidade.</li>
+            <li class="note"><strong>E3 — Engenharia e Plano:</strong> Especificação de Requisitos (RU, RF, NF, RD), EAP e Cronograma (Sommerville +50%).</li>
+            <li class="note"><strong>E4 — Backlog Ágil:</strong> Personas, Histórias de Usuário, Definição de Pronto, Planning Poker e Kanban.</li>
+            <li class="note"><strong>E5 — Produto e Qualidade:</strong> MVP funcional em React, Matriz de Rastreabilidade (100%) e Revisão Final v1.0.</li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">10. Restrições</h2>
+          <ul class="note-list">
+            <li class="note"><span class="badge">RES1</span> Prazo fixo e improrrogável de entrega e apresentação: <strong>01/12/2026</strong>.</li>
+            <li class="note"><span class="badge">RES2</span> Orçamento financeiro direto de <strong>R$ 0,00</strong> (somente ferramentas gratuitas).</li>
+            <li class="note"><span class="badge">RES3</span> Equipe fixa de 4 estudantes com dedicação acadêmica parcial.</li>
+            <li class="note"><span class="badge">RES4</span> Escopo negativo rigoroso (sem pagamentos, delivery próprio, app nativo ou nota por item).</li>
+            <li class="note"><span class="badge">RES5</span> Anonimização e consentimento na coleta comunitária (conformidade LGPD).</li>
+          </ul>
+        </article>
+      </div>
+
+      <!-- COLUNA 5: QUANDO E QUANTO? -->
+      <div class="pm-column col-quando">
+        <div class="col-banner">Quando e Quanto?</div>
+
+        <article class="pm-block">
+          <h2 class="block-title">11. Riscos</h2>
+          <ul class="note-list">
+            <li class="note"><span class="badge">RSK1</span> Baixa adesão de moradores/estabelecimentos na elicitação e validação (Mitigação: início no Ciclo 2 e canais diretos).</li>
+            <li class="note"><span class="badge">RSK2</span> Expansão indevida de escopo (Mitigação: MoSCoW e escopo negativo rígido).</li>
+            <li class="note"><span class="badge">RSK3</span> Sobrecarga acadêmica em semanas de prova (Mitigação: Sommerville +50% e limite de WIP).</li>
+            <li class="note"><span class="badge">RSK4</span> Divergência entre requisitos, protótipos e MVP (Mitigação: revisão cruzada e rastreabilidade contínua).</li>
+            <li class="note"><span class="badge">RSK5</span> Critérios de acessibilidade imprecisos (Mitigação: consulta comunitária e ABNT NBR 9050 / WCAG).</li>
+            <li class="note"><span class="badge">RSK6</span> Atraso na consolidação final (Mitigação: pré-entrega v0.9 em 24/11/2026).</li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">12. Linha do Tempo</h2>
+          <ul class="note-list">
+            <li class="note timeline-item">
+              <span class="timeline-date">20/10/2026</span>
+              <span><strong>M1:</strong> Aprovação do TAP, Escopo, Estudo de Viabilidade e PMCanvas.</span>
+            </li>
+            <li class="note timeline-item">
+              <span class="timeline-date">03/11/2026</span>
+              <span><strong>M2:</strong> Conclusão da Elicitação e Protótipos de Baixa Fidelidade validados.</span>
+            </li>
+            <li class="note timeline-item">
+              <span class="timeline-date">10/11/2026</span>
+              <span><strong>M3:</strong> Linha de Base de Requisitos, EAP e Cronograma (Sommerville).</span>
+            </li>
+            <li class="note timeline-item">
+              <span class="timeline-date">17/11/2026</span>
+              <span><strong>M4:</strong> Consolidação do Backlog, Estimativas, Kanban e Plano do MVP.</span>
+            </li>
+            <li class="note timeline-item">
+              <span class="timeline-date">01/12/2026</span>
+              <span><strong>M5:</strong> Entrega Final v1.0, Matriz de Rastreabilidade e Apresentação do MVP.</span>
+            </li>
+          </ul>
+        </article>
+
+        <article class="pm-block">
+          <h2 class="block-title">13. Custos</h2>
+          <div class="cost-summary">
+            <div class="cost-total">Custo Financeiro Direto: R$ 0,00</div>
+            <p>Uso exclusivo de recursos gratuitos: GitHub / GitHub Projects, VS Code, Node.js, React, Vite, formulários digitais gratuitos e equipamentos próprios dos 4 integrantes.</p>
+          </div>
+          <ul class="note-list">
+            <li class="note">
+              <strong>Esforço Acadêmico Estimado:</strong> 168 horas-homem (4 integrantes × 6 h/semana × 7 semanas).
+            </li>
+          </ul>
+        </article>
+      </div>
+    </section>
+
+    <footer class="canvas-footer">
+      <span><strong>Family Place</strong> — Artefato PMCanvas alinhado ao TAP (Seção 3)</span>
+      <span>Responsável: Pierre Simon • Revisão de Viabilidade: Kewy Huang • Versão 1.0 (20/10/2026)</span>
+    </footer>
+  </main>
+</body>
+</html>
