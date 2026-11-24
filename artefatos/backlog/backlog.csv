@@ -1,0 +1,16 @@
+ID,Titulo_Cartao,Epic,Prioridade,RF_Vinculado,Pontos,Responsavel,Coluna_Kanban
+H01,"Catálogo e busca textual em João Pessoa",EP01,Must,RF001,3,Pierre Simon,Concluído
+H02,"Filtragem combinada por critérios inclusivos",EP01,Must,RF002,8,Pierre Simon,Concluído
+H03,"Contagem de locais, limpeza de critérios e aviso de ausência",EP01,Must,RF003,2,Pierre Simon,Concluído
+H04,"Detalhes do estabelecimento e tags de infraestrutura",EP02,Must,RF004,5,Kewy Huang,Concluído
+H05,"Vitrine informativa com destaque Favoritos da Casa",EP02,Must,RF005,3,Kewy Huang,Concluído
+H06,"Redirecionamento direto para WhatsApp e site oficial",EP02,Must,RF006,2,Pierre Simon,Em Revisão
+H07,"Consulta de médias nos quatro pilares e comentários",EP03,Must,RF007,5,Caio Augusto,Em Revisão
+H08,"Registro de avaliação multicritério nos quatro pilares",EP03,Must,RF008,8,Renan Mendes,Em Andamento
+H09,"Criação e gestão de listas de favoritos por critério",EP04,Must,RF009,3,Kewy Huang,Em Andamento
+H10,"Inclusão, remoção e consulta de locais nas listas",EP04,Must,RF010,5,Caio Augusto,Pronto para Fazer
+H11,"Cadastro e autenticação por perfil de usuário",EP05,Should,RF011,5,Pierre Simon,Pronto para Fazer
+H12,"Painel de gestão de perfil, tags e vitrine do estabelecimento",EP05,Should,RF012,8,Kewy Huang,Backlog
+H13,"Clube de Fidelidade e resgate de cupons presenciais",EP05,Should,RF013,5,Renan Mendes,Backlog
+H14,"Seguidores e timeline de novidades dos estabelecimentos",EP05,Could,RF014,8,Caio Augusto,Backlog
+H15,"Assistente virtual de recomendação de estabelecimentos",EP05,Could,RF015,13,Kewy Huang,Backlog

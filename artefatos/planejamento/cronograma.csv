@@ -1,0 +1,17 @@
+ID_EAP,Atividade,Dependencia,Responsavel,Duracao_Otimista_Dias,Margem_Sommerville_50pct,Duracao_Total_Dias,Inicio,Fim,Marco
+1.1,"Estruturação do repositório, identificação e processo híbrido",-,Pierre Simon,2,1,3,13/10/2026,15/10/2026,M1
+1.2,"Elaboração do TAP, declaração de escopo e PMCanvas",1.1,Pierre Simon,4,2,6,15/10/2026,20/10/2026,M1
+1.3,"Estudo de viabilidade técnica, comunitária e de prazo",1.1,Kewy Huang,2,1,3,18/10/2026,20/10/2026,M1
+1.4,"Coordenação de rituais semanais e registro de atas",1.1,Pierre Simon,32,16,48,14/10/2026,30/11/2026,M5
+2.1,"Plano e instrumentos de elicitação comunitária",1.2,Kewy Huang,2,1,3,20/10/2026,22/10/2026,M2
+2.2,"Aplicação do questionário e entrevistas em João Pessoa",2.1,Kewy Huang,6,3,9,22/10/2026,30/10/2026,M2
+2.3,"Protótipos de baixa fidelidade (WF-01 a WF-04) e validação",2.2,Kewy Huang,4,2,6,29/10/2026,03/11/2026,M2
+2.4,"Especificação formal de requisitos e planilha CSV",2.3,Caio Augusto,4,2,6,04/11/2026,09/11/2026,M3
+3.1,"EAP, marcos, cronograma Sommerville e gráfico Gantt",2.3,Pierre Simon,4,2,6,05/11/2026,10/11/2026,M3
+3.2,"Personas, epics, histórias de usuário e Definição de Pronto",2.4,Renan Mendes,2,1,3,11/11/2026,13/11/2026,M4
+3.3,"Sessão de Planning Poker, quadro Kanban e backlog CSV",3.2,Renan Mendes,2,1,3,14/11/2026,16/11/2026,M4
+3.4,"Organização e arquitetura do MVP em React sem banco",3.2,Renan Mendes,2,1,3,15/11/2026,17/11/2026,M4
+4.1,"Implementação MVP: catálogo, filtros combinados, detalhes e vitrine",3.4,Pierre Simon,4,2,6,18/11/2026,23/11/2026,M5
+4.2,"Implementação MVP: avaliação nos 4 pilares e favoritos locais",3.4,Renan Mendes,4,2,6,19/11/2026,24/11/2026,M5
+4.3,"Matriz de rastreabilidade, auditoria de qualidade e Seção 9","3.3; 3.4",Caio Augusto,4,2,6,21/11/2026,26/11/2026,M5
+4.4,"Validação comunitária, homologação v1.0 e apresentação final","4.1; 4.2; 4.3",Pierre Simon,4,2,6,26/11/2026,01/12/2026,M5

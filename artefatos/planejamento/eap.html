@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EAP — Estrutura Analítica do Projeto Family Place</title>
+  <style>
+    :root {
+      --navy: #1e293b;
+      --border: #cbd5e1;
+      --text: #0f172a;
+      --muted: #475569;
+      --p1: #1d4ed8;
+      --p1-bg: #eff6ff;
+      --p2: #0f766e;
+      --p2-bg: #f0fdfa;
+      --p3: #b45309;
+      --p3-bg: #fffbeb;
+      --p4: #7c3aed;
+      --p4-bg: #f5f3ff;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, Arial, sans-serif;
+      background: #f4f6f9;
+      color: var(--text);
+      padding: 16px;
+      line-height: 1.32;
+    }
+
+    .sheet {
+      max-width: 1460px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 1px solid #94a3b8;
+      border-radius: 8px;
+      box-shadow: 0 4px 16px rgba(15, 23, 42, 0.08);
+      overflow: hidden;
+    }
+
+    .header {
+      background: var(--navy);
+      color: #ffffff;
+      padding: 12px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .header h1 {
+      font-size: 1.15rem;
+      letter-spacing: 0.02em;
+    }
+
+    .header p {
+      font-size: 0.78rem;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    .btn-print {
+      background: #ffffff;
+      color: var(--navy);
+      border: none;
+      border-radius: 4px;
+      padding: 6px 12px;
+      font-size: 0.76rem;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .diagram-area {
+      padding: 18px 16px 14px 16px;
+    }
+
+    .root-wrap {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .root-node {
+      background: var(--navy);
+      color: #ffffff;
+      border: 2px solid #0f172a;
+      border-radius: 6px;
+      padding: 10px 24px;
+      text-align: center;
+      min-width: 340px;
+    }
+
+    .root-node .code {
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #93c5fd;
+      font-weight: 700;
+    }
+
+    .root-node .title {
+      font-size: 1rem;
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .root-node .sub {
+      font-size: 0.72rem;
+      color: #cbd5e1;
+      margin-top: 2px;
+    }
+
+    .connector-svg {
+      width: 100%;
+      height: 36px;
+      display: block;
+    }
+
+    .packages-grid {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 14px;
+      width: 100%;
+    }
+
+    .package-col {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .pkg-header {
+      border-radius: 6px;
+      padding: 9px 10px;
+      color: #ffffff;
+      text-align: center;
+      font-weight: 700;
+      font-size: 0.84rem;
+    }
+
+    .pkg-header span {
+      display: block;
+      font-size: 0.68rem;
+      font-weight: 400;
+      opacity: 0.92;
+      margin-top: 2px;
+    }
+
+    .p1 .pkg-header { background: var(--p1); }
+    .p2 .pkg-header { background: var(--p2); }
+    .p3 .pkg-header { background: var(--p3); }
+    .p4 .pkg-header { background: var(--p4); }
+
+    .work-list {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding-left: 12px;
+      border-left: 2px solid #cbd5e1;
+      margin-left: 10px;
+    }
+
+    .wp-card {
+      position: relative;
+      border: 1px solid #cbd5e1;
+      border-left-width: 4px;
+      border-radius: 5px;
+      padding: 8px 9px;
+      background: #ffffff;
+    }
+
+    .wp-card::before {
+      content: "";
+      position: absolute;
+      left: -14px;
+      top: 16px;
+      width: 12px;
+      height: 2px;
+      background: #cbd5e1;
+    }
+
+    .p1 .wp-card { border-left-color: var(--p1); background: var(--p1-bg); }
+    .p2 .wp-card { border-left-color: var(--p2); background: var(--p2-bg); }
+    .p3 .wp-card { border-left-color: var(--p3); background: var(--p3-bg); }
+    .p4 .wp-card { border-left-color: var(--p4); background: var(--p4-bg); }
+
+    .wp-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 6px;
+      margin-bottom: 4px;
+    }
+
+    .wp-id {
+      font-size: 0.72rem;
+      font-weight: 700;
+      padding: 1px 6px;
+      border-radius: 3px;
+      background: #ffffff;
+      border: 1px solid #94a3b8;
+      color: var(--navy);
+    }
+
+    .wp-marco {
+      font-size: 0.67rem;
+      font-weight: 700;
+      color: var(--muted);
+    }
+
+    .wp-title {
+      font-size: 0.78rem;
+      font-weight: 700;
+      color: var(--text);
+      margin-bottom: 4px;
+    }
+
+    .wp-meta {
+      font-size: 0.69rem;
+      color: var(--muted);
+      margin-bottom: 3px;
+    }
+
+    .wp-links {
+      font-size: 0.66rem;
+      color: #1e293b;
+      background: rgba(255, 255, 255, 0.8);
+      border: 1px dashed #94a3b8;
+      border-radius: 3px;
+      padding: 2px 5px;
+      display: inline-block;
+    }
+
+    .footer {
+      background: #f8fafc;
+      border-top: 1px solid var(--border);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 0.7rem;
+      color: var(--muted);
+    }
+
+    @media (max-width: 1080px) {
+      .packages-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+      .connector-svg {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      .packages-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4 landscape;
+        margin: 6mm;
+      }
+
+      html,
+      body {
+        width: 285mm;
+        height: 198mm;
+        padding: 0;
+        margin: 0;
+        background: #ffffff;
+        overflow: hidden;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .sheet {
+        width: 100%;
+        height: 196mm;
+        max-width: 100%;
+        border-radius: 0;
+        box-shadow: none;
+        display: flex;
+        flex-direction: column;
+        break-inside: avoid;
+        page-break-inside: avoid;
+      }
+
+      .header {
+        padding: 7px 12px;
+      }
+
+      .header h1 { font-size: 0.92rem; }
+      .header p { font-size: 0.62rem; }
+
+      .diagram-area {
+        padding: 8px 10px 6px 10px;
+        flex: 1 1 auto;
+      }
+
+      .root-node {
+        padding: 5px 16px;
+        min-width: 280px;
+      }
+      .root-node .code { font-size: 0.56rem; }
+      .root-node .title { font-size: 0.8rem; }
+      .root-node .sub { font-size: 0.58rem; }
+
+      .connector-svg { height: 20px; }
+
+      .packages-grid {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 9px;
+      }
+
+      .pkg-header {
+        padding: 5px 6px;
+        font-size: 0.68rem;
+      }
+      .pkg-header span { font-size: 0.55rem; }
+
+      .work-list {
+        gap: 5px;
+        padding-left: 8px;
+        margin-left: 6px;
+      }
+
+      .wp-card {
+        padding: 4.5px 6px;
+      }
+      .wp-card::before {
+        left: -10px;
+        top: 12px;
+        width: 8px;
+      }
+
+      .wp-id, .wp-marco { font-size: 0.56rem; }
+      .wp-title { font-size: 0.62rem; margin-bottom: 2px; }
+      .wp-meta { font-size: 0.55rem; margin-bottom: 2px; }
+      .wp-links { font-size: 0.53rem; padding: 1px 4px; }
+
+      .footer {
+        padding: 4px 10px;
+        font-size: 0.56rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <main class="sheet">
+    <header class="header">
+      <div>
+        <h1>ESTRUTURA ANALÍTICA DO PROJETO (EAP) — FAMILY PLACE</h1>
+        <p>Engenharia de Software • Ciência da Computação • Período: 13/10/2026 a 01/12/2026 • Responsável: Pierre Simon (Marco M3)</p>
+      </div>
+      <button type="button" class="btn-print no-print" onclick="window.print()">Imprimir / Exportar PDF</button>
+    </header>
+
+    <section class="diagram-area" aria-label="Diagrama hierárquico da EAP do Family Place">
+      <div class="root-wrap">
+        <div class="root-node">
+          <div class="code">Nível 0 — Projeto</div>
+          <div class="title">0.0 FAMILY PLACE — PLATAFORMA COMUNITÁRIA (JOÃO PESSOA / PB)</div>
+          <div class="sub">Escopo 100% decomposto em 4 pacotes e 16 entregas • Marcos M1 a M5</div>
+        </div>
+
+        <svg class="connector-svg" viewBox="0 0 1200 36" preserveAspectRatio="none" aria-hidden="true">
+          <line x1="600" y1="0" x2="600" y2="18" stroke="#475569" stroke-width="2" />
+          <line x1="145" y1="18" x2="1055" y2="18" stroke="#475569" stroke-width="2" />
+          <line x1="145" y1="18" x2="145" y2="36" stroke="#1d4ed8" stroke-width="2" />
+          <line x1="448" y1="18" x2="448" y2="36" stroke="#0f766e" stroke-width="2" />
+          <line x1="752" y1="18" x2="752" y2="36" stroke="#b45309" stroke-width="2" />
+          <line x1="1055" y1="18" x2="1055" y2="36" stroke="#7c3aed" stroke-width="2" />
+        </svg>
+      </div>
+
+      <div class="packages-grid">
+        <!-- PACOTE 1 -->
+        <div class="package-col p1">
+          <div class="pkg-header">
+            1. GESTÃO
+            <span>Governança, Escopo, Viabilidade e Rituais</span>
+          </div>
+          <div class="work-list">
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">1.1</span><span class="wp-marco">M1 • 13/10–15/10</span></div>
+              <div class="wp-title">Repositório, Identificação e Processo Híbrido</div>
+              <div class="wp-meta">Resp.: Pierre Simon • Seções 1 e 2</div>
+              <div class="wp-links">OBJ4 • Processo Scrum + Kanban</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">1.2</span><span class="wp-marco">M1 • 15/10–20/10</span></div>
+              <div class="wp-title">TAP, Declaração de Escopo e PMCanvas</div>
+              <div class="wp-meta">Resp.: Pierre Simon • Seção 3.1/3.2 e pmcanvas.html</div>
+              <div class="wp-links">OBJ1–OBJ4 • RF016 • RD003</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">1.3</span><span class="wp-marco">M1 • 18/10–20/10</span></div>
+              <div class="wp-title">Estudo de Viabilidade e Parecer</div>
+              <div class="wp-meta">Resp.: Kewy Huang • Seção 3.3</div>
+              <div class="wp-links">OBJ1 • OBJ4 • Recomendação formal</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">1.4</span><span class="wp-marco">M5 • 14/10–30/11</span></div>
+              <div class="wp-title">Rituais Semanais e Atas de Reunião</div>
+              <div class="wp-meta">Resp.: Pierre Simon • /artefatos/atas/</div>
+              <div class="wp-links">OBJ4 • Controle dos 7 ciclos</div>
+            </article>
+          </div>
+        </div>
+
+        <!-- PACOTE 2 -->
+        <div class="package-col p2">
+          <div class="pkg-header">
+            2. REQUISITOS
+            <span>Elicitação, Protótipos e Especificação</span>
+          </div>
+          <div class="work-list">
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">2.1</span><span class="wp-marco">M2 • 20/10–22/10</span></div>
+              <div class="wp-title">Plano e Instrumentos de Elicitação</div>
+              <div class="wp-meta">Resp.: Kewy Huang • Questionário e Roteiro</div>
+              <div class="wp-links">OBJ4 • RD001 (LGPD)</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">2.2</span><span class="wp-marco">M2 • 22/10–30/10</span></div>
+              <div class="wp-title">Pesquisa (n=28) e Entrevistas (ENT-01–04)</div>
+              <div class="wp-meta">Resp.: Kewy Huang • João Pessoa (PB)</div>
+              <div class="wp-links">OBJ1–OBJ4 • RU01–RU08 • RD001</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">2.3</span><span class="wp-marco">M2 • 29/10–03/11</span></div>
+              <div class="wp-title">Wireframes Baixa Fidelidade e Validação</div>
+              <div class="wp-meta">Resp.: Kewy Huang • Seção 4 e WF-01–WF-04</div>
+              <div class="wp-links">RF001–RF010 • NF002 • NF003 • NF005</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">2.4</span><span class="wp-marco">M3 • 04/11–09/11</span></div>
+              <div class="wp-title">Especificação Formal e requisitos.csv</div>
+              <div class="wp-meta">Resp.: Caio Augusto • Seção 5</div>
+              <div class="wp-links">RU01–08 • RF001–16 • NF001–06 • RD001–03</div>
+            </article>
+          </div>
+        </div>
+
+        <!-- PACOTE 3 -->
+        <div class="package-col p3">
+          <div class="pkg-header">
+            3. PLANEJAMENTO
+            <span>Cronograma, Backlog, Estimativas e MVP</span>
+          </div>
+          <div class="work-list">
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">3.1</span><span class="wp-marco">M3 • 05/11–10/11</span></div>
+              <div class="wp-title">EAP, Marcos e Cronograma Sommerville</div>
+              <div class="wp-meta">Resp.: Pierre Simon • Seção 6, EAP, CSV, Gantt</div>
+              <div class="wp-links">OBJ4 • M1–M5 • Margem +50%</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">3.2</span><span class="wp-marco">M4 • 11/11–13/11</span></div>
+              <div class="wp-title">Personas, Epics, Histórias e DoD</div>
+              <div class="wp-meta">Resp.: Renan Mendes • Seção 7 (EP01–EP05)</div>
+              <div class="wp-links">H01–H15 • RF001–RF015 • NF001–06</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">3.3</span><span class="wp-marco">M4 • 14/11–16/11</span></div>
+              <div class="wp-title">Planning Poker, Kanban e backlog.csv</div>
+              <div class="wp-meta">Resp.: Renan Mendes • Seção 7 e /backlog/</div>
+              <div class="wp-links">OBJ4 • Fibonacci (83 pts) • WIP 5 colunas</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">3.4</span><span class="wp-marco">M4 • 15/11–17/11</span></div>
+              <div class="wp-title">Organização e Arquitetura do MVP React</div>
+              <div class="wp-meta">Resp.: Renan Mendes • Seção 8</div>
+              <div class="wp-links">OBJ1–OBJ3 • RF001–RF010 • Sem BD</div>
+            </article>
+          </div>
+        </div>
+
+        <!-- PACOTE 4 -->
+        <div class="package-col p4">
+          <div class="pkg-header">
+            4. ENTREGA E MVP
+            <span>Implementação, Qualidade e Validação</span>
+          </div>
+          <div class="work-list">
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">4.1</span><span class="wp-marco">M5 • 18/11–23/11</span></div>
+              <div class="wp-title">MVP: Busca Combinada, Detalhes e Vitrine</div>
+              <div class="wp-meta">Resp.: Pierre Simon • Catálogo 15 locais JP</div>
+              <div class="wp-links">OBJ1 • OBJ3 • RF001–RF006 • RD003</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">4.2</span><span class="wp-marco">M5 • 19/11–24/11</span></div>
+              <div class="wp-title">MVP: Avaliação 4 Pilares e Favoritos</div>
+              <div class="wp-meta">Resp.: Renan Mendes • Cálculo e localStorage</div>
+              <div class="wp-links">OBJ2 • RF007–RF010 • NF006 • RD002</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">4.3</span><span class="wp-marco">M5 • 21/11–26/11</span></div>
+              <div class="wp-title">Matriz de Rastreabilidade e Auditoria</div>
+              <div class="wp-meta">Resp.: Caio Augusto • Seção 9 e /rastreab./</div>
+              <div class="wp-links">OBJ4 • Cobertura 100% sem órfãos</div>
+            </article>
+            <article class="wp-card">
+              <div class="wp-top"><span class="wp-id">4.4</span><span class="wp-marco">M5 • 26/11–01/12</span></div>
+              <div class="wp-title">Validação Comunitária, v1.0 e Apresentação</div>
+              <div class="wp-meta">Resp.: Pierre Simon (Equipe) • 12 mor. + 3 loc.</div>
+              <div class="wp-links">OBJ1–OBJ4 • NF005 • Entrega 01/12</div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span><strong>Family Place</strong> — EAP alinhada à Seção 6 e ao cronograma oficial (13/10/2026 a 01/12/2026)</span>
+      <span>Responsável: Pierre Simon • Versão 1.0 (10/11/2026)</span>
+    </footer>
+  </main>
+</body>
+</html>
