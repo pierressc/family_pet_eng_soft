@@ -1,0 +1,1105 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Protótipos de Baixa Fidelidade (Wireframes) — Family Place</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: "Courier New", Consolas, monospace;
+      background: #e5e5e5;
+      color: #111111;
+      line-height: 1.35;
+      padding: 16px;
+    }
+
+    .toolbar {
+      max-width: 1020px;
+      margin: 0 auto 16px auto;
+      background: #ffffff;
+      border: 2px solid #222222;
+      padding: 10px 14px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .toolbar-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 12px;
+    }
+
+    .toolbar a,
+    .btn-print {
+      color: #111111;
+      background: #f5f5f5;
+      border: 1.5px solid #222222;
+      padding: 4px 10px;
+      text-decoration: none;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .toolbar a:hover,
+    .btn-print:hover {
+      background: #dcdcdc;
+    }
+
+    .wf-sheet {
+      max-width: 1020px;
+      margin: 0 auto 24px auto;
+      background: #ffffff;
+      border: 2px solid #111111;
+      padding: 16px 18px;
+      page-break-after: always;
+      break-after: page;
+      page-break-inside: avoid;
+      break-inside: avoid;
+    }
+
+    .wf-sheet:last-of-type {
+      page-break-after: auto;
+      break-after: auto;
+    }
+
+    .sheet-header {
+      border-bottom: 2px solid #111111;
+      padding-bottom: 8px;
+      margin-bottom: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .sheet-header h1 {
+      font-size: 15px;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .sheet-meta {
+      font-size: 11px;
+      color: #444444;
+    }
+
+    .browser-frame {
+      border: 2px solid #222222;
+      background: #ffffff;
+    }
+
+    .browser-bar {
+      background: #efefef;
+      border-bottom: 2px solid #222222;
+      padding: 5px 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+    }
+
+    .browser-dots {
+      display: flex;
+      gap: 5px;
+    }
+
+    .dot {
+      width: 9px;
+      height: 9px;
+      border: 1.5px solid #333333;
+      border-radius: 50%;
+      display: inline-block;
+    }
+
+    .browser-url {
+      border: 1px solid #666666;
+      background: #ffffff;
+      padding: 2px 10px;
+      font-size: 11px;
+      min-width: 260px;
+      text-align: center;
+    }
+
+    .app-nav {
+      border-bottom: 1.5px solid #333333;
+      padding: 8px 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fafafa;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .logo-box {
+      border: 1.5px solid #111111;
+      padding: 3px 8px;
+      font-weight: 700;
+      font-size: 12px;
+      background: #efefef;
+    }
+
+    .nav-items {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+      font-size: 11px;
+    }
+
+    .nav-btn {
+      border: 1px solid #444444;
+      padding: 2px 8px;
+      background: #ffffff;
+    }
+
+    .nav-btn.active {
+      background: #222222;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .screen-body {
+      padding: 12px;
+    }
+
+    .search-row {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .input-box {
+      flex: 1;
+      border: 1.5px solid #333333;
+      padding: 6px 8px;
+      font-size: 11px;
+      color: #555555;
+      background: #ffffff;
+    }
+
+    .wf-btn {
+      display: inline-block;
+      border: 1.5px solid #111111;
+      background: #efefef;
+      padding: 5px 10px;
+      font-size: 11px;
+      font-weight: 700;
+      text-align: center;
+    }
+
+    .wf-btn-dark {
+      background: #222222;
+      color: #ffffff;
+    }
+
+    .wf-btn-dashed {
+      border-style: dashed;
+      background: #ffffff;
+    }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 265px 1fr;
+      gap: 12px;
+    }
+
+    .grid-equal {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+    }
+
+    .panel {
+      border: 1.5px solid #333333;
+      padding: 9px 10px;
+      background: #ffffff;
+    }
+
+    .panel-gray {
+      background: #f5f5f5;
+    }
+
+    .panel-title {
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      border-bottom: 1px dashed #666666;
+      padding-bottom: 4px;
+      margin-bottom: 7px;
+    }
+
+    .filter-group {
+      margin-bottom: 8px;
+    }
+
+    .filter-group:last-child {
+      margin-bottom: 0;
+    }
+
+    .filter-heading {
+      font-size: 10.5px;
+      font-weight: 700;
+      margin-bottom: 3px;
+      color: #222222;
+    }
+
+    .check-item {
+      font-size: 10.5px;
+      margin-bottom: 2px;
+      color: #222222;
+    }
+
+    .results-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 11px;
+      border-bottom: 1px solid #999999;
+      padding-bottom: 6px;
+      margin-bottom: 9px;
+    }
+
+    .card-wf {
+      border: 1.5px solid #333333;
+      padding: 9px;
+      margin-bottom: 9px;
+      display: grid;
+      grid-template-columns: 96px 1fr;
+      gap: 10px;
+    }
+
+    .card-wf:last-child {
+      margin-bottom: 0;
+    }
+
+    .img-placeholder {
+      border: 1.5px solid #444444;
+      background:
+        linear-gradient(to top right, transparent calc(50% - 1px), #999999, transparent calc(50% + 1px)),
+        linear-gradient(to bottom right, transparent calc(50% - 1px), #999999, transparent calc(50% + 1px)),
+        #f2f2f2;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #333333;
+      min-height: 76px;
+    }
+
+    .img-placeholder span {
+      background: #ffffff;
+      border: 1px solid #666666;
+      padding: 1px 4px;
+    }
+
+    .card-title {
+      font-size: 12px;
+      font-weight: 700;
+      margin-bottom: 2px;
+    }
+
+    .card-sub {
+      font-size: 10.5px;
+      color: #555555;
+      margin-bottom: 5px;
+    }
+
+    .tag-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-bottom: 6px;
+    }
+
+    .tag-wf {
+      border: 1px solid #444444;
+      background: #f5f5f5;
+      padding: 1px 5px;
+      font-size: 9.5px;
+    }
+
+    .tag-featured {
+      border: 1.5px solid #111111;
+      background: #222222;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .pillar-mini {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 4px;
+      font-size: 9.5px;
+      margin-bottom: 6px;
+    }
+
+    .pillar-cell {
+      border: 1px dashed #666666;
+      padding: 3px 4px;
+      text-align: center;
+      background: #fafafa;
+    }
+
+    .pillar-bar-row {
+      display: grid;
+      grid-template-columns: 195px 1fr 56px;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 6px;
+      font-size: 10.5px;
+    }
+
+    .bar-track {
+      height: 11px;
+      border: 1px solid #222222;
+      background: #ffffff;
+    }
+
+    .bar-fill {
+      height: 100%;
+      background: #555555;
+    }
+
+    .vitrine-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+    }
+
+    .vitrine-item {
+      border: 1px solid #444444;
+      padding: 7px;
+      background: #fafafa;
+      font-size: 10px;
+    }
+
+    .notice-box {
+      border: 1.5px dashed #333333;
+      background: #f5f5f5;
+      padding: 6px 8px;
+      font-size: 10px;
+      margin-top: 8px;
+    }
+
+    .modal-backdrop {
+      background: #d9d9d9;
+      padding: 16px;
+      border: 1px dashed #555555;
+    }
+
+    .modal-box {
+      max-width: 680px;
+      margin: 0 auto;
+      background: #ffffff;
+      border: 2px solid #111111;
+      padding: 14px 16px;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1.5px solid #222222;
+      padding-bottom: 7px;
+      margin-bottom: 10px;
+    }
+
+    .rating-pillar {
+      border: 1px solid #444444;
+      padding: 8px 10px;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      background: #fafafa;
+    }
+
+    .scale-boxes {
+      display: flex;
+      gap: 4px;
+      flex-shrink: 0;
+    }
+
+    .scale-btn {
+      width: 26px;
+      height: 24px;
+      border: 1.5px solid #222222;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 11px;
+      font-weight: 700;
+      background: #ffffff;
+    }
+
+    .scale-btn.selected {
+      background: #222222;
+      color: #ffffff;
+    }
+
+    .textarea-wf {
+      width: 100%;
+      min-height: 62px;
+      border: 1.5px solid #333333;
+      padding: 7px 8px;
+      font-size: 10.5px;
+      color: #555555;
+      background: #ffffff;
+      margin-top: 4px;
+    }
+
+    .list-item-nav {
+      border: 1px solid #444444;
+      padding: 6px 8px;
+      margin-bottom: 6px;
+      font-size: 10.5px;
+      display: flex;
+      justify-content: space-between;
+      background: #ffffff;
+    }
+
+    .list-item-nav.selected {
+      background: #222222;
+      color: #ffffff;
+      font-weight: 700;
+    }
+
+    .annotations {
+      margin-top: 10px;
+      border-top: 1.5px dashed #555555;
+      padding-top: 7px;
+      font-size: 10.5px;
+      color: #333333;
+    }
+
+    .annotations strong {
+      color: #111111;
+    }
+
+    @media (max-width: 780px) {
+      .grid-2col,
+      .grid-equal,
+      .vitrine-grid,
+      .pillar-mini {
+        grid-template-columns: 1fr;
+      }
+      .card-wf {
+        grid-template-columns: 1fr;
+      }
+      .pillar-bar-row {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media print {
+      @page {
+        size: A4 portrait;
+        margin: 8mm;
+      }
+
+      body {
+        background: #ffffff;
+        padding: 0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .wf-sheet {
+        max-width: 100%;
+        margin: 0;
+        padding: 10px 12px;
+        border: 1.5px solid #111111;
+        page-break-after: always;
+        break-after: page;
+        page-break-inside: avoid;
+        break-inside: avoid;
+      }
+
+      .wf-sheet:last-of-type {
+        page-break-after: auto;
+        break-after: auto;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="toolbar no-print">
+    <div>
+      <strong>FAMILY PLACE — WIREFRAMES DE BAIXA FIDELIDADE (TELAS MUST)</strong>
+      <span style="font-size: 11px; color: #555555; display: block;">Responsável: Kewy Huang • Marco M2 (03/11/2026) • Escala de cinza para validação de fluxo</span>
+    </div>
+    <div class="toolbar-links">
+      <a href="#wf-01">WF-01 Busca</a>
+      <a href="#wf-02">WF-02 Detalhes</a>
+      <a href="#wf-03">WF-03 Avaliação</a>
+      <a href="#wf-04">WF-04 Favoritos</a>
+      <button type="button" class="btn-print" onclick="window.print()">Imprimir / Exportar PDF</button>
+    </div>
+  </div>
+
+  <!-- ========================================================= -->
+  <!-- WF-01: TELA INICIAL DE BUSCA COM FILTROS COMBINADOS       -->
+  <!-- ========================================================= -->
+  <section id="wf-01" class="wf-sheet" aria-label="Wireframe WF-01 Busca com Filtros Combinados">
+    <header class="sheet-header">
+      <h1>WF-01 — Tela Inicial: Busca com Filtros Combinados em João Pessoa (PB)</h1>
+      <span class="sheet-meta">Requisitos associados: RU01, RF001, RF002, RF003, NF002, NF003, NF005</span>
+    </header>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="browser-url">familyplace.jp/explorar</div>
+        <span>360px - 1440px</span>
+      </div>
+
+      <nav class="app-nav">
+        <div class="logo-box">[LOGO] FAMILY PLACE — JOÃO PESSOA (PB)</div>
+        <div class="nav-items">
+          <span class="nav-btn active">Explorar Locais</span>
+          <span class="nav-btn">Meus Favoritos</span>
+          <span class="nav-btn">Clube (Should)</span>
+          <span class="nav-btn">Timeline (Could)</span>
+        </div>
+      </nav>
+
+      <div class="screen-body">
+        <div class="search-row">
+          <div class="input-box">[Campo de busca] Pesquisar por nome, bairro (Manaíra, Tambaú, Bessa...) ou categoria...</div>
+          <span class="wf-btn wf-btn-dark">Buscar</span>
+          <span class="wf-btn wf-btn-dashed">Limpar Filtros</span>
+        </div>
+
+        <div class="grid-2col">
+          <aside class="panel panel-gray">
+            <div class="panel-title">Filtros Combinados (Lógica E)</div>
+
+            <div class="filter-group">
+              <div class="filter-heading">1. Tipo de Estabelecimento</div>
+              <div class="check-item">[x] Restaurante</div>
+              <div class="check-item">[ ] Cafeteria / Padaria</div>
+              <div class="check-item">[ ] Parque / Lazer / Serviço</div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-heading">2. Estrutura Infantil (Crianças)</div>
+              <div class="check-item">[x] Espaço Kids Monitorado</div>
+              <div class="check-item">[ ] Trocador de Fraldas</div>
+              <div class="check-item">[ ] Cadeirão Infantil</div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-heading">3. Receptividade Pet</div>
+              <div class="check-item">[x] Aceita Pet Porte Médio</div>
+              <div class="check-item">[ ] Área Coberta Permitida</div>
+              <div class="check-item">[ ] Potes de Água Disponíveis</div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-heading">4. Idosos e PCD (Físico / Intelectual)</div>
+              <div class="check-item">[x] Rampa de Acessibilidade</div>
+              <div class="check-item">[x] Banheiro Adaptado</div>
+              <div class="check-item">[ ] Piso Tátil / Cardápio Acessível</div>
+              <div class="check-item">[ ] Assentos Confortáveis</div>
+            </div>
+
+            <div class="filter-group">
+              <div class="filter-heading">5. Sensorial / Neurodivergentes</div>
+              <div class="check-item">[x] Ambiente com Baixo Ruído</div>
+              <div class="check-item">[ ] Iluminação Controlada</div>
+              <div class="check-item">[ ] Área Reservada</div>
+            </div>
+          </aside>
+
+          <div>
+            <div class="results-meta">
+              <span><strong>3 estabelecimentos encontrados</strong> (de 15 cadastrados em João Pessoa)</span>
+              <span>Ordenar por: [Relevância v]</span>
+            </div>
+
+            <article class="card-wf">
+              <div class="img-placeholder"><span>[IMG 4:3]</span></div>
+              <div>
+                <div class="card-title">Bistrô Jardim da Orla — Manaíra</div>
+                <div class="card-sub">Restaurante • Av. Exemplo, Manaíra, João Pessoa/PB • Aberto até 22h</div>
+                <div class="tag-row">
+                  <span class="tag-wf">Espaço Kids</span>
+                  <span class="tag-wf">Rampa + Banheiro Adaptado</span>
+                  <span class="tag-wf">Baixo Ruído</span>
+                  <span class="tag-wf">Pet Porte Médio</span>
+                </div>
+                <div class="pillar-mini">
+                  <div class="pillar-cell">Infantil: <strong>4,7</strong></div>
+                  <div class="pillar-cell">Acessib.: <strong>4,8</strong></div>
+                  <div class="pillar-cell">Pet: <strong>4,6</strong></div>
+                  <div class="pillar-cell">Atend.: <strong>4,5</strong></div>
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <span class="wf-btn wf-btn-dark">Ver Detalhes</span>
+                  <span class="wf-btn">Salvar em Favoritos</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card-wf">
+              <div class="img-placeholder"><span>[IMG 4:3]</span></div>
+              <div>
+                <div class="card-title">Quintal Bessa Família — Bessa</div>
+                <div class="card-sub">Restaurante • Rua Exemplo, Bessa, João Pessoa/PB • Aberto até 23h</div>
+                <div class="tag-row">
+                  <span class="tag-wf">Espaço Kids Monitorado</span>
+                  <span class="tag-wf">Banheiro Adaptado</span>
+                  <span class="tag-wf">Baixo Ruído</span>
+                  <span class="tag-wf">Área Coberta Pet</span>
+                </div>
+                <div class="pillar-mini">
+                  <div class="pillar-cell">Infantil: <strong>4,9</strong></div>
+                  <div class="pillar-cell">Acessib.: <strong>4,6</strong></div>
+                  <div class="pillar-cell">Pet: <strong>4,8</strong></div>
+                  <div class="pillar-cell">Atend.: <strong>4,4</strong></div>
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <span class="wf-btn wf-btn-dark">Ver Detalhes</span>
+                  <span class="wf-btn">Salvar em Favoritos</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card-wf">
+              <div class="img-placeholder"><span>[IMG 4:3]</span></div>
+              <div>
+                <div class="card-title">Casa Calma Gastronomia — Cabo Branco</div>
+                <div class="card-sub">Restaurante • Av. Exemplo, Cabo Branco, João Pessoa/PB • Aberto até 21h30</div>
+                <div class="tag-row">
+                  <span class="tag-wf">Trocador + Cadeirão</span>
+                  <span class="tag-wf">Rampa + Piso Tátil</span>
+                  <span class="tag-wf">Iluminação Suave</span>
+                  <span class="tag-wf">Pet até Médio Porte</span>
+                </div>
+                <div class="pillar-mini">
+                  <div class="pillar-cell">Infantil: <strong>4,4</strong></div>
+                  <div class="pillar-cell">Acessib.: <strong>4,9</strong></div>
+                  <div class="pillar-cell">Pet: <strong>4,5</strong></div>
+                  <div class="pillar-cell">Atend.: <strong>4,7</strong></div>
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <span class="wf-btn wf-btn-dark">Ver Detalhes</span>
+                  <span class="wf-btn">Salvar em Favoritos</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="notice-box">
+              <strong>Estado alternativo (0 resultados):</strong> exibir aviso orientativo "Nenhum local atende a todos os filtros marcados simultaneamente" acompanhado do botão [Limpar Filtros].
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="annotations">
+      <strong>Notas de Fluxo (WF-01):</strong> (1) Filtros combinam-se com operação lógica E; (2) Em telas móveis (360px), o painel lateral de filtros converte-se em seção expansível acima da listagem; (3) O cartão exibe diretamente as 4 médias independentes em vez de nota única.
+    </footer>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- WF-02: TELA DE DETALHES DO ESTABELECIMENTO                -->
+  <!-- ========================================================= -->
+  <section id="wf-02" class="wf-sheet" aria-label="Wireframe WF-02 Detalhes do Estabelecimento">
+    <header class="sheet-header">
+      <h1>WF-02 — Tela de Detalhes do Estabelecimento</h1>
+      <span class="sheet-meta">Requisitos associados: RU02, RU03, RF004, RF005, RF006, RF007, RF016 (Won't), RD002, RD003</span>
+    </header>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="browser-url">familyplace.jp/local/bistro-jardim-da-orla</div>
+        <span>&lt;- Voltar à Busca</span>
+      </div>
+
+      <nav class="app-nav">
+        <div class="logo-box">[LOGO] FAMILY PLACE — JOÃO PESSOA (PB)</div>
+        <div class="nav-items">
+          <span class="nav-btn">Explorar Locais</span>
+          <span class="nav-btn">Meus Favoritos</span>
+        </div>
+      </nav>
+
+      <div class="screen-body">
+        <div class="card-wf" style="grid-template-columns: 180px 1fr; margin-bottom: 10px;">
+          <div class="img-placeholder" style="min-height: 110px;"><span>[FOTO PRINCIPAL]</span></div>
+          <div>
+            <div class="card-title" style="font-size: 14px;">Bistrô Jardim da Orla</div>
+            <div class="card-sub">Restaurante Familiar • Manaíra, João Pessoa (PB) • Ter a Dom: 11h30 às 22h00</div>
+            <p style="font-size: 10.5px; margin-bottom: 8px;">Ambiente térreo com circulação ampla, salão acusticamente tratado sem música alta, espaço infantil monitorado e varanda coberta liberada para cães de pequeno e médio porte.</p>
+            <div style="display:flex; flex-wrap:wrap; gap:6px;">
+              <span class="wf-btn wf-btn-dark">Avaliar nos 4 Pilares (abre WF-03)</span>
+              <span class="wf-btn">Salvar em Lista de Favoritos</span>
+              <span class="wf-btn wf-btn-dashed">WhatsApp Oficial -&gt;</span>
+              <span class="wf-btn wf-btn-dashed">Site Oficial -&gt;</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid-equal" style="margin-bottom: 10px;">
+          <div class="panel">
+            <div class="panel-title">Tags de Infraestrutura e Acolhimento</div>
+            <div class="filter-heading">Estrutura Infantil</div>
+            <div class="tag-row">
+              <span class="tag-wf">Espaço Kids Monitorado</span>
+              <span class="tag-wf">Trocador Acessível</span>
+              <span class="tag-wf">Cadeirão</span>
+            </div>
+            <div class="filter-heading">Acessibilidade e Conforto (Idosos, PCD, Neurodivergentes)</div>
+            <div class="tag-row">
+              <span class="tag-wf">Rampa NBR 9050</span>
+              <span class="tag-wf">Banheiro Adaptado</span>
+              <span class="tag-wf">Baixo Ruído</span>
+              <span class="tag-wf">Iluminação Suave</span>
+              <span class="tag-wf">Assentos Estofados</span>
+            </div>
+            <div class="filter-heading">Receptividade Pet</div>
+            <div class="tag-row">
+              <span class="tag-wf">Porte Pequeno e Médio</span>
+              <span class="tag-wf">Área Coberta Pet</span>
+              <span class="tag-wf">Pote de Água</span>
+            </div>
+          </div>
+
+          <div class="panel panel-gray">
+            <div class="panel-title">Avaliação Multicritério — 4 Pilares (18 avaliações)</div>
+            <div class="pillar-bar-row">
+              <span>1. Estrutura Infantil (Kids)</span>
+              <div class="bar-track"><div class="bar-fill" style="width:94%;"></div></div>
+              <strong>4,7 / 5,0</strong>
+            </div>
+            <div class="pillar-bar-row">
+              <span>2. Acessibilidade e Conforto</span>
+              <div class="bar-track"><div class="bar-fill" style="width:96%;"></div></div>
+              <strong>4,8 / 5,0</strong>
+            </div>
+            <div class="pillar-bar-row">
+              <span>3. Receptividade Pet</span>
+              <div class="bar-track"><div class="bar-fill" style="width:92%;"></div></div>
+              <strong>4,6 / 5,0</strong>
+            </div>
+            <div class="pillar-bar-row">
+              <span>4. Atendimento e Custo-Benef.</span>
+              <div class="bar-track"><div class="bar-fill" style="width:90%;"></div></div>
+              <strong>4,5 / 5,0</strong>
+            </div>
+            <div class="notice-box" style="margin-top:6px;">
+              Regra RD002: médias calculadas separadamente por pilar (1 casa decimal). Quando N = 0, exibe "Sem avaliações".
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="margin-bottom: 10px;">
+          <div class="panel-title">Vitrine Informativa de Produtos e Serviços (Sem Checkout / Sem Nota Individual por Item)</div>
+          <div class="vitrine-grid">
+            <div class="vitrine-item">
+              <span class="tag-wf tag-featured">FAVORITO DA CASA</span>
+              <div style="font-weight:700; margin-top:4px;">Prato Executivo Família</div>
+              <div>Serve até 3 pessoas com opção sem glúten.</div>
+              <div style="margin-top:4px;"><strong>Faixa informativa: R$ 89,00</strong></div>
+            </div>
+            <div class="vitrine-item">
+              <span class="tag-wf tag-featured">FAVORITO DA CASA</span>
+              <div style="font-weight:700; margin-top:4px;">Menu Kids Nutritivo</div>
+              <div>Porção adaptada com talheres infantis.</div>
+              <div style="margin-top:4px;"><strong>Faixa informativa: R$ 32,00</strong></div>
+            </div>
+            <div class="vitrine-item">
+              <span class="tag-wf">VITRINE</span>
+              <div style="font-weight:700; margin-top:4px;">Biscoito Natural Pet</div>
+              <div>Cortesia ou porção sob consulta local.</div>
+              <div style="margin-top:4px;"><strong>Faixa informativa: R$ 12,00</strong></div>
+            </div>
+          </div>
+          <div class="notice-box">
+            <strong>Escopo Negativo (RD003 / RF016):</strong> O Family Place não realiza pagamentos online, carrinho ou delivery próprio. Para reservas ou pedidos, acione diretamente o WhatsApp ou site oficial do estabelecimento.
+          </div>
+        </div>
+
+        <div class="panel">
+          <div class="panel-title">Comentários Recentes da Comunidade (Ordem Cronológica)</div>
+          <div style="font-size: 10.5px; border-bottom: 1px dashed #999999; padding-bottom: 5px; margin-bottom: 5px;">
+            <strong>Visitante 01 (29/10/2026)</strong> — Pilares: Kids 5 | Acessib. 5 | Pet 4 | Atend. 5<br />
+            "Salão silencioso e com boa iluminação; conseguimos jantar com tranquilidade e há rampa sem degraus na entrada."
+          </div>
+          <div style="font-size: 10.5px;">
+            <strong>Visitante 02 (25/10/2026)</strong> — Pilares: Kids 4 | Acessib. 5 | Pet 5 | Atend. 4<br />
+            "Varanda coberta ventilada para cães de porte médio e potes de água renovados pela equipe."
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="annotations">
+      <strong>Notas de Fluxo (WF-02):</strong> (1) Contatos externos abrem em nova aba com mensagem contextualizada no WhatsApp; (2) A vitrine substitui a avaliação individual por item pelo destaque "Favoritos da Casa".
+    </footer>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- WF-03: TELA / MODAL DE AVALIAÇÃO MULTICRITÉRIO (4 PILARES)-->
+  <!-- ========================================================= -->
+  <section id="wf-03" class="wf-sheet" aria-label="Wireframe WF-03 Avaliação Multicritério nos 4 Pilares">
+    <header class="sheet-header">
+      <h1>WF-03 — Tela/Modal de Avaliação Multicritério nos 4 Pilares</h1>
+      <span class="sheet-meta">Requisitos associados: RU03, RF008, NF002, NF005, NF006, RD001, RD002</span>
+    </header>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="browser-url">familyplace.jp/local/bistro-jardim-da-orla#avaliar</div>
+        <span>Modal sobre WF-02</span>
+      </div>
+
+      <div class="screen-body">
+        <div class="modal-backdrop">
+          <div class="modal-box">
+            <div class="modal-header">
+              <div>
+                <div style="font-size: 13px; font-weight: 700;">Avaliar Estabelecimento — Bistrô Jardim da Orla</div>
+                <div style="font-size: 10px; color: #555555;">Atribua uma nota obrigatória de 1 a 5 estrelas para cada um dos 4 pilares independentes.</div>
+              </div>
+              <span class="wf-btn">[X] Fechar</span>
+            </div>
+
+            <div class="rating-pillar">
+              <div>
+                <div style="font-size: 11px; font-weight: 700;">Pilar 1 — Estrutura Infantil (Kids) *</div>
+                <div style="font-size: 9.5px; color: #444444;">Trocador, espaço kids, cadeirão, segurança física e recreação.</div>
+              </div>
+              <div class="scale-boxes" aria-label="Nota de 1 a 5 para Estrutura Infantil">
+                <span class="scale-btn">1</span>
+                <span class="scale-btn">2</span>
+                <span class="scale-btn">3</span>
+                <span class="scale-btn">4</span>
+                <span class="scale-btn selected">5</span>
+              </div>
+            </div>
+
+            <div class="rating-pillar">
+              <div>
+                <div style="font-size: 11px; font-weight: 700;">Pilar 2 — Acessibilidade e Conforto *</div>
+                <div style="font-size: 9.5px; color: #444444;">Rampas, banheiro adaptado, piso tátil, baixo ruído, iluminação, cardápio acessível e assentos (idosos, PCD e neurodivergentes).</div>
+              </div>
+              <div class="scale-boxes" aria-label="Nota de 1 a 5 para Acessibilidade e Conforto">
+                <span class="scale-btn">1</span>
+                <span class="scale-btn">2</span>
+                <span class="scale-btn">3</span>
+                <span class="scale-btn">4</span>
+                <span class="scale-btn selected">5</span>
+              </div>
+            </div>
+
+            <div class="rating-pillar">
+              <div>
+                <div style="font-size: 11px; font-weight: 700;">Pilar 3 — Receptividade Pet (Pet Friendly) *</div>
+                <div style="font-size: 9.5px; color: #444444;">Área coberta permitida, disponibilidade de água e suporte por porte de animal.</div>
+              </div>
+              <div class="scale-boxes" aria-label="Nota de 1 a 5 para Receptividade Pet">
+                <span class="scale-btn">1</span>
+                <span class="scale-btn">2</span>
+                <span class="scale-btn">3</span>
+                <span class="scale-btn selected">4</span>
+                <span class="scale-btn">5</span>
+              </div>
+            </div>
+
+            <div class="rating-pillar">
+              <div>
+                <div style="font-size: 11px; font-weight: 700;">Pilar 4 — Atendimento e Custo-Benefício *</div>
+                <div style="font-size: 9.5px; color: #444444;">Cordialidade, preparo da equipe para acolhimento inclusivo e transparência de preços.</div>
+              </div>
+              <div class="scale-boxes" aria-label="Nota de 1 a 5 para Atendimento e Custo-Benefício">
+                <span class="scale-btn">1</span>
+                <span class="scale-btn">2</span>
+                <span class="scale-btn">3</span>
+                <span class="scale-btn">4</span>
+                <span class="scale-btn selected">5</span>
+              </div>
+            </div>
+
+            <div style="margin-top: 10px;">
+              <div style="font-size: 11px; font-weight: 700;">Identificação de Exibição (Opcional — apelido público)</div>
+              <div class="input-box" style="margin-top: 3px;">Ex.: Família Silva ou Visitante de Manaíra (padrão: Visitante Anônimo)</div>
+            </div>
+
+            <div style="margin-top: 9px;">
+              <div style="display:flex; justify-content:space-between; font-size: 11px; font-weight: 700;">
+                <span>Comentário sobre sua experiência (Opcional)</span>
+                <span style="font-weight: 400; color: #555555;">0 / 500 caracteres</span>
+              </div>
+              <div class="textarea-wf">Descreva detalhes objetivos que ajudem outras famílias, tutores de pets, idosos, PCD ou pessoas neurodivergentes...</div>
+            </div>
+
+            <div class="notice-box">
+              <strong>Privacidade (RD001 — LGPD):</strong> Não insira CPF, telefone, endereço residencial ou dados sensíveis de terceiros. No MVP, a avaliação é salva localmente no navegador e atualiza imediatamente as 4 médias na página WF-02.
+            </div>
+
+            <div style="display:flex; justify-content:flex-end; gap:8px; margin-top: 12px;">
+              <span class="wf-btn">Cancelar</span>
+              <span class="wf-btn wf-btn-dark">Publicar Avaliação</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="annotations">
+      <strong>Notas de Fluxo (WF-03):</strong> (1) Envio bloqueado com mensagem de validação caso algum dos 4 pilares esteja sem seleção; (2) Meta de usabilidade (NF005): preenchimento e envio em até 60 segundos e no máximo 6 interações.
+    </footer>
+  </section>
+
+  <!-- ========================================================= -->
+  <!-- WF-04: TELA DE FAVORITOS ORGANIZADOS POR CRITÉRIO         -->
+  <!-- ========================================================= -->
+  <section id="wf-04" class="wf-sheet" aria-label="Wireframe WF-04 Favoritos Organizados por Critério">
+    <header class="sheet-header">
+      <h1>WF-04 — Tela de Favoritos Organizados por Critério</h1>
+      <span class="sheet-meta">Requisitos associados: RU04, RF009, RF010, NF002, NF003, NF006</span>
+    </header>
+
+    <div class="browser-frame">
+      <div class="browser-bar">
+        <div class="browser-dots"><span class="dot"></span><span class="dot"></span><span class="dot"></span></div>
+        <div class="browser-url">familyplace.jp/favoritos</div>
+        <span>Armazenamento local ativo</span>
+      </div>
+
+      <nav class="app-nav">
+        <div class="logo-box">[LOGO] FAMILY PLACE — JOÃO PESSOA (PB)</div>
+        <div class="nav-items">
+          <span class="nav-btn">Explorar Locais</span>
+          <span class="nav-btn active">Meus Favoritos</span>
+          <span class="nav-btn">Clube (Should)</span>
+          <span class="nav-btn">Timeline (Could)</span>
+        </div>
+      </nav>
+
+      <div class="screen-body">
+        <div class="panel panel-gray" style="margin-bottom: 12px;">
+          <div class="panel-title">Criar Nova Lista de Favoritos por Critério</div>
+          <div class="search-row" style="margin-bottom: 0;">
+            <div class="input-box">[Nome da lista] Ex.: Melhores para ir com meu Avô, Locais com Baixo Ruído...</div>
+            <span class="wf-btn wf-btn-dark">+ Criar Lista</span>
+          </div>
+        </div>
+
+        <div class="grid-2col">
+          <aside class="panel">
+            <div class="panel-title">Minhas Listas (4)</div>
+            <div class="list-item-nav selected">
+              <span>Melhores para ir com meu Avô</span>
+              <span>[2]</span>
+            </div>
+            <div class="list-item-nav">
+              <span>Melhores para levar o Cachorro</span>
+              <span>[3]</span>
+            </div>
+            <div class="list-item-nav">
+              <span>Melhores Espaços Kids</span>
+              <span>[2]</span>
+            </div>
+            <div class="list-item-nav">
+              <span>Locais com Baixo Ruído</span>
+              <span>[3]</span>
+            </div>
+            <div class="notice-box" style="margin-top:8px;">
+              Um mesmo estabelecimento pode pertencer simultaneamente a mais de uma lista de critério.
+            </div>
+          </aside>
+
+          <div>
+            <div class="results-meta">
+              <span><strong>Lista ativa:</strong> Melhores para ir com meu Avô (2 estabelecimentos)</span>
+              <div style="display:flex; gap:6px;">
+                <span class="wf-btn">Renomear Lista</span>
+                <span class="wf-btn wf-btn-dashed">Excluir Lista</span>
+              </div>
+            </div>
+
+            <article class="card-wf">
+              <div class="img-placeholder"><span>[IMG 4:3]</span></div>
+              <div>
+                <div class="card-title">Bistrô Jardim da Orla — Manaíra</div>
+                <div class="card-sub">Restaurante • Manaíra, João Pessoa (PB)</div>
+                <div class="tag-row">
+                  <span class="tag-wf">Rampa NBR 9050</span>
+                  <span class="tag-wf">Banheiro Adaptado</span>
+                  <span class="tag-wf">Baixo Ruído</span>
+                  <span class="tag-wf">Assentos Estofados</span>
+                </div>
+                <div class="pillar-mini">
+                  <div class="pillar-cell">Infantil: <strong>4,7</strong></div>
+                  <div class="pillar-cell">Acessib.: <strong>4,8</strong></div>
+                  <div class="pillar-cell">Pet: <strong>4,6</strong></div>
+                  <div class="pillar-cell">Atend.: <strong>4,5</strong></div>
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <span class="wf-btn wf-btn-dark">Abrir Detalhes (WF-02)</span>
+                  <span class="wf-btn wf-btn-dashed">Remover desta Lista</span>
+                </div>
+              </div>
+            </article>
+
+            <article class="card-wf">
+              <div class="img-placeholder"><span>[IMG 4:3]</span></div>
+              <div>
+                <div class="card-title">Casa Calma Gastronomia — Cabo Branco</div>
+                <div class="card-sub">Restaurante • Cabo Branco, João Pessoa (PB)</div>
+                <div class="tag-row">
+                  <span class="tag-wf">Rampa + Piso Tátil</span>
+                  <span class="tag-wf">Iluminação Suave</span>
+                  <span class="tag-wf">Circulação Ampla</span>
+                </div>
+                <div class="pillar-mini">
+                  <div class="pillar-cell">Infantil: <strong>4,4</strong></div>
+                  <div class="pillar-cell">Acessib.: <strong>4,9</strong></div>
+                  <div class="pillar-cell">Pet: <strong>4,5</strong></div>
+                  <div class="pillar-cell">Atend.: <strong>4,7</strong></div>
+                </div>
+                <div style="display:flex; gap:6px;">
+                  <span class="wf-btn wf-btn-dark">Abrir Detalhes (WF-02)</span>
+                  <span class="wf-btn wf-btn-dashed">Remover desta Lista</span>
+                </div>
+              </div>
+            </article>
+
+            <div class="notice-box">
+              <strong>Estado vazio da lista:</strong> quando uma lista não possui locais salvos, exibir orientação com botão [Explorar Estabelecimentos (WF-01)].
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer class="annotations">
+      <strong>Notas de Fluxo (WF-04):</strong> (1) Listas criadas e locais salvos ficam armazenados no navegador durante o MVP (NF006); (2) A exclusão de uma lista solicita confirmação explícita para prevenir remoção acidental.
+    </footer>
+  </section>
+</body>
+</html>
