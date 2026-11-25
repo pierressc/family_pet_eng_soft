@@ -69,6 +69,7 @@ export default function App() {
   // Modais empilhados (camada superior)
   const [ratingTargetPlace, setRatingTargetPlace] = useState(null);
   const [saveTargetPlace, setSaveTargetPlace] = useState(null);
+  const [reviewsFocusToken, setReviewsFocusToken] = useState(0);
 
   // Referências para restauração de foco ao fechar modais
   const detailTriggerRef = useRef(null);
@@ -209,7 +210,11 @@ export default function App() {
       if (!local) return [];
       const custom = userReviewsByPlace[local.id] || [];
       const base = local.avaliacoesIniciais || [];
-      return [...custom, ...base].sort((a, b) => String(b.data).localeCompare(String(a.data)));
+      return [...custom, ...base].sort((a, b) => {
+        const ta = a.timestamp || `${a.data || '2000-01-01'}T00:00:00.000Z`;
+        const tb = b.timestamp || `${b.data || '2000-01-01'}T00:00:00.000Z`;
+        return String(tb).localeCompare(String(ta));
+      });
     },
     [userReviewsByPlace]
   );
@@ -283,18 +288,46 @@ export default function App() {
     setSortBy('relevancia');
   };
 
-  const handleAddReview = (placeId, review) => {
+  const handleSaveReview = (placeId, payload) => {
+    const existingList = userReviewsByPlace[placeId] || [];
+    const existing = existingList[0] || null;
+    const now = new Date();
+    const nowIso = now.toISOString();
+    const todayIso = nowIso.slice(0, 10);
+
+    const savedReview = existing
+      ? {
+          ...existing,
+          ...payload,
+          data: todayIso,
+          timestamp: nowIso,
+          isUserReview: true,
+          edited: true,
+        }
+      : {
+          id: `av-local-${Date.now()}`,
+          ...payload,
+          data: todayIso,
+          timestamp: nowIso,
+          isUserReview: true,
+          edited: false,
+        };
+
     const updated = {
       ...userReviewsByPlace,
-      [placeId]: [review, ...(userReviewsByPlace[placeId] || [])],
+      [placeId]: [savedReview],
     };
     setUserReviewsByPlace(updated);
     const saveRes = saveStoredReviews(updated);
     if (!saveRes.ok && saveRes.error) {
       setStorageWarning(saveRes.error);
     }
-    handleCloseRatingModal();
-    setToastMessage('Avaliação publicada com sucesso.');
+
+    setRatingTargetPlace(null);
+    setReviewsFocusToken((prev) => prev + 1);
+    setToastMessage(
+      existing ? 'Sua avaliação foi atualizada com sucesso.' : 'Avaliação publicada com sucesso.'
+    );
   };
 
   const updateListsWithStorage = (nextLists) => {
@@ -392,6 +425,12 @@ export default function App() {
   }, [favoriteLists]);
 
   const currentDetailPlace = detailPlaceId ? allPlacesById[detailPlaceId] || null : null;
+  const currentUserReview = currentDetailPlace
+    ? (userReviewsByPlace[currentDetailPlace.id] || [])[0] || null
+    : null;
+  const ratingTargetUserReview = ratingTargetPlace
+    ? (userReviewsByPlace[ratingTargetPlace.id] || [])[0] || null
+    : null;
   const hasChildModalOpen = Boolean(ratingTargetPlace || saveTargetPlace);
 
   return (
@@ -553,6 +592,8 @@ export default function App() {
           avaliacoes={getAllReviewsForPlace(currentDetailPlace)}
           averages={getAveragesForPlace(currentDetailPlace)}
           savedLists={getListsContainingPlace(currentDetailPlace.id)}
+          existingUserReview={currentUserReview}
+          focusReviewsToken={reviewsFocusToken}
           hasChildModalOpen={hasChildModalOpen}
           onClose={handleCloseDetail}
           onOpenRatingModal={() => handleOpenRatingModal(currentDetailPlace)}
@@ -565,8 +606,9 @@ export default function App() {
       {ratingTargetPlace && (
         <RatingModal
           local={ratingTargetPlace}
+          existingReview={ratingTargetUserReview}
           onClose={handleCloseRatingModal}
-          onSubmit={(review) => handleAddReview(ratingTargetPlace.id, review)}
+          onSubmit={(payload) => handleSaveReview(ratingTargetPlace.id, payload)}
         />
       )}
 

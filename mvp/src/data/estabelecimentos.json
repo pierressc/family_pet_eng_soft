@@ -20,19 +20,22 @@
         "nome": "Planetário e Biblioteca Juarez da Gama Batista",
         "descricao": "Visitação cultural e educativa com programação regular para crianças e famílias.",
         "faixaPreco": "Entrada gratuita / sob consulta",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "planetario-biblioteca.jpg"
       },
       {
         "nome": "Gibiteca Henfil e Galeria de Arte",
         "descricao": "Espaço climatizado de leitura e exposições com circulação nivelada.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "galeria-teatro.jpg"
       },
       {
         "nome": "Teatro Paulo Pontes e Cinema Banguê",
         "descricao": "Programação cultural com assentos reservados para mobilidade reduzida.",
         "faixaPreco": "Entrada gratuita / sob consulta",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "galeria-teatro.jpg"
       }
     ],
     "contato": {
@@ -77,19 +80,22 @@
         "nome": "Torre Mirante e Exposições Científicas",
         "descricao": "Acesso por elevador e rampas com vista panorâmica da orla de João Pessoa.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "planetario-biblioteca.jpg"
       },
       {
         "nome": "Oficinas Educativas para Famílias",
         "descricao": "Atividades culturais e científicas aos finais de semana mediante agenda pública.",
         "faixaPreco": "Entrada gratuita / sob consulta",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "oficina-infantil.jpg"
       },
       {
         "nome": "Auditório e Jardins Externos",
         "descricao": "Áreas abertas ventiladas com bancos para descanso de pessoas idosas.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "parque-caminhada.jpg"
       }
     ],
     "contato": {
@@ -127,13 +133,15 @@
         "nome": "Visita Guiada ao Conjunto Barroco",
         "descricao": "Percurso histórico pelo claustro, igreja e jardins internos com mediação cultural.",
         "faixaPreco": "Sob consulta (isenções legais)",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "conjunto-barroco.jpg"
       },
       {
         "nome": "Museu de Arte Sacra e Claustro",
         "descricao": "Ambientes silenciosos com temperatura amena e painéis informativos.",
         "faixaPreco": "Incluso na visitação",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "galeria-teatro.jpg"
       }
     ],
     "contato": {
@@ -171,13 +179,15 @@
         "nome": "Circuito de Caminhada ao Redor da Lagoa",
         "descricao": "Calçadão nivelado com piso tátil, bancos sombreados e boa visibilidade.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "parque-caminhada.jpg"
       },
       {
         "nome": "Parquinhos Infantis e Praça de Convivência",
         "descricao": "Equipamentos públicos de lazer ao ar livre para famílias.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "parque-infantil.jpg"
       }
     ],
     "contato": {
@@ -215,13 +225,15 @@
         "nome": "Trilhas Ecológicas Guiadas",
         "descricao": "Caminhadas educativas acompanhadas por condutores ambientais em horários definidos.",
         "faixaPreco": "Entrada gratuita / sob consulta",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "trilha-ecologica.jpg"
       },
       {
         "nome": "Centro de Visitantes e Viveiro",
         "descricao": "Área plana sombreada próxima à recepção com bancos e exposição botânica.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "parque-caminhada.jpg"
       }
     ],
     "contato": {
@@ -259,13 +271,15 @@
         "nome": "Visita ao Zoobotânico e Áreas de Piquenique",
         "descricao": "Passeio familiar sombreado com lagos, trilhas e áreas de descanso.",
         "faixaPreco": "Entrada simbólica / isenções legais",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "trilha-ecologica.jpg"
       },
       {
         "nome": "Parque Infantil e Passeio de Trenzinho",
         "descricao": "Atividades voltadas ao público infantil acompanhado por responsáveis.",
         "faixaPreco": "Sob consulta no local",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "parque-infantil.jpg"
       }
     ],
     "contato": {
@@ -303,13 +317,15 @@
         "nome": "Espaço Pet Comunitário e Pistas Planas",
         "descricao": "Caminhadas livres com cães de pequeno, médio e grande porte em guia.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "parque-caminhada.jpg"
       },
       {
         "nome": "Parquinhos e Áreas de Lazer Familiar",
         "descricao": "Brinquedos ao ar livre e praças abertas para famílias da zona norte da orla.",
         "faixaPreco": "Entrada gratuita",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "parque-infantil.jpg"
       }
     ],
     "contato": {
@@ -347,19 +363,22 @@
         "nome": "Prato Executivo Família",
         "descricao": "Serve até 3 pessoas com acompanhamentos frescos e opção sem glúten.",
         "faixaPreco": "R$ 89,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "prato-executivo.jpg"
       },
       {
         "nome": "Menu Kids Nutritivo",
         "descricao": "Porção infantil balanceada servida com talheres seguros sem ponta.",
         "faixaPreco": "R$ 32,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "menu-kids.jpg"
       },
       {
         "nome": "Biscoito Natural Pet",
         "descricao": "Petisco artesanal sem conservantes servido com água filtrada na varanda.",
         "faixaPreco": "R$ 12,00",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "petisco-pet.jpg"
       }
     ],
     "contato": {
@@ -404,19 +423,22 @@
         "nome": "Moqueca da Família",
         "descricao": "Porção generosa para compartilhar com arroz branco e pirão suave.",
         "faixaPreco": "R$ 118,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "moqueca-peixe.jpg"
       },
       {
         "nome": "Combo Infantil do Quintal",
         "descricao": "Filé grelhado, purê caseiro e suco natural sem açúcar adicionado.",
         "faixaPreco": "R$ 34,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "menu-kids.jpg"
       },
       {
         "nome": "Grelhado Leve Sênior",
         "descricao": "Peixe assado com legumes macios e tempero suave.",
         "faixaPreco": "R$ 48,00",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "prato-executivo.jpg"
       }
     ],
     "contato": {
@@ -461,19 +483,22 @@
         "nome": "Risoto de Camarão Suave",
         "descricao": "Preparo artesanal com opção sem lactose e cardápio ilustrado.",
         "faixaPreco": "R$ 68,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "prato-executivo.jpg"
       },
       {
         "nome": "Cardápio Sensorial Personalizável",
         "descricao": "Ingredientes servidos separadamente no prato para maior previsibilidade alimentar.",
         "faixaPreco": "R$ 42,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "menu-kids.jpg"
       },
       {
         "nome": "Suco Natural da Estação",
         "descricao": "Frutas regionais servidas em copo estável com opção de canudo reutilizável.",
         "faixaPreco": "R$ 14,00",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "cha-suco.jpg"
       }
     ],
     "contato": {
@@ -518,19 +543,22 @@
         "nome": "Café Coado Especial e Tapioca Regional",
         "descricao": "Combinação clássica da casa preparada na hora com opções sem glúten.",
         "faixaPreco": "R$ 28,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "cafe-tapioca.jpg"
       },
       {
         "nome": "Bolo Caseiro de Macaxeira",
         "descricao": "Receita tradicional servida morna em fatia individual ou família.",
         "faixaPreco": "R$ 16,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "bolo-padaria.jpg"
       },
       {
         "nome": "Água Fresca e Petisco Pet",
         "descricao": "Potes higienizados disponíveis gratuitamente na varanda coberta.",
         "faixaPreco": "Cortesia / petisco R$ 9,00",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "petisco-pet.jpg"
       }
     ],
     "contato": {
@@ -568,13 +596,15 @@
         "nome": "Café da Manhã Regional Completo",
         "descricao": "Cuscuz, ovos mexidos, raízes cozidas, frutas e café coado.",
         "faixaPreco": "R$ 35,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "cafe-tapioca.jpg"
       },
       {
         "nome": "Pão de Queijo Artesanal",
         "descricao": "Fornadas contínuas ao longo da manhã e da tarde.",
         "faixaPreco": "R$ 12,00",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "bolo-padaria.jpg"
       }
     ],
     "contato": {
@@ -612,13 +642,15 @@
         "nome": "Talharim Artesanal ao Molho Pomodoro",
         "descricao": "Massa fresca produzida diariamente com opção de porção família.",
         "faixaPreco": "R$ 56,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "massas-italianas.jpg"
       },
       {
         "nome": "Lasanha Bolonhesa da Cantina",
         "descricao": "Porção individual ou para duas pessoas assada em forno a lenha.",
         "faixaPreco": "R$ 64,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "massas-italianas.jpg"
       }
     ],
     "contato": {
@@ -656,13 +688,15 @@
         "nome": "Chá Calmante de Camomila e Capim-Santo",
         "descricao": "Infusão natural servida em xícara térmica sem excesso de aroma artificial.",
         "faixaPreco": "R$ 15,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "cha-suco.jpg"
       },
       {
         "nome": "Tostex Artesanal e Suco Natural",
         "descricao": "Opções simples e previsíveis montadas conforme preferência do cliente.",
         "faixaPreco": "R$ 26,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "cafe-tapioca.jpg"
       }
     ],
     "contato": {
@@ -700,13 +734,15 @@
         "nome": "Hora Livre no Circuito Brincar Inclusivo",
         "descricao": "Brincadeiras livres com acompanhamento de recreadores treinados.",
         "faixaPreco": "R$ 35,00 / hora",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "parque-infantil.jpg"
       },
       {
         "nome": "Oficina Sensorial de Sábado",
         "descricao": "Atividades lúdicas em grupos reduzidos com agendamento via WhatsApp.",
         "faixaPreco": "R$ 45,00 / sessão",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "oficina-infantil.jpg"
       }
     ],
     "contato": {
@@ -744,13 +780,15 @@
         "nome": "Peixe Grelhado com Legumes da Horta",
         "descricao": "Prato leve com ingredientes frescos servidos em área ventilada.",
         "faixaPreco": "R$ 58,00",
-        "favoritoDaCasa": true
+        "favoritoDaCasa": true,
+        "imagem": "moqueca-peixe.jpg"
       },
       {
         "nome": "Pratinho Infantil Recanto",
         "descricao": "Arroz, feijão caseiro, frango em cubos e legumes no vapor.",
         "faixaPreco": "R$ 29,00",
-        "favoritoDaCasa": false
+        "favoritoDaCasa": false,
+        "imagem": "menu-kids.jpg"
       }
     ],
     "contato": {

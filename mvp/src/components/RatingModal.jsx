@@ -4,16 +4,30 @@ import { IconClose, IconShield, IconStar } from './Icons';
 
 const MAX_COMMENT = 500;
 
-export default function RatingModal({ local, onClose, onSubmit }) {
+function getInitialScores(existingReview) {
+  if (!existingReview?.pilares) {
+    return {
+      infantil: undefined,
+      acessibilidade: undefined,
+      pet: undefined,
+      atendimento: undefined,
+    };
+  }
+  const initial = {};
+  for (const pillar of PILLARS) {
+    const val = existingReview.pilares[pillar.key];
+    initial[pillar.key] = typeof val === 'number' && val >= 1 && val <= 5 ? val : null;
+  }
+  return initial;
+}
+
+export default function RatingModal({ local, existingReview = null, onClose, onSubmit }) {
+  const isEditing = Boolean(existingReview);
+
   // undefined = não marcado | 1..5 = nota numérica | null = Não se aplica
-  const [scores, setScores] = useState({
-    infantil: undefined,
-    acessibilidade: undefined,
-    pet: undefined,
-    atendimento: undefined,
-  });
-  const [autor, setAutor] = useState('');
-  const [comentario, setComentario] = useState('');
+  const [scores, setScores] = useState(() => getInitialScores(existingReview));
+  const [autor, setAutor] = useState(() => existingReview?.autor || '');
+  const [comentario, setComentario] = useState(() => existingReview?.comentario || '');
   const [errorMsg, setErrorMsg] = useState('');
 
   const closeBtnRef = useRef(null);
@@ -65,11 +79,8 @@ export default function RatingModal({ local, onClose, onSubmit }) {
       return;
     }
 
-    const todayIso = new Date().toISOString().slice(0, 10);
     onSubmit({
-      id: `av-local-${Date.now()}`,
       autor: trimmedAuthor,
-      data: todayIso,
       pilares: { ...scores },
       comentario: comentario.trim().slice(0, MAX_COMMENT),
     });
@@ -91,7 +102,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
       >
         <div className="modal-header">
           <div>
-            <h2 id="rating-modal-title">Avaliar local</h2>
+            <h2 id="rating-modal-title">{isEditing ? 'Editar avaliação' : 'Avaliar local'}</h2>
             <p className="modal-subtitle">{local.nome}</p>
           </div>
           <button
@@ -214,7 +225,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
               Cancelar
             </button>
             <button type="submit" className="btn btn-primary">
-              Publicar avaliação
+              {isEditing ? 'Salvar alterações' : 'Publicar avaliação'}
             </button>
           </div>
         </form>

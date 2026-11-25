@@ -166,6 +166,27 @@ export function getImageUrl(filename) {
   return `${import.meta.env.BASE_URL}images/${filename}`;
 }
 
+export function getVitrineImageUrl(filename) {
+  if (!filename) return '';
+  return `${import.meta.env.BASE_URL}images/vitrine/${filename}`;
+}
+
+export function getVitrineTabLabel(categoria) {
+  if (categoria === 'Restaurante' || categoria === 'Cafeteria / Padaria') {
+    return 'Cardápio';
+  }
+  return 'Destaques';
+}
+
+export function getReviewAverageScore(review) {
+  if (!review?.pilares) return 0;
+  const vals = PILLARS.map((p) => review.pilares[p.key]).filter(
+    (v) => typeof v === 'number' && v >= 1 && v <= 5
+  );
+  if (vals.length === 0) return 0;
+  return vals.reduce((a, b) => a + b, 0) / vals.length;
+}
+
 export function buildWhatsAppUrl(numero, nomeLocal) {
   if (!numero) return '';
   const digits = String(numero).replace(/\D/g, '');

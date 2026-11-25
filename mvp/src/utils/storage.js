@@ -69,7 +69,21 @@ export function loadStoredReviews() {
     if (!raw) return { ok: true, data: {} };
     const parsed = JSON.parse(raw);
     if (parsed && typeof parsed === 'object') {
-      return { ok: true, data: parsed };
+      const normalized = {};
+      for (const [placeId, items] of Object.entries(parsed)) {
+        if (Array.isArray(items) && items.length > 0) {
+          const latest = items[0];
+          normalized[placeId] = [
+            {
+              ...latest,
+              isUserReview: true,
+              edited: Boolean(latest.edited),
+              timestamp: latest.timestamp || `${latest.data || '2026-11-24'}T12:00:00.000Z`,
+            },
+          ];
+        }
+      }
+      return { ok: true, data: normalized };
     }
     return { ok: true, data: {} };
   } catch {
