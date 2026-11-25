@@ -1,28 +1,27 @@
 export const PILLARS = [
   {
     key: 'infantil',
-    label: 'Estrutura Infantil (Kids)',
+    label: 'Estrutura Infantil',
     shortLabel: 'Infantil',
-    description: 'Trocador, espaço kids, cadeirão, segurança física e recreação.',
+    description: 'Trocador, espaço kids, cadeirão e segurança.',
   },
   {
     key: 'acessibilidade',
     label: 'Acessibilidade e Conforto',
-    shortLabel: 'Acessibilidade',
-    description:
-      'Rampas, banheiro adaptado, piso tátil, baixo ruído, iluminação confortável, comunicação acessível e assentos (idosos, PCD e neurodivergentes).',
+    shortLabel: 'Acessib.',
+    description: 'Rampas, banheiro adaptado, assentos e conforto sensorial.',
   },
   {
     key: 'pet',
-    label: 'Receptividade Pet',
-    shortLabel: 'Pet Friendly',
-    description: 'Área coberta permitida, disponibilidade de água e suporte por porte de animal.',
+    label: 'Pet Friendly',
+    shortLabel: 'Pet',
+    description: 'Área coberta, potes de água e portes aceitos.',
   },
   {
     key: 'atendimento',
     label: 'Atendimento e Custo-Benefício',
-    shortLabel: 'Atendimento',
-    description: 'Cordialidade, preparo da equipe para acolhimento inclusivo e preços transparentes.',
+    shortLabel: 'Atend.',
+    description: 'Cordialidade, preparo da equipe e preços justos.',
   },
 ];
 
@@ -36,7 +35,7 @@ export const CATEGORIAS = [
 export const FILTER_GROUPS = [
   {
     key: 'infantil',
-    title: 'Estrutura Infantil (Crianças)',
+    title: 'Estrutura Infantil',
     options: [
       'Espaço Kids Monitorado',
       'Trocador Acessível',
@@ -46,7 +45,7 @@ export const FILTER_GROUPS = [
   },
   {
     key: 'pet',
-    title: 'Receptividade Pet',
+    title: 'Pet Friendly',
     options: [
       'Aceita Pet Porte Pequeno',
       'Aceita Pet Porte Médio',
@@ -57,7 +56,7 @@ export const FILTER_GROUPS = [
   },
   {
     key: 'acessibilidade',
-    title: 'Idosos e PCD (Físico / Intelectual)',
+    title: 'Acessibilidade',
     options: [
       'Rampa de Acessibilidade',
       'Banheiro Adaptado',
@@ -68,7 +67,7 @@ export const FILTER_GROUPS = [
   },
   {
     key: 'sensorial',
-    title: 'Sensorial / Neurodivergentes',
+    title: 'Conforto Sensorial',
     options: [
       'Ambiente com Baixo Ruído',
       'Iluminação Controlada',
@@ -76,6 +75,18 @@ export const FILTER_GROUPS = [
       'Cardápio / Comunicação Visual',
     ],
   },
+];
+
+export const CIDADES_BRASIL = [
+  { id: 'joao-pessoa-pb', nome: 'João Pessoa', uf: 'PB', ativa: true },
+  { id: 'recife-pe', nome: 'Recife', uf: 'PE', ativa: false },
+  { id: 'natal-rn', nome: 'Natal', uf: 'RN', ativa: false },
+  { id: 'fortaleza-ce', nome: 'Fortaleza', uf: 'CE', ativa: false },
+  { id: 'salvador-ba', nome: 'Salvador', uf: 'BA', ativa: false },
+  { id: 'sao-paulo-sp', nome: 'São Paulo', uf: 'SP', ativa: false },
+  { id: 'rio-de-janeiro-rj', nome: 'Rio de Janeiro', uf: 'RJ', ativa: false },
+  { id: 'curitiba-pr', nome: 'Curitiba', uf: 'PR', ativa: false },
+  { id: 'florianopolis-sc', nome: 'Florianópolis', uf: 'SC', ativa: false },
 ];
 
 export function normalizeText(text) {
@@ -87,11 +98,6 @@ export function normalizeText(text) {
     .trim();
 }
 
-/**
- * Regra de Domínio RD002:
- * Média aritmética simples por pilar arredondada para 1 casa decimal quando N >= 1;
- * exibe exatamente "Sem avaliações" quando N = 0 (vedando "0,0").
- */
 export function calculatePillarAverages(avaliacoes) {
   const list = Array.isArray(avaliacoes) ? avaliacoes : [];
   const total = list.length;
@@ -102,13 +108,16 @@ export function calculatePillarAverages(avaliacoes) {
       result[pillar.key] = {
         value: null,
         formatted: 'Sem avaliações',
+        shortFormatted: 'Sem aval.',
       };
     } else {
       const sum = list.reduce((acc, item) => acc + Number(item.pilares?.[pillar.key] || 0), 0);
       const avg = Math.round((sum / total) * 10) / 10;
+      const formatted = avg.toFixed(1).replace('.', ',');
       result[pillar.key] = {
         value: avg,
-        formatted: avg.toFixed(1).replace('.', ','),
+        formatted,
+        shortFormatted: formatted,
       };
     }
   }
@@ -136,10 +145,15 @@ export function getAllTagsFlat(local) {
   ];
 }
 
+export function getImageUrl(filename) {
+  if (!filename) return '';
+  return `${import.meta.env.BASE_URL}images/${filename}`;
+}
+
 export function buildWhatsAppUrl(numero, nomeLocal) {
   if (!numero) return '';
   const digits = String(numero).replace(/\D/g, '');
-  const message = `Olá! Encontrei ${nomeLocal} no Family Place (João Pessoa) e gostaria de confirmar informações sobre acessibilidade e atendimento.`;
+  const message = `Olá! Encontrei ${nomeLocal} no Family Place e gostaria de confirmar informações sobre atendimento e estrutura.`;
   return `https://wa.me/${digits}?text=${encodeURIComponent(message)}`;
 }
 

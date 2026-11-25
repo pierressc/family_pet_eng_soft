@@ -39,9 +39,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
     const missing = PILLARS.filter((p) => !scores[p.key] || scores[p.key] < 1 || scores[p.key] > 5);
     if (missing.length > 0) {
       setErrorMsg(
-        `Selecione uma nota obrigatória de 1 a 5 estrelas para: ${missing
-          .map((m) => m.label)
-          .join(', ')}.`
+        `Selecione uma nota de 1 a 5 estrelas para: ${missing.map((m) => m.label).join(', ')}.`
       );
       return;
     }
@@ -72,7 +70,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
       >
         <div className="modal-header">
           <div>
-            <h2 id="rating-modal-title">Avaliar nos 4 Pilares</h2>
+            <h2 id="rating-modal-title">Avaliar local</h2>
             <p className="modal-subtitle">{local.nome}</p>
           </div>
           <button
@@ -88,7 +86,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
 
         <form onSubmit={handleSubmit} noValidate className="modal-body">
           <p className="form-lead">
-            Atribua uma nota obrigatória de 1 a 5 estrelas para cada pilar independente.
+            Dê uma nota de 1 a 5 estrelas para cada um dos quatro critérios abaixo.
           </p>
 
           {errorMsg && (
@@ -119,7 +117,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
                           aria-label={`Nota ${value} de 5 para ${pillar.label}`}
                           onClick={() => handleSelectScore(pillar.key, value)}
                         >
-                          <IconStar size={20} filled={active} />
+                          <IconStar size={19} filled={active} />
                           <span>{value}</span>
                         </button>
                       );
@@ -134,21 +132,21 @@ export default function RatingModal({ local, onClose, onSubmit }) {
           </div>
 
           <div className="form-field">
-            <label htmlFor="campo-apelido">Apelido público (opcional)</label>
+            <label htmlFor="campo-apelido">Seu nome ou apelido (opcional)</label>
             <input
               id="campo-apelido"
               type="text"
               value={autor}
               maxLength={60}
               onChange={(e) => setAutor(e.target.value)}
-              placeholder="Ex.: Família Silva ou Visitante de Manaíra (padrão: Visitante Anônimo)"
+              placeholder="Ex.: Família Silva (ou deixe em branco para Visitante Anônimo)"
               className="text-input"
             />
           </div>
 
           <div className="form-field">
             <div className="label-with-counter">
-              <label htmlFor="campo-comentario">Comentário sobre a experiência (opcional)</label>
+              <label htmlFor="campo-comentario">Comentário sobre a visita (opcional)</label>
               <span className="char-counter" aria-live="polite">
                 {comentario.length} / {MAX_COMMENT} caracteres
               </span>
@@ -159,17 +157,16 @@ export default function RatingModal({ local, onClose, onSubmit }) {
               maxLength={MAX_COMMENT}
               value={comentario}
               onChange={(e) => setComentario(e.target.value)}
-              placeholder="Compartilhe detalhes objetivos sobre acessibilidade, ruído, espaço infantil, regras pet ou atendimento..."
+              placeholder="Conte como foi o acolhimento, o ruído, a acessibilidade, o espaço kids ou a área pet..."
               className="textarea-input"
             />
           </div>
 
           <div className="privacy-notice" role="note">
-            <IconShield size={18} />
+            <IconShield size={17} />
             <p>
-              <strong>Privacidade e LGPD (RD001):</strong> não informe CPF, telefone pessoal,
-              endereço residencial ou dados sensíveis de terceiros. Sua avaliação fica gravada
-              localmente no navegador e recalcula imediatamente as quatro médias do local.
+              Sua avaliação é pública e não coleta dados pessoais. Evite incluir informações
+              pessoais no comentário.
             </p>
           </div>
 

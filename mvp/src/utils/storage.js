@@ -1,5 +1,6 @@
 const REVIEWS_KEY = 'familyplace_avaliacoes_v1';
 const FAVORITES_KEY = 'familyplace_favoritos_v1';
+const THEME_KEY = 'familyplace_tema_v1';
 
 export const DEFAULT_FAVORITE_LISTS = [
   {
@@ -39,6 +40,29 @@ export function checkLocalStorageAvailable() {
   }
 }
 
+export function loadThemePreference() {
+  try {
+    const saved = window.localStorage.getItem(THEME_KEY);
+    if (saved === 'light' || saved === 'dark') {
+      return saved;
+    }
+  } catch {
+    // Fallback para preferência do sistema
+  }
+  if (typeof window !== 'undefined' && window.matchMedia) {
+    return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  }
+  return 'light';
+}
+
+export function saveThemePreference(theme) {
+  try {
+    window.localStorage.setItem(THEME_KEY, theme);
+  } catch {
+    // Ignora falha silenciosa de tema
+  }
+}
+
 export function loadStoredReviews() {
   try {
     const raw = window.localStorage.getItem(REVIEWS_KEY);
@@ -53,7 +77,7 @@ export function loadStoredReviews() {
       ok: false,
       data: {},
       error:
-        'O armazenamento local do navegador está indisponível ou bloqueado. Suas novas avaliações funcionarão apenas nesta sessão.',
+        'O armazenamento do navegador está indisponível ou bloqueado. Novas avaliações ficarão visíveis apenas durante esta visita.',
     };
   }
 }
@@ -66,7 +90,7 @@ export function saveStoredReviews(reviewsByPlace) {
     return {
       ok: false,
       error:
-        'Não foi possível gravar a avaliação no armazenamento local do navegador. Verifique permissões de privacidade ou espaço disponível.',
+        'Não foi possível salvar a avaliação no navegador. Verifique as permissões de privacidade ou espaço disponível.',
     };
   }
 }
@@ -88,7 +112,7 @@ export function loadFavoriteLists() {
       ok: false,
       data: DEFAULT_FAVORITE_LISTS,
       error:
-        'O armazenamento local do navegador está indisponível ou bloqueado. Alterações nas listas de favoritos não serão preservadas após recarregar a página.',
+        'O armazenamento do navegador está indisponível ou bloqueado. Alterações nas listas de favoritos valerão apenas nesta visita.',
     };
   }
 }
@@ -100,8 +124,7 @@ export function saveFavoriteLists(lists) {
   } catch {
     return {
       ok: false,
-      error:
-        'Não foi possível salvar suas listas de favoritos no armazenamento local do navegador.',
+      error: 'Não foi possível salvar suas listas de favoritos neste navegador.',
     };
   }
 }

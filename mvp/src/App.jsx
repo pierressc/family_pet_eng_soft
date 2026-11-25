@@ -10,15 +10,27 @@ import {
   checkLocalStorageAvailable,
   loadFavoriteLists,
   loadStoredReviews,
+  loadThemePreference,
   saveFavoriteLists,
   saveStoredReviews,
+  saveThemePreference,
 } from './utils/storage';
 import ExploreView from './components/ExploreView';
 import DetailView from './components/DetailView';
 import FavoritesView from './components/FavoritesView';
 import RatingModal from './components/RatingModal';
 import SaveToListModal from './components/SaveToListModal';
-import { IconBookmark, IconHome, IconInfo, IconSearch } from './components/Icons';
+import CityModal from './components/CityModal';
+import {
+  IconBookmark,
+  IconChevronDown,
+  IconHome,
+  IconInfo,
+  IconMapPin,
+  IconMoon,
+  IconSearch,
+  IconSun,
+} from './components/Icons';
 
 function parseHashRoute() {
   const raw = (window.location.hash || '#explorar').replace(/^#\/?/, '');
@@ -34,39 +46,41 @@ function parseHashRoute() {
 
 export default function App() {
   const [route, setRoute] = useState(() => parseHashRoute());
+  const [theme, setTheme] = useState(() => loadThemePreference());
+  const [cityModalOpen, setCityModalOpen] = useState(false);
   const [storageWarning, setStorageWarning] = useState('');
   const [toastMessage, setToastMessage] = useState('');
 
-  // Estado preservado de busca e filtros (RF001, RF002, RF003)
+  // Estado preservado de busca e filtros
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategories, setSelectedCategories] = useState([]);
   const [selectedTags, setSelectedTags] = useState([]);
   const [sortBy, setSortBy] = useState('relevancia');
 
-  // Avaliações criadas localmente e listas de favoritos (NF006)
-  const [userReviewsByPlace, setUserReviewsByPlace] = useState(() => {
-    const res = loadStoredReviews();
-    return res.data;
-  });
-  const [favoriteLists, setFavoriteLists] = useState(() => {
-    const res = loadFavoriteLists();
-    return res.data;
-  });
+  // Avaliações e favoritos salvos no navegador
+  const [userReviewsByPlace, setUserReviewsByPlace] = useState(() => loadStoredReviews().data);
+  const [favoriteLists, setFavoriteLists] = useState(() => loadFavoriteLists().data);
 
-  // Modais ativos
+  // Modais de avaliação e listas
   const [ratingTargetPlace, setRatingTargetPlace] = useState(null);
   const [saveTargetPlace, setSaveTargetPlace] = useState(null);
 
-  // Verificação defensiva inicial do localStorage (NF006)
+  // Aplicação do tema claro/escuro no documento
+  useEffect(() => {
+    document.documentElement.setAttribute('data-theme', theme);
+    saveThemePreference(theme);
+  }, [theme]);
+
+  // Verificação defensiva do armazenamento do navegador
   useEffect(() => {
     if (!checkLocalStorageAvailable()) {
       setStorageWarning(
-        'O armazenamento local do navegador (localStorage) está indisponível ou bloqueado. Suas avaliações e listas funcionarão apenas durante esta sessão.'
+        'O armazenamento do navegador está indisponível ou bloqueado. Suas avaliações e listas valerão apenas nesta visita.'
       );
     }
   }, []);
 
-  // Sincronização com hash para funcionamento seguro no GitHub Pages
+  // Roteamento por hash
   useEffect(() => {
     const onHashChange = () => {
       setRoute(parseHashRoute());
@@ -76,10 +90,10 @@ export default function App() {
     return () => window.removeEventListener('hashchange', onHashChange);
   }, []);
 
-  // Limpeza automática da notificação de confirmação
+  // Limpeza automática da notificação
   useEffect(() => {
     if (!toastMessage) return undefined;
-    const timer = window.setTimeout(() => setToastMessage(''), 4500);
+    const timer = window.setTimeout(() => setToastMessage(''), 4200);
     return () => window.clearTimeout(timer);
   }, [toastMessage]);
 
@@ -88,6 +102,10 @@ export default function App() {
     setRoute(parseHashRoute());
     window.scrollTo({ top: 0, behavior: 'auto' });
   }, []);
+
+  const toggleTheme = () => {
+    setTheme((prev) => (prev === 'dark' ? 'light' : 'dark'));
+  };
 
   const allPlacesById = useMemo(() => {
     const map = {};
@@ -117,7 +135,6 @@ export default function App() {
     [favoriteLists]
   );
 
-  // Filtragem combinada (RF001, RF002) e ordenação
   const locaisFiltrados = useMemo(() => {
     const queryNorm = normalizeText(searchQuery);
 
@@ -133,8 +150,7 @@ export default function App() {
 
       if (selectedTags.length > 0) {
         const placeTags = getAllTagsFlat(local);
-        const matchesAll = selectedTags.every((tag) => placeTags.includes(tag));
-        if (!matchesAll) return false;
+        if (!selectedTags.every((tag) => placeTags.includes(tag))) return false;
       }
 
       return true;
@@ -189,7 +205,7 @@ export default function App() {
       setStorageWarning(saveRes.error);
     }
     setRatingTargetPlace(null);
-    setToastMessage('Avaliação publicada com sucesso e médias dos quatro pilares recalculadas.');
+    setToastMessage('Avaliação publicada com sucesso.');
   };
 
   const updateListsWithStorage = (nextLists) => {
@@ -208,7 +224,7 @@ export default function App() {
     const normNew = normalizeText(trimmed);
     const duplicate = favoriteLists.some((l) => normalizeText(l.nome) === normNew);
     if (duplicate) {
-      return { ok: false, error: 'Já existe uma lista de favoritos com este nome.' };
+      return { ok: false, error: 'Já existe uma lista com este nome.' };
     }
 
     const createdId = `lista-${Date.now()}`;
@@ -218,14 +234,14 @@ export default function App() {
       locaisIds: initialPlaceId ? [initialPlaceId] : [],
     };
     updateListsWithStorage([newList, ...favoriteLists]);
-    setToastMessage(`Lista "${trimmed}" criada com sucesso.`);
+    setToastMessage(`Lista "${trimmed}" criada.`);
     return { ok: true, createdId };
   };
 
   const handleRenameList = (listId, rawName) => {
     const trimmed = String(rawName || '').trim();
     if (trimmed.length < 2 || trimmed.length > 60) {
-      return { ok: false, error: 'O novo nome deve conter entre 2 e 60 caracteres.' };
+      return { ok: false, error: 'O nome deve ter entre 2 e 60 caracteres.' };
     }
     const normNew = normalizeText(trimmed);
     const duplicate = favoriteLists.some(
@@ -275,7 +291,7 @@ export default function App() {
       };
     });
     updateListsWithStorage(nextLists);
-    setToastMessage('Estabelecimento removido desta lista.');
+    setToastMessage('Local removido desta lista.');
   };
 
   const totalUniqueSavedPlaces = useMemo(() => {
@@ -296,53 +312,75 @@ export default function App() {
 
       <header className="top-header">
         <div className="container header-inner">
-          <a
-            href="#explorar"
-            className="brand-link"
-            onClick={(e) => {
-              e.preventDefault();
-              navigateTo('#explorar');
-            }}
-          >
-            <span className="brand-mark">
-              <IconHome size={20} />
-            </span>
-            <span className="brand-text">
-              <strong>Family Place</strong>
-              <small>João Pessoa • PB</small>
-            </span>
-          </a>
-
-          <nav aria-label="Navegação principal" className="main-nav">
+          <div className="header-left">
             <a
               href="#explorar"
-              className={`nav-link ${route.view === 'explorar' || route.view === 'detail' ? 'is-active' : ''}`}
-              aria-current={route.view === 'explorar' ? 'page' : undefined}
+              className="brand-link"
               onClick={(e) => {
                 e.preventDefault();
                 navigateTo('#explorar');
               }}
             >
-              <IconSearch size={17} />
-              <span>Explorar</span>
+              <span className="brand-mark">
+                <IconHome size={19} />
+              </span>
+              <span className="brand-name">Family Place</span>
             </a>
 
-            <a
-              href="#favoritos"
-              className={`nav-link ${route.view === 'favoritos' ? 'is-active' : ''}`}
-              aria-current={route.view === 'favoritos' ? 'page' : undefined}
-              onClick={(e) => {
-                e.preventDefault();
-                navigateTo('#favoritos');
-              }}
+            <button
+              type="button"
+              className="city-selector-btn"
+              onClick={() => setCityModalOpen(true)}
+              aria-label="Selecionar cidade. Atual: João Pessoa, PB"
             >
-              <IconBookmark size={17} />
-              <span>Favoritos</span>
-              <span className="nav-badge" aria-label={`${totalUniqueSavedPlaces} locais salvos`}>
-                {totalUniqueSavedPlaces}
-              </span>
-            </a>
-          </nav>
+              <IconMapPin size={15} />
+              <span>João Pessoa, PB</span>
+              <IconChevronDown size={14} />
+            </button>
+          </div>
+
+          <div className="header-right">
+            <nav aria-label="Navegação principal" className="main-nav">
+              <a
+                href="#explorar"
+                className={`nav-link ${route.view === 'explorar' || route.view === 'detail' ? 'is-active' : ''}`}
+                aria-current={route.view === 'explorar' ? 'page' : undefined}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo('#explorar');
+                }}
+              >
+                <IconSearch size={16} />
+                <span>Explorar</span>
+              </a>
+
+              <a
+                href="#favoritos"
+                className={`nav-link ${route.view === 'favoritos' ? 'is-active' : ''}`}
+                aria-current={route.view === 'favoritos' ? 'page' : undefined}
+                onClick={(e) => {
+                  e.preventDefault();
+                  navigateTo('#favoritos');
+                }}
+              >
+                <IconBookmark size={16} />
+                <span>Favoritos</span>
+                <span className="nav-badge" aria-label={`${totalUniqueSavedPlaces} locais salvos`}>
+                  {totalUniqueSavedPlaces}
+                </span>
+              </a>
+            </nav>
+
+            <button
+              type="button"
+              className="theme-toggle-btn"
+              onClick={toggleTheme}
+              aria-label={theme === 'dark' ? 'Ativar tema claro' : 'Ativar tema escuro'}
+              title={theme === 'dark' ? 'Tema claro' : 'Tema escuro'}
+            >
+              {theme === 'dark' ? <IconSun size={18} /> : <IconMoon size={18} />}
+            </button>
+          </div>
         </div>
       </header>
 
@@ -413,29 +451,25 @@ export default function App() {
         <div className="container footer-grid">
           <div>
             <p className="footer-brand">
-              <strong>Family Place</strong> — Plataforma Comunitária de João Pessoa (PB)
+              <strong>Family Place</strong>
             </p>
             <p className="footer-note">
-              MVP web focado nos requisitos essenciais (RF001–RF010). Atuação exclusivamente
-              informativa: sem pagamentos online, checkout financeiro, delivery próprio ou avaliação
-              individual por item.
+              Guia colaborativo para famílias, crianças, pets, idosos, pessoas com deficiência e
+              pessoas neurodivergentes encontrarem espaços acolhedores antes de sair de casa.
             </p>
           </div>
           <div className="footer-roadmap">
-            <p className="footer-roadmap-title">Módulos planejados para ciclos evolutivos</p>
+            <p className="footer-roadmap-title">Em breve</p>
             <ul>
-              <li>
-                <strong>Should:</strong> Cadastro por perfil, Painel do Estabelecimento e Clube de
-                Fidelidade (cupons presenciais).
-              </li>
-              <li>
-                <strong>Could:</strong> Seguidores com Timeline comunitária e Assistente Virtual de
-                recomendação.
-              </li>
+              <li>Clube de benefícios presenciais</li>
+              <li>Novidades dos locais favoritos</li>
+              <li>Assistente de recomendações</li>
             </ul>
           </div>
         </div>
       </footer>
+
+      {cityModalOpen && <CityModal onClose={() => setCityModalOpen(false)} />}
 
       {ratingTargetPlace && (
         <RatingModal

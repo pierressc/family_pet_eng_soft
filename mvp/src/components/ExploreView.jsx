@@ -1,5 +1,11 @@
 import { useState } from 'react';
-import { CATEGORIAS, FILTER_GROUPS, PILLARS, getAllTagsFlat } from '../utils/helpers';
+import {
+  CATEGORIAS,
+  FILTER_GROUPS,
+  PILLARS,
+  getAllTagsFlat,
+  getImageUrl,
+} from '../utils/helpers';
 import {
   IconBookmark,
   IconClock,
@@ -31,32 +37,32 @@ export default function ExploreView({
   const activeFiltersCount =
     selectedCategories.length + selectedTags.length + (searchQuery.trim() ? 1 : 0);
 
+  const handleCardKeyDown = (event, placeId) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onOpenDetail(placeId);
+    }
+  };
+
   return (
     <section aria-labelledby="explore-heading" className="explore-section">
       <div className="hero-banner">
-        <div className="hero-content">
-          <p className="hero-eyebrow">Plataforma Comunitária • João Pessoa (PB)</p>
-          <h1 id="explore-heading">Encontre locais realmente preparados para sua família e seu pet</h1>
-          <p className="hero-subtitle">
-            Combine filtros de estrutura infantil, acessibilidade física, conforto sensorial e
-            receptividade pet com avaliações independentes em quatro pilares antes de sair de casa.
-          </p>
-        </div>
+        <h1 id="explore-heading">Encontre lugares preparados para sua família e seu pet</h1>
 
-        <div className="search-bar-card" role="search" aria-label="Busca de estabelecimentos em João Pessoa">
+        <div className="search-bar-card" role="search" aria-label="Busca de locais">
           <div className="search-input-group">
             <label htmlFor="campo-busca" className="sr-only">
-              Pesquisar estabelecimento por nome, bairro ou categoria em João Pessoa
+              Pesquisar por nome, bairro ou tipo de local
             </label>
             <span className="search-icon">
-              <IconSearch size={20} />
+              <IconSearch size={19} />
             </span>
             <input
               id="campo-busca"
               type="search"
               value={searchQuery}
               onChange={(e) => onSearchChange(e.target.value)}
-              placeholder="Pesquisar por nome, bairro (Manaíra, Bessa, Tambaú...) ou categoria"
+              placeholder="Buscar por nome, bairro ou tipo de local..."
               className="search-input"
             />
           </div>
@@ -64,7 +70,7 @@ export default function ExploreView({
           <div className="search-actions">
             <div className="sort-group">
               <label htmlFor="campo-ordenacao" className="sort-label">
-                Ordenar por
+                Ordenar
               </label>
               <select
                 id="campo-ordenacao"
@@ -72,20 +78,16 @@ export default function ExploreView({
                 onChange={(e) => onSortChange(e.target.value)}
                 className="select-input"
               >
-                <option value="relevancia">Relevância (média geral)</option>
+                <option value="relevancia">Relevância</option>
                 <option value="acessibilidade">Melhor Acessibilidade</option>
                 <option value="infantil">Melhor Estrutura Infantil</option>
-                <option value="pet">Melhor Receptividade Pet</option>
+                <option value="pet">Melhor Pet Friendly</option>
               </select>
             </div>
 
             {activeFiltersCount > 0 && (
-              <button
-                type="button"
-                onClick={onClearFilters}
-                className="btn btn-secondary"
-              >
-                Limpar filtros ({activeFiltersCount})
+              <button type="button" onClick={onClearFilters} className="btn btn-secondary btn-sm">
+                Limpar ({activeFiltersCount})
               </button>
             )}
           </div>
@@ -100,9 +102,9 @@ export default function ExploreView({
           aria-controls="painel-filtros"
           onClick={() => setMobileFiltersOpen((prev) => !prev)}
         >
-          <IconFilter size={18} />
+          <IconFilter size={17} />
           <span>
-            {mobileFiltersOpen ? 'Ocultar filtros combinados' : 'Filtrar por necessidades'}
+            {mobileFiltersOpen ? 'Ocultar filtros' : 'Filtrar locais'}
             {selectedCategories.length + selectedTags.length > 0
               ? ` (${selectedCategories.length + selectedTags.length})`
               : ''}
@@ -113,27 +115,20 @@ export default function ExploreView({
       <div className="explore-layout">
         <aside
           id="painel-filtros"
-          aria-label="Filtros combinados por necessidade"
+          aria-label="Filtros de busca"
           className={`filters-panel ${mobileFiltersOpen ? 'is-open' : ''}`}
         >
           <div className="filters-header">
-            <h2>Filtros combinados</h2>
+            <h2>Filtros</h2>
             {selectedCategories.length + selectedTags.length > 0 && (
-              <button
-                type="button"
-                onClick={onClearFilters}
-                className="btn-link"
-              >
-                Limpar tudo
+              <button type="button" onClick={onClearFilters} className="btn-link">
+                Limpar
               </button>
             )}
           </div>
-          <p className="filters-hint">
-            Todos os critérios marcados são aplicados simultaneamente (combinação lógica E).
-          </p>
 
           <fieldset className="filter-fieldset">
-            <legend>1. Tipo de local</legend>
+            <legend>Tipo de local</legend>
             <div className="checkbox-list">
               {CATEGORIAS.map((cat) => {
                 const checked = selectedCategories.includes(cat);
@@ -151,11 +146,9 @@ export default function ExploreView({
             </div>
           </fieldset>
 
-          {FILTER_GROUPS.map((group, idx) => (
+          {FILTER_GROUPS.map((group) => (
             <fieldset key={group.key} className="filter-fieldset">
-              <legend>
-                {idx + 2}. {group.title}
-              </legend>
+              <legend>{group.title}</legend>
               <div className="checkbox-list">
                 {group.options.map((tag) => {
                   const checked = selectedTags.includes(tag);
@@ -178,8 +171,8 @@ export default function ExploreView({
         <div className="results-column">
           <div className="results-toolbar" aria-live="polite">
             <p className="results-count">
-              Exibindo <strong>{locaisFiltrados.length}</strong> de{' '}
-              <strong>{totalCatalogo}</strong> locais cadastrados em João Pessoa (PB)
+              <strong>{locaisFiltrados.length}</strong> de <strong>{totalCatalogo}</strong> locais
+              em João Pessoa
             </p>
           </div>
 
@@ -191,10 +184,10 @@ export default function ExploreView({
                   type="button"
                   className="chip-active"
                   onClick={() => onToggleCategory(cat)}
-                  aria-label={`Remover filtro de categoria ${cat}`}
+                  aria-label={`Remover filtro ${cat}`}
                 >
                   <span>{cat}</span>
-                  <IconClose size={14} />
+                  <IconClose size={13} />
                 </button>
               ))}
               {selectedTags.map((tag) => (
@@ -206,7 +199,7 @@ export default function ExploreView({
                   aria-label={`Remover filtro ${tag}`}
                 >
                   <span>{tag}</span>
-                  <IconClose size={14} />
+                  <IconClose size={13} />
                 </button>
               ))}
             </div>
@@ -214,13 +207,12 @@ export default function ExploreView({
 
           {locaisFiltrados.length === 0 ? (
             <div className="empty-state" role="status">
-              <h3>Nenhum local atende a todos os filtros marcados simultaneamente</h3>
+              <h3>Nenhum local encontrado com essa combinação</h3>
               <p>
-                Tente remover um ou mais critérios de filtragem ou limpar a pesquisa para visualizar
-                novamente os {totalCatalogo} espaços e estabelecimentos cadastrados em João Pessoa.
+                Remova algum filtro ou limpe a busca para ver novamente todos os locais disponíveis.
               </p>
               <button type="button" onClick={onClearFilters} className="btn btn-primary">
-                Limpar todos os filtros
+                Limpar filtros
               </button>
             </div>
           ) : (
@@ -230,102 +222,94 @@ export default function ExploreView({
                 const savedLists = getListsContainingPlace(local.id);
                 const isSaved = savedLists.length > 0;
                 const flatTags = getAllTagsFlat(local);
-                const visibleTags = flatTags.slice(0, 4);
+                const visibleTags = flatTags.slice(0, 2);
                 const extraTagsCount = Math.max(0, flatTags.length - visibleTags.length);
 
                 return (
-                  <article key={local.id} className="place-card">
-                    <div className="place-card-top">
-                      <div className="badge-row">
-                        <span
-                          className={`badge ${
-                            local.tipoOrigem === 'Espaço Público Real'
-                              ? 'badge-public'
-                              : 'badge-local'
-                          }`}
-                        >
-                          {local.tipoOrigem}
-                        </span>
-                        <span className="badge badge-category">{local.categoria}</span>
-                      </div>
-
+                  <article
+                    key={local.id}
+                    className="place-card is-clickable"
+                    role="link"
+                    tabIndex={0}
+                    aria-label={`Abrir detalhes de ${local.nome}, em ${local.bairro}`}
+                    onClick={() => onOpenDetail(local.id)}
+                    onKeyDown={(e) => handleCardKeyDown(e, local.id)}
+                  >
+                    <div className="card-media">
+                      <img
+                        src={getImageUrl(local.imagem)}
+                        alt={`Foto de ${local.nome} no bairro ${local.bairro}`}
+                        loading="lazy"
+                        className="card-cover-img"
+                      />
+                      <span className="card-category-overlay">{local.categoria}</span>
                       <button
                         type="button"
-                        className={`icon-save-btn ${isSaved ? 'is-saved' : ''}`}
-                        onClick={() => onOpenSaveModal(local)}
+                        className={`card-save-overlay ${isSaved ? 'is-saved' : ''}`}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          onOpenSaveModal(local);
+                        }}
+                        onKeyDown={(e) => e.stopPropagation()}
                         aria-label={
                           isSaved
-                            ? `Gerenciar listas de favoritos para ${local.nome} (salvo em ${savedLists.length})`
-                            : `Salvar ${local.nome} em lista de favoritos`
-                        }
-                        title={
-                          isSaved
-                            ? `Salvo em ${savedLists.length} lista(s)`
-                            : 'Salvar em lista de favoritos'
+                            ? `Gerenciar favoritos de ${local.nome} (salvo em ${savedLists.length})`
+                            : `Salvar ${local.nome} nos favoritos`
                         }
                       >
-                        <IconBookmark size={18} filled={isSaved} />
-                        <span>{isSaved ? `Salvo (${savedLists.length})` : 'Salvar'}</span>
+                        <IconBookmark size={17} filled={isSaved} />
+                        {isSaved && <span className="save-overlay-count">{savedLists.length}</span>}
                       </button>
                     </div>
 
-                    <h3 className="place-title">{local.nome}</h3>
+                    <div className="card-body">
+                      <div className="card-title-row">
+                        <h3 className="place-title">{local.nome}</h3>
+                        {local.tipoOrigem === 'Espaço Público' && (
+                          <span className="badge badge-public">Espaço Público</span>
+                        )}
+                      </div>
 
-                    <div className="place-meta">
-                      <span className="meta-item">
-                        <IconMapPin size={15} />
-                        <span>{local.bairro}, João Pessoa</span>
-                      </span>
-                      <span className="meta-item">
-                        <IconClock size={15} />
-                        <span>{local.horario}</span>
-                      </span>
-                    </div>
-
-                    <p className="place-desc">{local.descricao}</p>
-
-                    <div className="tag-list" aria-label="Comodidades principais">
-                      {visibleTags.map((tag) => (
-                        <span key={tag} className="tag-pill">
-                          {tag}
+                      <div className="place-meta-compact">
+                        <span className="meta-item">
+                          <IconMapPin size={14} />
+                          <span>{local.bairro}</span>
                         </span>
-                      ))}
-                      {extraTagsCount > 0 && (
-                        <span className="tag-pill tag-pill-more">+{extraTagsCount} tags</span>
-                      )}
-                    </div>
+                        <span className="meta-sep" aria-hidden="true">•</span>
+                        <span className="meta-item meta-hours">
+                          <IconClock size={14} />
+                          <span>{local.horario}</span>
+                        </span>
+                      </div>
 
-                    <div className="pillars-summary" aria-label="Médias nos quatro pilares">
-                      {PILLARS.map((pillar) => {
-                        const pData = avg.pillars[pillar.key];
-                        return (
-                          <div key={pillar.key} className="pillar-mini-box">
-                            <span className="pillar-mini-label">{pillar.shortLabel}</span>
-                            <strong
-                              className={`pillar-mini-score ${
-                                pData.value === null ? 'is-empty' : ''
-                              }`}
-                            >
-                              {pData.formatted}
-                            </strong>
-                          </div>
-                        );
-                      })}
-                    </div>
+                      <div className="tag-list tag-list-compact" aria-label="Destaques">
+                        {visibleTags.map((tag) => (
+                          <span key={tag} className="tag-pill">
+                            {tag}
+                          </span>
+                        ))}
+                        {extraTagsCount > 0 && (
+                          <span className="tag-pill tag-pill-more">+{extraTagsCount}</span>
+                        )}
+                      </div>
 
-                    <div className="place-card-footer">
-                      <span className="review-count-note">
-                        {avg.total === 0
-                          ? 'Sem avaliações'
-                          : `${avg.total} ${avg.total === 1 ? 'avaliação' : 'avaliações'}`}
-                      </span>
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() => onOpenDetail(local.id)}
-                      >
-                        Ver detalhes
-                      </button>
+                      <div className="pillars-summary" aria-label="Notas por critério">
+                        {PILLARS.map((pillar) => {
+                          const pData = avg.pillars[pillar.key];
+                          return (
+                            <div key={pillar.key} className="pillar-mini-box">
+                              <span className="pillar-mini-label">{pillar.shortLabel}</span>
+                              <strong
+                                className={`pillar-mini-score ${
+                                  pData.value === null ? 'is-empty' : ''
+                                }`}
+                              >
+                                {pData.shortFormatted}
+                              </strong>
+                            </div>
+                          );
+                        })}
+                      </div>
                     </div>
                   </article>
                 );

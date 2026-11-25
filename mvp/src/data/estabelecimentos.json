@@ -3,10 +3,11 @@
     "id": "espaco-cultural-jose-lins-do-rego",
     "nome": "Espaço Cultural José Lins do Rêgo",
     "categoria": "Parque / Lazer / Cultura",
-    "tipoOrigem": "Espaço Público Real",
+    "tipoOrigem": "Espaço Público",
     "bairro": "Tambauzinho",
     "endereco": "Rua Abdias Gomes de Almeida, 800 — Tambauzinho, João Pessoa/PB",
-    "horario": "Seg a Dom: 08h00 às 21h00",
+    "horario": "Seg a Dom: 06h00 às 22h00",
+    "imagem": "espaco-cultural.jpg",
     "descricao": "Complexo cultural público com amplas rampas internas, planetário, biblioteca, gibiteca e áreas cobertas planas para circulação segura de famílias, idosos e cadeirantes.",
     "tags": {
       "infantil": ["Área Infantil Segura", "Trocador Acessível"],
@@ -17,7 +18,7 @@
     "vitrine": [
       {
         "nome": "Planetário e Biblioteca Juarez da Gama Batista",
-        "descricao": "Visitação cultural e educativa com programação regular para crianças e escolas.",
+        "descricao": "Visitação cultural e educativa com programação regular para crianças e famílias.",
         "faixaPreco": "Entrada gratuita / sob consulta",
         "favoritoDaCasa": true
       },
@@ -59,10 +60,11 @@
     "id": "estacao-cabo-branco",
     "nome": "Estação Cabo Branco - Ciência, Cultura e Artes",
     "categoria": "Parque / Lazer / Cultura",
-    "tipoOrigem": "Espaço Público Real",
+    "tipoOrigem": "Espaço Público",
     "bairro": "Altiplano Cabo Branco",
     "endereco": "Av. João Cirilo da Silva, s/n — Altiplano Cabo Branco, João Pessoa/PB",
-    "horario": "Ter a Sex: 09h00 às 18h00 | Sáb e Dom: 10h00 às 19h00",
+    "horario": "Ter a Sex: 09h00 às 18h00 | Sáb e Dom: 10h00 às 18h00",
+    "imagem": "estacao-cabo-branco.jpg",
     "descricao": "Centro público de ciência, cultura e artes projetado com rampas acessíveis, elevadores, mirante panorâmico e exposições interativas para todas as idades.",
     "tags": {
       "infantil": ["Área Infantil Segura", "Trocador Acessível"],
@@ -108,10 +110,11 @@
     "id": "centro-cultural-sao-francisco",
     "nome": "Centro Cultural São Francisco",
     "categoria": "Parque / Lazer / Cultura",
-    "tipoOrigem": "Espaço Público Real",
+    "tipoOrigem": "Espaço Público",
     "bairro": "Centro",
     "endereco": "Praça São Francisco, s/n — Centro, João Pessoa/PB",
-    "horario": "Ter a Sáb: 09h00 às 16h00",
+    "horario": "Ter a Sáb: 09h30 às 17h00 | Dom: 09h00 às 15h00",
+    "imagem": "centro-cultural-sao-francisco.jpg",
     "descricao": "Conjunto arquitetônico histórico barroco com visitas guiadas educativas, pátios silenciosos e bancos sombreados para contemplação cultural tranquila.",
     "tags": {
       "infantil": ["Área Infantil Segura"],
@@ -123,7 +126,7 @@
       {
         "nome": "Visita Guiada ao Conjunto Barroco",
         "descricao": "Percurso histórico pelo claustro, igreja e jardins internos com mediação cultural.",
-        "faixaPreco": "Entrada sob consulta (isenções legais)",
+        "faixaPreco": "Sob consulta (isenções legais)",
         "favoritoDaCasa": true
       },
       {
@@ -151,10 +154,11 @@
     "id": "parque-solon-de-lucena",
     "nome": "Parque Sólon de Lucena",
     "categoria": "Parque / Lazer / Cultura",
-    "tipoOrigem": "Espaço Público Real",
+    "tipoOrigem": "Espaço Público",
     "bairro": "Centro",
     "endereco": "Av. Parque Sólon de Lucena — Centro, João Pessoa/PB",
-    "horario": "Aberto diariamente: 05h00 às 22h00",
+    "horario": "Diariamente: 05h00 às 22h00",
+    "imagem": "parque-solon-de-lucena.jpg",
     "descricao": "Cartão-postal revitalizado no coração da cidade com anel de caminhada plano, ciclovia, pista de skate, praças infantis e passeio aberto para tutores com cães na guia.",
     "tags": {
       "infantil": ["Área Infantil Segura"],
@@ -194,10 +198,11 @@
     "id": "jardim-botanico-benjamin-maranhao",
     "nome": "Jardim Botânico Benjamin Maranhão",
     "categoria": "Parque / Lazer / Cultura",
-    "tipoOrigem": "Espaço Público Real",
+    "tipoOrigem": "Espaço Público",
     "bairro": "Torre",
     "endereco": "Av. Dom Pedro II, s/n — Torre, João Pessoa/PB",
     "horario": "Ter a Sáb: 08h00 às 16h30",
+    "imagem": "jardim-botanico.jpg",
     "descricao": "Unidade de conservação de Mata Atlântica com trilhas monitoradas, som natural da floresta e ambiente de baixo ruído urbano. Não permite entrada de animais domésticos para proteção da fauna silvestre.",
     "tags": {
       "infantil": ["Área Infantil Segura"],
@@ -237,10 +242,11 @@
     "id": "parque-zoobotanico-bica",
     "nome": "Parque Zoobotânico Arruda Câmara - Bica",
     "categoria": "Parque / Lazer / Cultura",
-    "tipoOrigem": "Espaço Público Real",
+    "tipoOrigem": "Espaço Público",
     "bairro": "Baixo Roger",
     "endereco": "Av. Gouveia Nóbrega, s/n — Baixo Roger, João Pessoa/PB",
-    "horario": "Qua a Dom: 08h00 às 17h00",
+    "horario": "Qua a Dom: 09h00 às 16h00",
+    "imagem": "parque-bica.jpg",
     "descricao": "Parque público tradicional voltado ao lazer familiar e educação ambiental, com ampla área arborizada, parquinhos infantis, trenzinho interno e espaços para piquenique. Não permite pets por proteção à fauna silvestre.",
     "tags": {
       "infantil": ["Área Infantil Segura", "Trocador Acessível", "Espaço Kids Monitorado"],
@@ -280,10 +286,11 @@
     "id": "parque-linear-parahyba",
     "nome": "Parque Linear Parahyba",
     "categoria": "Parque / Lazer / Cultura",
-    "tipoOrigem": "Espaço Público Real",
+    "tipoOrigem": "Espaço Público",
     "bairro": "Jardim Oceania",
     "endereco": "Av. Governador Argemiro de Figueiredo — Jardim Oceania, João Pessoa/PB",
     "horario": "Aberto 24 horas",
+    "imagem": "parque-linear-parahyba.jpg",
     "descricao": "Parque linear comunitário no Bessa/Jardim Oceania com pistas planas de caminhada, espaços de convivência infantil, área aberta para cães de todos os portes e acesso contínuo 24h.",
     "tags": {
       "infantil": ["Área Infantil Segura"],
@@ -327,6 +334,7 @@
     "bairro": "Manaíra",
     "endereco": "Av. Edson Ramalho, 420 — Manaíra, João Pessoa/PB",
     "horario": "Ter a Dom: 11h30 às 22h00",
+    "imagem": "bistro-jardim-da-orla.jpg",
     "descricao": "Restaurante familiar térreo com circulação ampla entre mesas, salão acusticamente tratado sem música alta, espaço kids monitorado e varanda coberta liberada para cães de pequeno e médio porte.",
     "tags": {
       "infantil": ["Espaço Kids Monitorado", "Trocador Acessível", "Cadeirão Infantil", "Área Infantil Segura"],
@@ -338,19 +346,19 @@
       {
         "nome": "Prato Executivo Família",
         "descricao": "Serve até 3 pessoas com acompanhamentos frescos e opção sem glúten.",
-        "faixaPreco": "Faixa informativa: R$ 89,00",
+        "faixaPreco": "R$ 89,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Menu Kids Nutritivo",
         "descricao": "Porção infantil balanceada servida com talheres seguros sem ponta.",
-        "faixaPreco": "Faixa informativa: R$ 32,00",
+        "faixaPreco": "R$ 32,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Biscoito Natural Pet",
         "descricao": "Petisco artesanal sem conservantes servido com água filtrada na varanda.",
-        "faixaPreco": "Faixa informativa: R$ 12,00",
+        "faixaPreco": "R$ 12,00",
         "favoritoDaCasa": false
       }
     ],
@@ -383,6 +391,7 @@
     "bairro": "Bessa",
     "endereco": "Rua Fernando Luiz Henriques dos Santos, 715 — Bessa, João Pessoa/PB",
     "horario": "Qua a Dom: 11h30 às 23h00",
+    "imagem": "quintal-bessa-familia.jpg",
     "descricao": "Restaurante voltado a famílias com crianças e tutores de pets, oferecendo amplo espaço kids cercado com monitoria, área pet coberta para todos os portes e banheiro adaptado com trocador.",
     "tags": {
       "infantil": ["Espaço Kids Monitorado", "Trocador Acessível", "Cadeirão Infantil", "Área Infantil Segura"],
@@ -394,19 +403,19 @@
       {
         "nome": "Moqueca da Família",
         "descricao": "Porção generosa para compartilhar com arroz branco e pirão suave.",
-        "faixaPreco": "Faixa informativa: R$ 118,00",
+        "faixaPreco": "R$ 118,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Combo Infantil do Quintal",
         "descricao": "Filé grelhado, purê caseiro e suco natural sem açúcar adicionado.",
-        "faixaPreco": "Faixa informativa: R$ 34,00",
+        "faixaPreco": "R$ 34,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Grelhado Leve Sênior",
         "descricao": "Peixe assado com legumes macios e tempero suave.",
-        "faixaPreco": "Faixa informativa: R$ 48,00",
+        "faixaPreco": "R$ 48,00",
         "favoritoDaCasa": false
       }
     ],
@@ -439,6 +448,7 @@
     "bairro": "Cabo Branco",
     "endereco": "Av. Cabo Branco, 1890 — Cabo Branco, João Pessoa/PB",
     "horario": "Ter a Dom: 12h00 às 21h30",
+    "imagem": "casa-calma-gastronomia.jpg",
     "descricao": "Restaurante planejado com foco em acessibilidade física e conforto sensorial: piso tátil na recepção, iluminação indireta suave, ausência de música ao vivo e cardápio com pictogramas e letras ampliadas.",
     "tags": {
       "infantil": ["Trocador Acessível", "Cadeirão Infantil"],
@@ -450,19 +460,19 @@
       {
         "nome": "Risoto de Camarão Suave",
         "descricao": "Preparo artesanal com opção sem lactose e cardápio ilustrado.",
-        "faixaPreco": "Faixa informativa: R$ 68,00",
+        "faixaPreco": "R$ 68,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Cardápio Sensorial Personalizável",
         "descricao": "Ingredientes servidos separadamente no prato para maior previsibilidade alimentar.",
-        "faixaPreco": "Faixa informativa: R$ 42,00",
+        "faixaPreco": "R$ 42,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Suco Natural da Estação",
         "descricao": "Frutas regionais servidas em copo estável com opção de canudo reutilizável.",
-        "faixaPreco": "Faixa informativa: R$ 14,00",
+        "faixaPreco": "R$ 14,00",
         "favoritoDaCasa": false
       }
     ],
@@ -495,6 +505,7 @@
     "bairro": "Tambaú",
     "endereco": "Av. Nossa Senhora dos Navegantes, 310 — Tambaú, João Pessoa/PB",
     "horario": "Seg a Dom: 07h30 às 20h00",
+    "imagem": "cafeteria-acolher-tambau.jpg",
     "descricao": "Cafeteria familiar inclusiva com rampa de acesso na entrada principal, cadeirões infantis, mesas térreas confortáveis e varanda coberta preparada para cães de pequeno e médio porte.",
     "tags": {
       "infantil": ["Cadeirão Infantil", "Trocador Acessível"],
@@ -506,13 +517,13 @@
       {
         "nome": "Café Coado Especial e Tapioca Regional",
         "descricao": "Combinação clássica da casa preparada na hora com opções sem glúten.",
-        "faixaPreco": "Faixa informativa: R$ 28,00",
+        "faixaPreco": "R$ 28,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Bolo Caseiro de Macaxeira",
         "descricao": "Receita tradicional servida morna em fatia individual ou família.",
-        "faixaPreco": "Faixa informativa: R$ 16,00",
+        "faixaPreco": "R$ 16,00",
         "favoritoDaCasa": true
       },
       {
@@ -532,7 +543,7 @@
         "autor": "Visitante de Tambaú",
         "data": "2026-11-16",
         "pilares": { "infantil": 4, "acessibilidade": 5, "pet": 5, "atendimento": 5 },
-        "comentario": "Varanda protegida do sol e da chuva, equipe cordial e confirmação rápida de mesa térrea pelo WhatsApp."
+        "comentario": "Varanda protegida do sol e da chuva, equipe cordial e confirmação de mesa térrea pelo WhatsApp."
       }
     ]
   },
@@ -544,6 +555,7 @@
     "bairro": "Bancários",
     "endereco": "Av. Sérgio Guerra, 640 — Bancários, João Pessoa/PB",
     "horario": "Seg a Dom: 06h00 às 21h00",
+    "imagem": "padaria-sabor-dos-bancarios.jpg",
     "descricao": "Padaria de bairro tradicional nos Bancários com salão amplo no térreo, acesso nivelado para carrinhos de bebê e cadeiras de rodas, além de cadeirões e espaço externo coberto para pets.",
     "tags": {
       "infantil": ["Cadeirão Infantil", "Área Infantil Segura"],
@@ -555,13 +567,13 @@
       {
         "nome": "Café da Manhã Regional Completo",
         "descricao": "Cuscuz, ovos mexidos, raízes cozidas, frutas e café coado.",
-        "faixaPreco": "Faixa informativa: R$ 35,00",
+        "faixaPreco": "R$ 35,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Pão de Queijo Artesanal",
         "descricao": "Fornadas contínuas ao longo da manhã e da tarde.",
-        "faixaPreco": "Faixa informativa: R$ 12,00",
+        "faixaPreco": "R$ 12,00",
         "favoritoDaCasa": false
       }
     ],
@@ -587,6 +599,7 @@
     "bairro": "Bessa",
     "endereco": "Av. Afonso Pena, 520 — Bessa, João Pessoa/PB",
     "horario": "Ter a Dom: 11h30 às 22h30",
+    "imagem": "cantina-brisa-do-bessa.jpg",
     "descricao": "Cantina de massas frescas próxima à orla do Bessa com pátio coberto amplo para cães de pequeno, médio e grande porte, trocador familiar e acesso nivelado.",
     "tags": {
       "infantil": ["Trocador Acessível", "Cadeirão Infantil"],
@@ -598,13 +611,13 @@
       {
         "nome": "Talharim Artesanal ao Molho Pomodoro",
         "descricao": "Massa fresca produzida diariamente com opção de porção família.",
-        "faixaPreco": "Faixa informativa: R$ 56,00",
+        "faixaPreco": "R$ 56,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Lasanha Bolonhesa da Cantina",
         "descricao": "Porção individual ou para duas pessoas assada em forno a lenha.",
-        "faixaPreco": "Faixa informativa: R$ 64,00",
+        "faixaPreco": "R$ 64,00",
         "favoritoDaCasa": true
       }
     ],
@@ -630,6 +643,7 @@
     "bairro": "Manaíra",
     "endereco": "Rua Manoel Arruda Cavalcante, 215 — Manaíra, João Pessoa/PB",
     "horario": "Seg a Sáb: 09h00 às 20h00",
+    "imagem": "cafe-silencio-e-leitura.jpg",
     "descricao": "Cafeteria projetada especialmente para conforto sensorial e leitura: isolamento acústico, iluminação quente dimerizável, cabines reservadas e comunicação visual clara para pessoas neurodivergentes e idosos.",
     "tags": {
       "infantil": ["Cadeirão Infantil"],
@@ -641,13 +655,13 @@
       {
         "nome": "Chá Calmante de Camomila e Capim-Santo",
         "descricao": "Infusão natural servida em xícara térmica sem excesso de aroma artificial.",
-        "faixaPreco": "Faixa informativa: R$ 15,00",
+        "faixaPreco": "R$ 15,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Tostex Artesanal e Suco Natural",
         "descricao": "Opções simples e previsíveis montadas conforme preferência do cliente.",
-        "faixaPreco": "Faixa informativa: R$ 26,00",
+        "faixaPreco": "R$ 26,00",
         "favoritoDaCasa": true
       }
     ],
@@ -673,6 +687,7 @@
     "bairro": "Bancários",
     "endereco": "Rua Bancário Waldemar de Mesquita Accioly, 180 — Bancários, João Pessoa/PB",
     "horario": "Ter a Dom: 09h00 às 19h00",
+    "imagem": "espaco-brincar-e-cuidar.jpg",
     "descricao": "Espaço de recreação infantil inclusiva nos Bancários com piso emborrachado antiderrapante, sala de descompressão sensorial, monitores capacitados e área de espera confortável para pais e avós.",
     "tags": {
       "infantil": ["Espaço Kids Monitorado", "Trocador Acessível", "Cadeirão Infantil", "Área Infantil Segura"],
@@ -684,13 +699,13 @@
       {
         "nome": "Hora Livre no Circuito Brincar Inclusivo",
         "descricao": "Brincadeiras livres com acompanhamento de recreadores treinados.",
-        "faixaPreco": "Faixa informativa: R$ 35,00 / hora",
+        "faixaPreco": "R$ 35,00 / hora",
         "favoritoDaCasa": true
       },
       {
         "nome": "Oficina Sensorial de Sábado",
         "descricao": "Atividades lúdicas em grupos reduzidos com agendamento via WhatsApp.",
-        "faixaPreco": "Faixa informativa: R$ 45,00 / sessão",
+        "faixaPreco": "R$ 45,00 / sessão",
         "favoritoDaCasa": true
       }
     ],
@@ -716,6 +731,7 @@
     "bairro": "Cabo Branco",
     "endereco": "Rua Antônio Lira, 95 — Cabo Branco, João Pessoa/PB",
     "horario": "Qua a Dom: 11h30 às 21h00",
+    "imagem": "recanto-verde-cabo-branco.jpg",
     "descricao": "Restaurante recém-inaugurado no Cabo Branco com jardim sombreado, rampa de acesso, espaço infantil cercado e varanda coberta pet friendly. Ainda aguardando as primeiras avaliações da comunidade.",
     "tags": {
       "infantil": ["Trocador Acessível", "Cadeirão Infantil", "Área Infantil Segura"],
@@ -727,13 +743,13 @@
       {
         "nome": "Peixe Grelhado com Legumes da Horta",
         "descricao": "Prato leve com ingredientes frescos servidos em área ventilada.",
-        "faixaPreco": "Faixa informativa: R$ 58,00",
+        "faixaPreco": "R$ 58,00",
         "favoritoDaCasa": true
       },
       {
         "nome": "Pratinho Infantil Recanto",
         "descricao": "Arroz, feijão caseiro, frango em cubos e legumes no vapor.",
-        "faixaPreco": "Faixa informativa: R$ 29,00",
+        "faixaPreco": "R$ 29,00",
         "favoritoDaCasa": false
       }
     ],

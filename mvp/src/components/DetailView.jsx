@@ -1,4 +1,4 @@
-import { PILLARS, buildWhatsAppUrl, formatDateBR } from '../utils/helpers';
+import { PILLARS, buildWhatsAppUrl, formatDateBR, getImageUrl } from '../utils/helpers';
 import {
   IconArrowLeft,
   IconBookmark,
@@ -23,9 +23,9 @@ export default function DetailView({
     return (
       <section className="empty-state">
         <h1>Local não encontrado</h1>
-        <p>O estabelecimento selecionado não consta no catálogo atual.</p>
+        <p>O local selecionado não foi encontrado no catálogo.</p>
         <button type="button" className="btn btn-primary" onClick={onBack}>
-          Voltar à busca
+          Voltar
         </button>
       </section>
     );
@@ -37,116 +37,126 @@ export default function DetailView({
 
   const tagSections = [
     {
-      title: 'Estrutura Infantil (Crianças)',
+      title: 'Estrutura Infantil',
       items: local.tags?.infantil || [],
-      emptyText: 'Sem comodidades infantis específicas registradas.',
+      emptyText: 'Sem itens infantis específicos informados.',
     },
     {
-      title: 'Acessibilidade Física e Conforto (Idosos e PCD)',
+      title: 'Acessibilidade',
       items: local.tags?.acessibilidade || [],
-      emptyText: 'Sem tags de acessibilidade física registradas.',
+      emptyText: 'Sem itens de acessibilidade física informados.',
     },
     {
-      title: 'Conforto Sensorial e Neurodivergentes',
+      title: 'Conforto Sensorial',
       items: local.tags?.sensorial || [],
-      emptyText: 'Sem informações sensoriais específicas registradas.',
+      emptyText: 'Sem informações sensoriais específicas.',
     },
     {
-      title: 'Receptividade Pet (Pet Friendly)',
+      title: 'Pet Friendly',
       items: local.tags?.pet || [],
       emptyText:
-        local.tipoOrigem === 'Espaço Público Real'
-          ? 'Não permite entrada de animais domésticos (proteção à fauna silvestre ou patrimônio).'
-          : 'Não há registro de área pet friendly neste local.',
+        local.tipoOrigem === 'Espaço Público'
+          ? 'Não permite animais domésticos (proteção à fauna silvestre ou patrimônio).'
+          : 'Não há informação de área pet neste local.',
     },
   ];
 
   return (
     <section aria-labelledby="detail-heading" className="detail-section">
       <div className="detail-nav-row">
-        <button type="button" className="btn btn-outline" onClick={onBack}>
+        <button type="button" className="btn btn-outline btn-sm" onClick={onBack}>
           <IconArrowLeft size={16} />
-          <span>Voltar à busca (preservar filtros)</span>
+          <span>Voltar</span>
         </button>
       </div>
 
-      <header className="detail-header-card">
-        <div className="badge-row">
-          <span
-            className={`badge ${
-              local.tipoOrigem === 'Espaço Público Real' ? 'badge-public' : 'badge-local'
-            }`}
-          >
-            {local.tipoOrigem}
-          </span>
-          <span className="badge badge-category">{local.categoria}</span>
+      <header className="detail-header-card detail-header-with-cover">
+        <div className="detail-cover-wrap">
+          <img
+            src={getImageUrl(local.imagem)}
+            alt={`Foto de capa de ${local.nome} no bairro ${local.bairro}`}
+            className="detail-cover-img"
+          />
         </div>
 
-        <h1 id="detail-heading" className="detail-title">
-          {local.nome}
-        </h1>
-
-        <div className="detail-meta-list">
-          <div className="meta-item">
-            <IconMapPin size={17} />
-            <span>{local.endereco}</span>
-          </div>
-          <div className="meta-item">
-            <IconClock size={17} />
-            <span>{local.horario}</span>
-          </div>
-        </div>
-
-        <p className="detail-description">{local.descricao}</p>
-
-        <div className="detail-primary-actions">
-          <button type="button" className="btn btn-primary" onClick={onOpenRatingModal}>
-            <IconStar size={17} filled />
-            <span>Avaliar nos 4 pilares</span>
-          </button>
-
-          <button
-            type="button"
-            className={`btn ${isSaved ? 'btn-saved' : 'btn-secondary'}`}
-            onClick={() => onOpenSaveModal(local)}
-          >
-            <IconBookmark size={17} filled={isSaved} />
-            <span>
-              {isSaved ? `Salvo em ${savedLists.length} lista(s)` : 'Salvar em favoritos'}
+        <div className="detail-header-content">
+          <div className="badge-row">
+            <span
+              className={`badge ${
+                local.tipoOrigem === 'Espaço Público' ? 'badge-public' : 'badge-local'
+              }`}
+            >
+              {local.tipoOrigem}
             </span>
-          </button>
+            <span className="badge badge-category">{local.categoria}</span>
+          </div>
 
-          {whatsappUrl && (
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-whatsapp"
-            >
-              <IconMessage size={17} />
-              <span>Contato via WhatsApp</span>
-              <IconExternalLink size={14} />
-            </a>
-          )}
+          <h1 id="detail-heading" className="detail-title">
+            {local.nome}
+          </h1>
 
-          {siteUrl && (
-            <a
-              href={siteUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn btn-outline"
+          <div className="detail-meta-list">
+            <div className="meta-item">
+              <IconMapPin size={17} />
+              <span>{local.endereco}</span>
+            </div>
+            <div className="meta-item">
+              <IconClock size={17} />
+              <span>{local.horario}</span>
+            </div>
+          </div>
+
+          <p className="detail-description">{local.descricao}</p>
+
+          <div className="detail-primary-actions">
+            <button type="button" className="btn btn-primary" onClick={onOpenRatingModal}>
+              <IconStar size={17} filled />
+              <span>Avaliar local</span>
+            </button>
+
+            <button
+              type="button"
+              className={`btn ${isSaved ? 'btn-saved' : 'btn-secondary'}`}
+              onClick={() => onOpenSaveModal(local)}
             >
-              <span>Site oficial</span>
-              <IconExternalLink size={14} />
-            </a>
-          )}
+              <IconBookmark size={17} filled={isSaved} />
+              <span>
+                {isSaved ? `Salvo em ${savedLists.length} lista(s)` : 'Salvar em favoritos'}
+              </span>
+            </button>
+
+            {whatsappUrl && (
+              <a
+                href={whatsappUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-whatsapp"
+              >
+                <IconMessage size={17} />
+                <span>WhatsApp</span>
+                <IconExternalLink size={14} />
+              </a>
+            )}
+
+            {siteUrl && (
+              <a
+                href={siteUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-outline"
+              >
+                <span>Site oficial</span>
+                <IconExternalLink size={14} />
+              </a>
+            )}
+          </div>
         </div>
       </header>
 
       <div className="detail-two-col">
         <article className="content-card" aria-labelledby="tags-heading">
           <h2 id="tags-heading" className="section-card-title">
-            Infraestrutura e Acolhimento Declarados
+            O que o local oferece
           </h2>
           <div className="tag-groups-stack">
             {tagSections.map((sec) => (
@@ -171,7 +181,7 @@ export default function DetailView({
         <article className="content-card" aria-labelledby="pillars-heading">
           <div className="card-title-row">
             <h2 id="pillars-heading" className="section-card-title">
-              Avaliação Multicritério (4 Pilares)
+              Avaliações
             </h2>
             <span className="pill-counter">
               {averages.total === 0
@@ -205,7 +215,7 @@ export default function DetailView({
                   <div
                     className="meter-track"
                     role="progressbar"
-                    aria-label={`Média do pilar ${pillar.label}`}
+                    aria-label={`Nota de ${pillar.label}`}
                     aria-valuemin={0}
                     aria-valuemax={5}
                     aria-valuenow={pData.value ?? 0}
@@ -219,29 +229,22 @@ export default function DetailView({
               );
             })}
           </div>
-
-          <p className="rule-note">
-            Cálculo objetivo por pilar (RD002): média aritmética simples arredondada para 1 casa
-            decimal. Quando não há registros, exibe-se &ldquo;Sem avaliações&rdquo;.
-          </p>
         </article>
       </div>
 
       <article className="content-card" aria-labelledby="vitrine-heading">
         <h2 id="vitrine-heading" className="section-card-title">
-          Vitrine Informativa de Produtos e Serviços
+          Cardápio e Destaques
         </h2>
 
         <div className="vitrine-grid">
           {(local.vitrine || []).map((item) => (
             <div key={item.nome} className="vitrine-card">
-              <div className="vitrine-card-top">
-                {item.favoritoDaCasa ? (
+              {item.favoritoDaCasa && (
+                <div className="vitrine-card-top">
                   <span className="badge badge-featured">Favorito da Casa</span>
-                ) : (
-                  <span className="badge badge-category">Item informativo</span>
-                )}
-              </div>
+                </div>
+              )}
               <h3>{item.nome}</h3>
               <p>{item.descricao}</p>
               <p className="vitrine-price">{item.faixaPreco}</p>
@@ -250,12 +253,10 @@ export default function DetailView({
         </div>
 
         <div className="info-banner" role="note">
-          <IconInfo size={18} />
+          <IconInfo size={17} />
           <p>
-            <strong>Aviso de vitrine informativa (RD003):</strong> o Family Place não realiza
-            pagamentos online, carrinho de compras, checkout financeiro, serviço próprio de delivery
-            nem avaliação individual por item do cardápio. Para reservas, dúvidas ou pedidos, utilize
-            diretamente os canais oficiais acima.
+            Valores e itens têm caráter informativo. Para reservas, pedidos ou dúvidas, entre em
+            contato diretamente com o local.
           </p>
         </div>
       </article>
@@ -265,17 +266,14 @@ export default function DetailView({
           <h2 id="reviews-heading" className="section-card-title">
             Comentários da Comunidade
           </h2>
-          <button type="button" className="btn btn-secondary" onClick={onOpenRatingModal}>
+          <button type="button" className="btn btn-secondary btn-sm" onClick={onOpenRatingModal}>
             Escrever avaliação
           </button>
         </div>
 
         {avaliacoes.length === 0 ? (
           <div className="empty-inline">
-            <p>
-              Este local ainda não possui avaliações comunitárias. Seja a primeira pessoa a avaliar
-              nos quatro pilares.
-            </p>
+            <p>Ainda não há avaliações para este local. Compartilhe como foi sua visita.</p>
           </div>
         ) : (
           <ol className="reviews-list">
@@ -296,7 +294,7 @@ export default function DetailView({
                   <p className="review-comment">{rev.comentario}</p>
                 ) : (
                   <p className="review-comment is-muted">
-                    Avaliação registrada sem comentário textual.
+                    Avaliação registrada sem comentário.
                   </p>
                 )}
               </li>

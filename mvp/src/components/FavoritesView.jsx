@@ -1,6 +1,6 @@
 import { useState } from 'react';
-import { PILLARS } from '../utils/helpers';
-import { IconEdit, IconMapPin, IconPlus, IconTrash } from './Icons';
+import { PILLARS, getImageUrl } from '../utils/helpers';
+import { IconClock, IconEdit, IconMapPin, IconPlus, IconTrash } from './Icons';
 
 export default function FavoritesView({
   lists,
@@ -67,6 +67,13 @@ export default function FavoritesView({
     setSelectedListId(remaining[0]?.id || '');
   };
 
+  const handleCardKeyDown = (event, placeId) => {
+    if (event.key === 'Enter' || event.key === ' ') {
+      event.preventDefault();
+      onOpenDetail(placeId);
+    }
+  };
+
   const savedPlaces = activeList
     ? activeList.locaisIds.map((id) => allPlacesById[id]).filter(Boolean)
     : [];
@@ -74,17 +81,14 @@ export default function FavoritesView({
   return (
     <section aria-labelledby="favorites-heading" className="favorites-section">
       <header className="page-header-block">
-        <h1 id="favorites-heading">Favoritos Organizados por Critério</h1>
-        <p>
-          Agrupe estabelecimentos e espaços de João Pessoa conforme a necessidade de cada passeio.
-          Um mesmo local pode aparecer em múltiplas listas simultaneamente.
-        </p>
+        <h1 id="favorites-heading">Meus Favoritos</h1>
+        <p>Organize seus locais preferidos em listas personalizadas para cada tipo de passeio.</p>
       </header>
 
       <form onSubmit={handleCreateSubmit} className="create-list-card" noValidate>
         <div className="create-list-fields">
           <label htmlFor="campo-nova-lista" className="create-list-label">
-            Criar nova lista de favoritos (2 a 60 caracteres)
+            Criar nova lista
           </label>
           <div className="inline-input-row">
             <input
@@ -96,7 +100,7 @@ export default function FavoritesView({
                 setNewListName(e.target.value);
                 if (createError) setCreateError('');
               }}
-              placeholder="Ex.: Melhores para ir com meu Avô, Locais com Baixo Ruído..."
+              placeholder="Ex.: Melhores para ir com meu Avô, Locais tranquilos..."
               className="text-input"
             />
             <button type="submit" className="btn btn-primary">
@@ -114,17 +118,15 @@ export default function FavoritesView({
 
       {lists.length === 0 ? (
         <div className="empty-state">
-          <h2>Você ainda não possui listas de favoritos</h2>
-          <p>
-            Crie uma lista acima ou explore os locais de João Pessoa para salvar suas recomendações.
-          </p>
+          <h2>Nenhuma lista criada</h2>
+          <p>Crie uma lista acima ou explore os locais disponíveis para salvar seus favoritos.</p>
           <button type="button" className="btn btn-primary" onClick={onGoExplore}>
-            Explorar locais em João Pessoa
+            Explorar locais
           </button>
         </div>
       ) : (
         <div className="favorites-layout">
-          <aside className="lists-sidebar" aria-label="Minhas listas de favoritos">
+          <aside className="lists-sidebar" aria-label="Minhas listas">
             <h2>Minhas listas ({lists.length})</h2>
             <ul className="lists-nav">
               {lists.map((list) => {
@@ -160,25 +162,25 @@ export default function FavoritesView({
                     <h2>{activeList.nome}</h2>
                     <p className="active-list-count">
                       {savedPlaces.length}{' '}
-                      {savedPlaces.length === 1 ? 'local salvo' : 'locais salvos'} nesta lista
+                      {savedPlaces.length === 1 ? 'local salvo' : 'locais salvos'}
                     </p>
                   </div>
 
                   <div className="active-list-actions">
-                    <button type="button" className="btn btn-outline" onClick={startRename}>
+                    <button type="button" className="btn btn-outline btn-sm" onClick={startRename}>
                       <IconEdit size={15} />
                       <span>Renomear</span>
                     </button>
                     <button
                       type="button"
-                      className="btn btn-danger-outline"
+                      className="btn btn-danger-outline btn-sm"
                       onClick={() => {
                         setConfirmingDeleteId(activeList.id);
                         setIsRenaming(false);
                       }}
                     >
                       <IconTrash size={15} />
-                      <span>Excluir lista</span>
+                      <span>Excluir</span>
                     </button>
                   </div>
                 </div>
@@ -198,12 +200,12 @@ export default function FavoritesView({
                         }}
                         className="text-input"
                       />
-                      <button type="submit" className="btn btn-primary">
-                        Salvar nome
+                      <button type="submit" className="btn btn-primary btn-sm">
+                        Salvar
                       </button>
                       <button
                         type="button"
-                        className="btn btn-outline"
+                        className="btn btn-outline btn-sm"
                         onClick={() => setIsRenaming(false)}
                       >
                         Cancelar
@@ -218,22 +220,26 @@ export default function FavoritesView({
                 )}
 
                 {confirmingDeleteId === activeList.id && (
-                  <div className="action-box action-box-danger" role="alertdialog" aria-labelledby="confirm-del-title">
+                  <div
+                    className="action-box action-box-danger"
+                    role="alertdialog"
+                    aria-labelledby="confirm-del-title"
+                  >
                     <p id="confirm-del-title">
-                      Confirmar exclusão definitiva da lista <strong>{activeList.nome}</strong>? Os
-                      locais permanecerão disponíveis no catálogo e em suas outras listas.
+                      Deseja excluir a lista <strong>{activeList.nome}</strong>? Os locais
+                      continuarão disponíveis nas demais listas.
                     </p>
                     <div className="confirm-buttons">
                       <button
                         type="button"
-                        className="btn btn-danger"
+                        className="btn btn-danger btn-sm"
                         onClick={() => handleConfirmDelete(activeList.id)}
                       >
                         Confirmar exclusão
                       </button>
                       <button
                         type="button"
-                        className="btn btn-outline"
+                        className="btn btn-outline btn-sm"
                         onClick={() => setConfirmingDeleteId(null)}
                       >
                         Cancelar
@@ -245,12 +251,9 @@ export default function FavoritesView({
                 {savedPlaces.length === 0 ? (
                   <div className="empty-state">
                     <h3>Esta lista ainda está vazia</h3>
-                    <p>
-                      Explore o catálogo de João Pessoa e utilize o comando &ldquo;Salvar&rdquo; em
-                      qualquer estabelecimento para adicioná-lo a esta lista.
-                    </p>
+                    <p>Explore os locais e salve seus preferidos nesta lista.</p>
                     <button type="button" className="btn btn-primary" onClick={onGoExplore}>
-                      Explorar estabelecimentos
+                      Explorar locais
                     </button>
                   </div>
                 ) : (
@@ -258,62 +261,75 @@ export default function FavoritesView({
                     {savedPlaces.map((local) => {
                       const avg = getAveragesForPlace(local);
                       return (
-                        <article key={local.id} className="place-card">
-                          <div className="badge-row">
-                            <span
-                              className={`badge ${
-                                local.tipoOrigem === 'Espaço Público Real'
-                                  ? 'badge-public'
-                                  : 'badge-local'
-                              }`}
-                            >
-                              {local.tipoOrigem}
-                            </span>
-                            <span className="badge badge-category">{local.categoria}</span>
-                          </div>
-
-                          <h3 className="place-title">{local.nome}</h3>
-
-                          <div className="place-meta">
-                            <span className="meta-item">
-                              <IconMapPin size={15} />
-                              <span>{local.bairro}, João Pessoa</span>
-                            </span>
-                          </div>
-
-                          <div className="pillars-summary">
-                            {PILLARS.map((pillar) => {
-                              const pData = avg.pillars[pillar.key];
-                              return (
-                                <div key={pillar.key} className="pillar-mini-box">
-                                  <span className="pillar-mini-label">{pillar.shortLabel}</span>
-                                  <strong
-                                    className={`pillar-mini-score ${
-                                      pData.value === null ? 'is-empty' : ''
-                                    }`}
-                                  >
-                                    {pData.formatted}
-                                  </strong>
-                                </div>
-                              );
-                            })}
-                          </div>
-
-                          <div className="place-card-footer">
+                        <article
+                          key={local.id}
+                          className="place-card is-clickable"
+                          role="link"
+                          tabIndex={0}
+                          aria-label={`Abrir detalhes de ${local.nome}`}
+                          onClick={() => onOpenDetail(local.id)}
+                          onKeyDown={(e) => handleCardKeyDown(e, local.id)}
+                        >
+                          <div className="card-media">
+                            <img
+                              src={getImageUrl(local.imagem)}
+                              alt={`Foto de ${local.nome} no bairro ${local.bairro}`}
+                              loading="lazy"
+                              className="card-cover-img"
+                            />
+                            <span className="card-category-overlay">{local.categoria}</span>
                             <button
                               type="button"
-                              className="btn btn-danger-outline"
-                              onClick={() => onRemovePlaceFromList(activeList.id, local.id)}
+                              className="card-remove-overlay"
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                onRemovePlaceFromList(activeList.id, local.id);
+                              }}
+                              onKeyDown={(e) => e.stopPropagation()}
+                              aria-label={`Remover ${local.nome} da lista ${activeList.nome}`}
                             >
-                              Remover desta lista
+                              <IconTrash size={15} />
+                              <span>Remover</span>
                             </button>
-                            <button
-                              type="button"
-                              className="btn btn-primary"
-                              onClick={() => onOpenDetail(local.id)}
-                            >
-                              Ver detalhes
-                            </button>
+                          </div>
+
+                          <div className="card-body">
+                            <div className="card-title-row">
+                              <h3 className="place-title">{local.nome}</h3>
+                              {local.tipoOrigem === 'Espaço Público' && (
+                                <span className="badge badge-public">Espaço Público</span>
+                              )}
+                            </div>
+
+                            <div className="place-meta-compact">
+                              <span className="meta-item">
+                                <IconMapPin size={14} />
+                                <span>{local.bairro}</span>
+                              </span>
+                              <span className="meta-sep" aria-hidden="true">•</span>
+                              <span className="meta-item meta-hours">
+                                <IconClock size={14} />
+                                <span>{local.horario}</span>
+                              </span>
+                            </div>
+
+                            <div className="pillars-summary">
+                              {PILLARS.map((pillar) => {
+                                const pData = avg.pillars[pillar.key];
+                                return (
+                                  <div key={pillar.key} className="pillar-mini-box">
+                                    <span className="pillar-mini-label">{pillar.shortLabel}</span>
+                                    <strong
+                                      className={`pillar-mini-score ${
+                                        pData.value === null ? 'is-empty' : ''
+                                      }`}
+                                    >
+                                      {pData.shortFormatted}
+                                    </strong>
+                                  </div>
+                                );
+                              })}
+                            </div>
                           </div>
                         </article>
                       );
