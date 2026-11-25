@@ -32,7 +32,7 @@ O escopo funcional do MVP abrange exclusivamente os **10 Requisitos Funcionais *
 | **RF005** | `H05` | `EP02` | 3 | `WF-02` | Vitrine informativa de produtos e serviços com faixas de preço e destaque visual "Favoritos da Casa", sem checkout nem nota por item. |
 | **RF006** | `H06` | `EP02` | 2 | `WF-02` | Links externos seguros (`rel="noopener noreferrer"`) para WhatsApp oficial (com mensagem contextualizada) e site institucional. |
 | **RF007** | `H07` | `EP03` | 5 | `WF-02` | Exibição das médias independentes dos quatro pilares (1 casa decimal ou `"Sem avaliações"` se `N = 0`) e comentários cronológicos (`RD002`). |
-| **RF008** | `H08` | `EP03` | 8 | `WF-03` | Formulário de avaliação exigindo notas de 1 a 5 nos quatro pilares, comentário até 500 caracteres, aviso LGPD (`RD001`), recálculo imediato e gravação em `localStorage`. |
+| **RF008** | `H08` | `EP03` | 8 | `WF-03` | Formulário de avaliação aceitando notas de 1 a 5 ou `"Não se aplica"` nos quatro pilares (ao menos 1 nota numérica), nome/apelido público obrigatório, comentário até 500 caracteres, aviso LGPD (`RD001`), recálculo imediato (`RD002`) e gravação em `localStorage`. |
 | **RF009** | `H09` | `EP04` | 3 | `WF-04` | Criação, renomeação e exclusão (com confirmação) de listas de favoritos nomeadas por critério no navegador (`NF006`). |
 | **RF010** | `H10` | `EP04` | 5 | `WF-04` | Inclusão e remoção de qualquer estabelecimento em uma ou mais listas simultaneamente e consulta agrupada com link para detalhes. |
 
@@ -73,8 +73,8 @@ O roteiro abaixo padroniza a validação comunitária (atividade `4.4` da EAP) e
    - Mostrar as quatro médias independentes dos pilares e a vitrine informativa destacando itens **"Favoritos da Casa"** com aviso de ausência de checkout/delivery (`RD003`);
    - Acionar o link externo de contato via WhatsApp oficial, confirmando a abertura segura em nova aba com mensagem contextualizada.
 3. **Etapa 3 — Avaliação Multicritério nos Quatro Pilares (`WF-03` | `RF008`, `RD001`, `RD002`):**
-   - Abrir o formulário de avaliação, tentar submeter sem preencher todos os pilares para demonstrar a validação obrigatória;
-   - Selecionar notas de 1 a 5 estrelas para cada um dos quatro pilares, inserir comentário breve respeitando o aviso LGPD e enviar;
+   - Abrir o formulário de avaliação, tentar submeter sem preencher os pilares ou sem nome/apelido público para demonstrar a validação obrigatória;
+   - Selecionar notas de 1 a 5 estrelas (ou `"Não se aplica"` nos critérios não vivenciados, mantendo ao menos 1 nota numérica), informar nome ou apelido público, inserir comentário breve respeitando o aviso LGPD e enviar;
    - Evidenciar o recálculo imediato das médias (`RD002`), o surgimento do comentário no topo e sua preservação após recarregamento da página (`NF006`).
 4. **Etapa 4 — Favoritos Organizados por Critério (`WF-04` | `RF009`, `RF010`):**
    - Criar uma nova lista temática (ex.: *"Melhores para ir com meu Avô"* ou *"Locais com Baixo Ruído"*), adicionar dois estabelecimentos (incluindo um local em duas listas simultâneas) e renomear a lista;

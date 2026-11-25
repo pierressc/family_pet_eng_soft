@@ -741,8 +741,8 @@ Os Requisitos de Usuário expressam, em linguagem de negócio orientada aos perf
 - **Nome:** Submissão de avaliação multicritério nos quatro pilares
 - **RU de Origem:** `RU03` (Objetivo SMART: `OBJ2`)
 - **Prioridade MoSCoW:** Must (Essencial — MVP)
-- **Descrição:** O sistema **deve** permitir ao cliente registrar uma nova avaliação para um estabelecimento informando obrigatoriamente uma nota inteira de 1 a 5 estrelas para cada um dos quatro pilares, apelido público opcional (padrão `"Visitante Anônimo"`) e comentário textual opcional de até 500 caracteres, bloqueando o envio caso falte nota em qualquer pilar e recalculando imediatamente as médias conforme `RD002`.
-- **Entradas / Pré-condições:** Página detalhada do estabelecimento aberta (`RF004`); quatro notas inteiras válidas no intervalo `[1, 5]`; apelido opcional e comentário com até 500 caracteres.
+- **Descrição:** O sistema **deve** permitir ao cliente registrar uma nova avaliação para um estabelecimento atribuindo, para cada um dos quatro pilares, uma nota inteira de 1 a 5 estrelas ou a marcação `"Não se aplica"` (exigindo nota numérica em pelo menos 1 pilar), além de informar obrigatoriamente um nome ou apelido público de exibição (mínimo de 2 caracteres, sem coleta de dados sensíveis conforme `RD001`) e comentário textual opcional de até 500 caracteres, bloqueando o envio incompleto e recalculando imediatamente as médias conforme `RD002`.
+- **Entradas / Pré-condições:** Página detalhada do estabelecimento aberta (`RF004`); marcação dos quatro pilares com nota inteira em `[1, 5]` ou `"Não se aplica"` (com ao menos 1 pilar numérico); nome ou apelido público de 2 a 60 caracteres; comentário opcional de até 500 caracteres.
 - **Saídas / Pós-condições:** Registro da avaliação no armazenamento local do navegador (`NF006`), recálculo imediato das médias dos quatro pilares, exibição da nova avaliação no topo da lista de comentários e confirmação visual ao usuário.
 
 ##### RF009 — Criação, renomeação e exclusão de listas de favoritos por critério
@@ -850,8 +850,8 @@ Todos os Requisitos Não Funcionais são obrigatórios (**deve**) e definidos co
 
 | ID | Nome da Regra | Especificação Formal da Regra de Domínio | Requisitos Impactados |
 | :--- | :--- | :--- | :--- |
-| **RD001** | Conformidade com a LGPD (Lei nº 13.709/2018) | Toda coleta, exibição ou tratamento de informações de usuários em pesquisas, cadastros e avaliações **deve** cumprir os princípios da Lei Geral de Proteção de Dados (Lei nº 13.709/2018): consentimento explícito, minimização de dados, proibição de exposição pública de dados pessoais sensíveis (como diagnóstico médico, CPF, telefone pessoal ou endereço residencial) e anonimização nos relatórios comunitários. | `RF008`, `RF011`, `RF014`, `NF006` |
-| **RD002** | Fórmula Objetiva de Cálculo das Médias nos Quatro Pilares | Para cada estabelecimento e para cada pilar $p \in \{1, 2, 3, 4\}$, a média exibida **deve** ser calculada como a média aritmética simples das $N$ notas inteiras válidas $n_{i,p} \in \{1, 2, 3, 4, 5\}$ registradas para aquele pilar, arredondada para **1 casa decimal**: $\text{Média}_p = \frac{1}{N}\sum_{i=1}^{N} n_{i,p}$ quando $N \ge 1$. Quando $N = 0$, o sistema **deve** exibir o texto `"Sem avaliações"` em substituição ao valor numérico, vedando a exibição de `0,0`. | `RF001`, `RF007`, `RF008` |
+| **RD001** | Conformidade com a LGPD (Lei nº 13.709/2018) | Toda coleta, exibição ou tratamento de informações de usuários em pesquisas, cadastros e avaliações **deve** cumprir os princípios da Lei Geral de Proteção de Dados (Lei nº 13.709/2018): consentimento explícito, minimização de dados, proibição de exposição pública ou coleta de dados pessoais sensíveis nas avaliações (como e-mail, diagnóstico médico, CPF, telefone pessoal ou endereço residencial — exibindo apenas o nome ou apelido público informado) e anonimização nos relatórios comunitários. | `RF008`, `RF011`, `RF014`, `NF006` |
+| **RD002** | Fórmula Objetiva de Cálculo das Médias nos Quatro Pilares | Para cada estabelecimento e para cada pilar $p \in \{1, 2, 3, 4\}$, a média exibida **deve** ser calculada como a média aritmética simples apenas das $N_p$ avaliações com nota inteira válida $n_{i,p} \in \{1, 2, 3, 4, 5\}$ registradas para aquele pilar, desconsiderando do denominador as marcações `"Não se aplica"`, arredondada para **1 casa decimal**: $\text{Média}_p = \frac{1}{N_p}\sum_{i=1}^{N_p} n_{i,p}$ quando $N_p \ge 1$. Quando o estabelecimento possuir 0 avaliações no total, o sistema **deve** exibir `"Sem avaliações"`; quando possuir avaliações mas $N_p = 0$ no pilar específico, **deve** exibir `"Não se aplica"` (ou `"N/A"` em visualização compacta), vedando a exibição de `0,0`. | `RF001`, `RF007`, `RF008` |
 | **RD003** | Não Intermediação Financeira e Vitrine Informativa | A plataforma **deve** operar exclusivamente como diretório comunitário informativo em João Pessoa (PB), proibindo cobranças, comissões, pagamentos online, carrinho de compras, delivery próprio e avaliações individuais por item do cardápio. Os preços constantes na vitrine possuem caráter exclusivamente informativo e toda negociação comercial ocorre fora da plataforma pelos canais oficiais do estabelecimento. | `RF005`, `RF006`, `RF013`, `RF016` |
 
 ---
@@ -1139,11 +1139,11 @@ Todas as histórias seguem estritamente o formato **"Como [persona], eu quero [i
 ##### H08 — Registro de avaliação multicritério nos quatro pilares
 - **ID:** `H08` | **Epic:** `EP03` | **Prioridade:** Must | **Pontos (Fibonacci):** `8`
 - **Requisitos Vinculados:** `RF008`, `NF005`, `NF006`, `RD001`, `RD002`
-- **Enunciado:** Como Rafael Medeiros (tutor de cães), eu quero atribuir notas de 1 a 5 estrelas para cada um dos quatro pilares acompanhadas de um comentário opcional sobre minha visita, para que minha experiência atualize imediatamente as médias do estabelecimento e ajude outros moradores de João Pessoa.
+- **Enunciado:** Como Rafael Medeiros (tutor de cães), eu quero atribuir notas de 1 a 5 estrelas para cada um dos quatro pilares ou indicar que um critério não se aplica, identificando meu nome público e um comentário opcional sobre minha visita, para que minha experiência atualize imediatamente as médias do estabelecimento e ajude outros moradores de João Pessoa.
 - **Critérios de Aceite:**
-  1. O envio exige seleção obrigatória de nota inteira entre 1 e 5 para todos os quatro pilares, bloqueando submissão incompleta com mensagem explicativa.
-  2. O comentário textual aceita até 500 caracteres e exibe aviso de privacidade proibindo exposição de dados pessoais sensíveis (`RD001`).
-  3. Após o envio, as quatro médias são recalculadas imediatamente (`RD002`), o comentário aparece no topo da listagem e o registro permanece gravado após recarregamento da página (`NF006`).
+  1. Cada um dos quatro pilares aceita nota inteira entre 1 e 5 ou a opção `"Não se aplica"`, exigindo ao menos 1 pilar com nota numérica e nome ou apelido público com mínimo de 2 caracteres, bloqueando submissão incompleta com mensagem explicativa.
+  2. O comentário textual aceita até 500 caracteres e exibe aviso de privacidade informando que nenhum dado sensível (como e-mail ou documentos) é coletado (`RD001`).
+  3. Após o envio, as quatro médias são recalculadas imediatamente desconsiderando `"Não se aplica"` do denominador (`RD002`), o comentário aparece no topo da listagem e o registro permanece gravado após recarregamento da página (`NF006`).
   4. Usuários em validação concluem a avaliação em até 60 segundos e no máximo 6 interações (`NF005`).
 
 ##### H09 — Criação e gestão de listas de favoritos por critério
@@ -1337,7 +1337,7 @@ O escopo funcional do MVP abrange exclusivamente os **10 Requisitos Funcionais *
 | **RF005** | `H05` | `EP02` | 3 | `WF-02` | Vitrine informativa de produtos e serviços com faixas de preço e destaque visual "Favoritos da Casa", sem checkout nem nota por item. |
 | **RF006** | `H06` | `EP02` | 2 | `WF-02` | Links externos seguros (`rel="noopener noreferrer"`) para WhatsApp oficial (com mensagem contextualizada) e site institucional. |
 | **RF007** | `H07` | `EP03` | 5 | `WF-02` | Exibição das médias independentes dos quatro pilares (1 casa decimal ou `"Sem avaliações"` se `N = 0`) e comentários cronológicos (`RD002`). |
-| **RF008** | `H08` | `EP03` | 8 | `WF-03` | Formulário de avaliação exigindo notas de 1 a 5 nos quatro pilares, comentário até 500 caracteres, aviso LGPD (`RD001`), recálculo imediato e gravação em `localStorage`. |
+| **RF008** | `H08` | `EP03` | 8 | `WF-03` | Formulário de avaliação aceitando notas de 1 a 5 ou `"Não se aplica"` nos quatro pilares (ao menos 1 nota numérica), nome/apelido público obrigatório, comentário até 500 caracteres, aviso LGPD (`RD001`), recálculo imediato (`RD002`) e gravação em `localStorage`. |
 | **RF009** | `H09` | `EP04` | 3 | `WF-04` | Criação, renomeação e exclusão (com confirmação) de listas de favoritos nomeadas por critério no navegador (`NF006`). |
 | **RF010** | `H10` | `EP04` | 5 | `WF-04` | Inclusão e remoção de qualquer estabelecimento em uma ou mais listas simultaneamente e consulta agrupada com link para detalhes. |
 
@@ -1378,8 +1378,8 @@ O roteiro abaixo padroniza a validação comunitária (atividade `4.4` da EAP) e
    - Mostrar as quatro médias independentes dos pilares e a vitrine informativa destacando itens **"Favoritos da Casa"** com aviso de ausência de checkout/delivery (`RD003`);
    - Acionar o link externo de contato via WhatsApp oficial, confirmando a abertura segura em nova aba com mensagem contextualizada.
 3. **Etapa 3 — Avaliação Multicritério nos Quatro Pilares (`WF-03` | `RF008`, `RD001`, `RD002`):**
-   - Abrir o formulário de avaliação, tentar submeter sem preencher todos os pilares para demonstrar a validação obrigatória;
-   - Selecionar notas de 1 a 5 estrelas para cada um dos quatro pilares, inserir comentário breve respeitando o aviso LGPD e enviar;
+   - Abrir o formulário de avaliação, tentar submeter sem preencher os pilares ou sem nome/apelido público para demonstrar a validação obrigatória;
+   - Selecionar notas de 1 a 5 estrelas (ou `"Não se aplica"` nos critérios não vivenciados, mantendo ao menos 1 nota numérica), informar nome ou apelido público, inserir comentário breve respeitando o aviso LGPD e enviar;
    - Evidenciar o recálculo imediato das médias (`RD002`), o surgimento do comentário no topo e sua preservação após recarregamento da página (`NF006`).
 4. **Etapa 4 — Favoritos Organizados por Critério (`WF-04` | `RF009`, `RF010`):**
    - Criar uma nova lista temática (ex.: *"Melhores para ir com meu Avô"* ou *"Locais com Baixo Ruído"*), adicionar dois estabelecimentos (incluindo um local em duas listas simultâneas) e renomear a lista;

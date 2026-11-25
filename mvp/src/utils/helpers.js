@@ -107,15 +107,31 @@ export function calculatePillarAverages(avaliacoes) {
     if (total === 0) {
       result[pillar.key] = {
         value: null,
+        status: 'empty',
         formatted: 'Sem avaliações',
         shortFormatted: 'Sem aval.',
       };
+      continue;
+    }
+
+    const validScores = list
+      .map((item) => item.pilares?.[pillar.key])
+      .filter((v) => typeof v === 'number' && v >= 1 && v <= 5);
+
+    if (validScores.length === 0) {
+      result[pillar.key] = {
+        value: null,
+        status: 'na',
+        formatted: 'Não se aplica',
+        shortFormatted: 'N/A',
+      };
     } else {
-      const sum = list.reduce((acc, item) => acc + Number(item.pilares?.[pillar.key] || 0), 0);
-      const avg = Math.round((sum / total) * 10) / 10;
+      const sum = validScores.reduce((acc, v) => acc + v, 0);
+      const avg = Math.round((sum / validScores.length) * 10) / 10;
       const formatted = avg.toFixed(1).replace('.', ',');
       result[pillar.key] = {
         value: avg,
+        status: 'rated',
         formatted,
         shortFormatted: formatted,
       };

@@ -1219,6 +1219,11 @@ textarea {
   color: var(--text-secondary);
 }
 
+.review-pillar-pill.is-na {
+  border-style: dashed;
+  opacity: 0.88;
+}
+
 .review-comment {
   color: var(--text-primary);
 }
@@ -1434,11 +1439,32 @@ textarea {
   color: var(--star-active);
 }
 
-.star-current-label {
-  font-size: 0.88rem;
-  font-weight: 600;
+.na-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 6px 12px;
+  border: 1.5px solid var(--border-control);
+  border-radius: var(--radius-sm);
+  background: var(--bg-surface);
   color: var(--text-secondary);
-  margin-left: 4px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 2px;
+}
+
+.na-btn:hover {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+}
+
+.na-btn.is-active {
+  background: var(--brand-soft);
+  border-color: var(--brand);
+  color: var(--brand-text-soft);
+  font-weight: 700;
 }
 
 .form-field {

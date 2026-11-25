@@ -233,7 +233,7 @@
         "id": "av-jbbm-1",
         "autor": "Mãe dos Bancários",
         "data": "2026-11-14",
-        "pilares": { "infantil": 4, "acessibilidade": 4, "pet": 1, "atendimento": 5 },
+        "pilares": { "infantil": 4, "acessibilidade": 4, "pet": null, "atendimento": 5 },
         "comentario": "Ambiente extremamente calmo e sombreado, excelente para crianças com sensibilidade auditiva. Importante observar que não aceita pets por ser reserva de fauna silvestre."
       }
     ]
@@ -277,7 +277,7 @@
         "id": "av-bica-1",
         "autor": "Família Oliveira",
         "data": "2026-11-11",
-        "pilares": { "infantil": 5, "acessibilidade": 4, "pet": 1, "atendimento": 4 },
+        "pilares": { "infantil": 5, "acessibilidade": 4, "pet": null, "atendimento": 4 },
         "comentario": "Estrutura infantil excelente com áreas amplas para piquenique e trocador no bloco principal. Pets domésticos não são permitidos devido aos animais do parque."
       }
     ]

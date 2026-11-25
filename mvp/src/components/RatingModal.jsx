@@ -5,11 +5,12 @@ import { IconClose, IconShield, IconStar } from './Icons';
 const MAX_COMMENT = 500;
 
 export default function RatingModal({ local, onClose, onSubmit }) {
+  // undefined = não marcado | 1..5 = nota numérica | null = Não se aplica
   const [scores, setScores] = useState({
-    infantil: 0,
-    acessibilidade: 0,
-    pet: 0,
-    atendimento: 0,
+    infantil: undefined,
+    acessibilidade: undefined,
+    pet: undefined,
+    atendimento: undefined,
   });
   const [autor, setAutor] = useState('');
   const [comentario, setComentario] = useState('');
@@ -36,18 +37,37 @@ export default function RatingModal({ local, onClose, onSubmit }) {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    const missing = PILLARS.filter((p) => !scores[p.key] || scores[p.key] < 1 || scores[p.key] > 5);
-    if (missing.length > 0) {
+
+    const unmarked = PILLARS.filter((p) => scores[p.key] === undefined);
+    if (unmarked.length > 0) {
       setErrorMsg(
-        `Selecione uma nota de 1 a 5 estrelas para: ${missing.map((m) => m.label).join(', ')}.`
+        `Selecione uma nota de 1 a 5 ou "Não se aplica" para: ${unmarked
+          .map((m) => m.label)
+          .join(', ')}.`
       );
+      return;
+    }
+
+    const ratedCount = PILLARS.filter(
+      (p) => typeof scores[p.key] === 'number' && scores[p.key] >= 1 && scores[p.key] <= 5
+    ).length;
+    if (ratedCount === 0) {
+      setErrorMsg(
+        'Atribua uma nota de 1 a 5 estrelas em pelo menos um dos quatro critérios para enviar sua avaliação.'
+      );
+      return;
+    }
+
+    const trimmedAuthor = autor.trim();
+    if (trimmedAuthor.length < 2) {
+      setErrorMsg('Informe seu nome ou apelido público com pelo menos 2 caracteres.');
       return;
     }
 
     const todayIso = new Date().toISOString().slice(0, 10);
     onSubmit({
       id: `av-local-${Date.now()}`,
-      autor: autor.trim() || 'Visitante Anônimo',
+      autor: trimmedAuthor,
       data: todayIso,
       pilares: { ...scores },
       comentario: comentario.trim().slice(0, MAX_COMMENT),
@@ -86,7 +106,8 @@ export default function RatingModal({ local, onClose, onSubmit }) {
 
         <form onSubmit={handleSubmit} noValidate className="modal-body">
           <p className="form-lead">
-            Dê uma nota de 1 a 5 estrelas para cada um dos quatro critérios abaixo.
+            Avalie de 1 a 5 estrelas os critérios que você vivenciou ou marque &ldquo;Não se
+            aplica&rdquo; nos demais (é necessário atribuir nota em pelo menos um critério).
           </p>
 
           {errorMsg && (
@@ -98,16 +119,21 @@ export default function RatingModal({ local, onClose, onSubmit }) {
           <div className="rating-pillars-stack">
             {PILLARS.map((pillar) => {
               const current = scores[pillar.key];
+              const isNA = current === null;
+              const numericScore = typeof current === 'number' ? current : 0;
+
               return (
                 <fieldset key={pillar.key} className="rating-pillar-fieldset">
-                  <legend>
-                    {pillar.label} <span aria-hidden="true">*</span>
-                  </legend>
+                  <legend>{pillar.label}</legend>
                   <p className="pillar-help-text">{pillar.description}</p>
-                  <div className="star-rating-row" role="group" aria-label={`Nota para ${pillar.label}`}>
+                  <div
+                    className="star-rating-row"
+                    role="group"
+                    aria-label={`Avaliação para ${pillar.label}`}
+                  >
                     {[1, 2, 3, 4, 5].map((value) => {
-                      const active = value <= current;
-                      const selected = value === current;
+                      const active = numericScore > 0 && value <= numericScore;
+                      const selected = numericScore === value;
                       return (
                         <button
                           key={value}
@@ -122,9 +148,16 @@ export default function RatingModal({ local, onClose, onSubmit }) {
                         </button>
                       );
                     })}
-                    <span className="star-current-label" aria-live="polite">
-                      {current > 0 ? `${current} de 5` : 'Obrigatório'}
-                    </span>
+
+                    <button
+                      type="button"
+                      className={`na-btn ${isNA ? 'is-active' : ''}`}
+                      aria-pressed={isNA}
+                      aria-label={`Marcar ${pillar.label} como Não se aplica`}
+                      onClick={() => handleSelectScore(pillar.key, null)}
+                    >
+                      Não se aplica
+                    </button>
                   </div>
                 </fieldset>
               );
@@ -132,14 +165,19 @@ export default function RatingModal({ local, onClose, onSubmit }) {
           </div>
 
           <div className="form-field">
-            <label htmlFor="campo-apelido">Seu nome ou apelido (opcional)</label>
+            <label htmlFor="campo-apelido">Seu nome ou apelido</label>
             <input
               id="campo-apelido"
               type="text"
-              value={autor}
+              required
+              minLength={2}
               maxLength={60}
-              onChange={(e) => setAutor(e.target.value)}
-              placeholder="Ex.: Família Silva (ou deixe em branco para Visitante Anônimo)"
+              value={autor}
+              onChange={(e) => {
+                setAutor(e.target.value);
+                if (errorMsg) setErrorMsg('');
+              }}
+              placeholder="Ex.: Camila, Rafael ou Família Silva"
               className="text-input"
             />
           </div>
@@ -165,8 +203,8 @@ export default function RatingModal({ local, onClose, onSubmit }) {
           <div className="privacy-notice" role="note">
             <IconShield size={17} />
             <p>
-              Sua avaliação é pública e não coleta dados pessoais. Evite incluir informações
-              pessoais no comentário.
+              Sua avaliação é pública e não coleta dados sensíveis (como e-mail ou documentos). Use
+              apenas o nome ou apelido que deseja exibir.
             </p>
           </div>
 

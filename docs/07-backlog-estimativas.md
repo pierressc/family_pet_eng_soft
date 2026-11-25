@@ -126,11 +126,11 @@ Todas as histórias seguem estritamente o formato **"Como [persona], eu quero [i
 #### H08 — Registro de avaliação multicritério nos quatro pilares
 - **ID:** `H08` | **Epic:** `EP03` | **Prioridade:** Must | **Pontos (Fibonacci):** `8`
 - **Requisitos Vinculados:** `RF008`, `NF005`, `NF006`, `RD001`, `RD002`
-- **Enunciado:** Como Rafael Medeiros (tutor de cães), eu quero atribuir notas de 1 a 5 estrelas para cada um dos quatro pilares acompanhadas de um comentário opcional sobre minha visita, para que minha experiência atualize imediatamente as médias do estabelecimento e ajude outros moradores de João Pessoa.
+- **Enunciado:** Como Rafael Medeiros (tutor de cães), eu quero atribuir notas de 1 a 5 estrelas para cada um dos quatro pilares ou indicar que um critério não se aplica, identificando meu nome público e um comentário opcional sobre minha visita, para que minha experiência atualize imediatamente as médias do estabelecimento e ajude outros moradores de João Pessoa.
 - **Critérios de Aceite:**
-  1. O envio exige seleção obrigatória de nota inteira entre 1 e 5 para todos os quatro pilares, bloqueando submissão incompleta com mensagem explicativa.
-  2. O comentário textual aceita até 500 caracteres e exibe aviso de privacidade proibindo exposição de dados pessoais sensíveis (`RD001`).
-  3. Após o envio, as quatro médias são recalculadas imediatamente (`RD002`), o comentário aparece no topo da listagem e o registro permanece gravado após recarregamento da página (`NF006`).
+  1. Cada um dos quatro pilares aceita nota inteira entre 1 e 5 ou a opção `"Não se aplica"`, exigindo ao menos 1 pilar com nota numérica e nome ou apelido público com mínimo de 2 caracteres, bloqueando submissão incompleta com mensagem explicativa.
+  2. O comentário textual aceita até 500 caracteres e exibe aviso de privacidade informando que nenhum dado sensível (como e-mail ou documentos) é coletado (`RD001`).
+  3. Após o envio, as quatro médias são recalculadas imediatamente desconsiderando `"Não se aplica"` do denominador (`RD002`), o comentário aparece no topo da listagem e o registro permanece gravado após recarregamento da página (`NF006`).
   4. Usuários em validação concluem a avaliação em até 60 segundos e no máximo 6 interações (`NF005`).
 
 #### H09 — Criação e gestão de listas de favoritos por critério

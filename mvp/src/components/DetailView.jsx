@@ -208,7 +208,7 @@ export default function DetailView({
                           <span>{pData.formatted} / 5,0</span>
                         </>
                       ) : (
-                        <span>Sem avaliações</span>
+                        <span>{pData.formatted}</span>
                       )}
                     </div>
                   </div>
@@ -220,7 +220,7 @@ export default function DetailView({
                     aria-valuemax={5}
                     aria-valuenow={pData.value ?? 0}
                     aria-valuetext={
-                      pData.value !== null ? `${pData.formatted} de 5` : 'Sem avaliações'
+                      pData.value !== null ? `${pData.formatted} de 5` : pData.formatted
                     }
                   >
                     <div className="meter-fill" style={{ width: `${pct}%` }} />
@@ -284,11 +284,19 @@ export default function DetailView({
                   <time dateTime={rev.data}>{formatDateBR(rev.data)}</time>
                 </div>
                 <div className="review-pillars-strip">
-                  {PILLARS.map((pillar) => (
-                    <span key={pillar.key} className="review-pillar-pill">
-                      {pillar.shortLabel}: <strong>{rev.pilares?.[pillar.key]}/5</strong>
-                    </span>
-                  ))}
+                  {PILLARS.map((pillar) => {
+                    const val = rev.pilares?.[pillar.key];
+                    const isRated = typeof val === 'number' && val >= 1 && val <= 5;
+                    return (
+                      <span
+                        key={pillar.key}
+                        className={`review-pillar-pill ${isRated ? '' : 'is-na'}`}
+                        title={isRated ? `${pillar.label}: ${val} de 5` : `${pillar.label}: Não se aplica`}
+                      >
+                        {pillar.shortLabel}: <strong>{isRated ? `${val}/5` : 'N/A'}</strong>
+                      </span>
+                    );
+                  })}
                 </div>
                 {rev.comentario ? (
                   <p className="review-comment">{rev.comentario}</p>
