@@ -23,6 +23,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
 
     const handleKeyDown = (event) => {
       if (event.key === 'Escape') {
+        event.stopPropagation();
         onClose();
       }
     };
@@ -76,7 +77,7 @@ export default function RatingModal({ local, onClose, onSubmit }) {
 
   return (
     <div
-      className="modal-backdrop"
+      className="modal-backdrop modal-backdrop-top"
       role="presentation"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();

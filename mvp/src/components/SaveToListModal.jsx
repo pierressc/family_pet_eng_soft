@@ -15,7 +15,10 @@ export default function SaveToListModal({
   useEffect(() => {
     closeBtnRef.current?.focus();
     const handleKeyDown = (event) => {
-      if (event.key === 'Escape') onClose();
+      if (event.key === 'Escape') {
+        event.stopPropagation();
+        onClose();
+      }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
@@ -34,7 +37,7 @@ export default function SaveToListModal({
 
   return (
     <div
-      className="modal-backdrop"
+      className="modal-backdrop modal-backdrop-top"
       role="presentation"
       onClick={(e) => {
         if (e.target === e.currentTarget) onClose();

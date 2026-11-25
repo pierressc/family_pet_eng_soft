@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import estabelecimentosData from './data/estabelecimentos.json';
 import {
   calculatePillarAverages,
@@ -32,20 +32,25 @@ import {
   IconSun,
 } from './components/Icons';
 
-function parseHashRoute() {
+function parseInitialHash() {
   const raw = (window.location.hash || '#explorar').replace(/^#\/?/, '');
   if (raw.startsWith('local/')) {
-    const id = decodeURIComponent(raw.slice('local/'.length));
-    return { view: 'detail', placeId: id };
+    return {
+      tab: 'explorar',
+      placeId: decodeURIComponent(raw.slice('local/'.length)),
+    };
   }
   if (raw === 'favoritos') {
-    return { view: 'favoritos', placeId: null };
+    return { tab: 'favoritos', placeId: null };
   }
-  return { view: 'explorar', placeId: null };
+  return { tab: 'explorar', placeId: null };
 }
 
 export default function App() {
-  const [route, setRoute] = useState(() => parseHashRoute());
+  const initialState = useMemo(() => parseInitialHash(), []);
+  const [activeTab, setActiveTab] = useState(initialState.tab);
+  const [detailPlaceId, setDetailPlaceId] = useState(initialState.placeId);
+
   const [theme, setTheme] = useState(() => loadThemePreference());
   const [cityModalOpen, setCityModalOpen] = useState(false);
   const [storageWarning, setStorageWarning] = useState('');
@@ -61,11 +66,15 @@ export default function App() {
   const [userReviewsByPlace, setUserReviewsByPlace] = useState(() => loadStoredReviews().data);
   const [favoriteLists, setFavoriteLists] = useState(() => loadFavoriteLists().data);
 
-  // Modais de avaliação e listas
+  // Modais empilhados (camada superior)
   const [ratingTargetPlace, setRatingTargetPlace] = useState(null);
   const [saveTargetPlace, setSaveTargetPlace] = useState(null);
 
-  // Aplicação do tema claro/escuro no documento
+  // Referências para restauração de foco ao fechar modais
+  const detailTriggerRef = useRef(null);
+  const topModalTriggerRef = useRef(null);
+
+  // Aplicação do tema claro/escuro
   useEffect(() => {
     document.documentElement.setAttribute('data-theme', theme);
     saveThemePreference(theme);
@@ -80,11 +89,34 @@ export default function App() {
     }
   }, []);
 
-  // Roteamento por hash
+  // Travamento da rolagem da página de fundo enquanto qualquer modal estiver aberto
+  const hasAnyModalOpen = Boolean(
+    detailPlaceId || ratingTargetPlace || saveTargetPlace || cityModalOpen
+  );
+  useEffect(() => {
+    if (hasAnyModalOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [hasAnyModalOpen]);
+
+  // Sincronização com hash sem perder contexto da aba de origem
   useEffect(() => {
     const onHashChange = () => {
-      setRoute(parseHashRoute());
-      window.scrollTo({ top: 0, behavior: 'auto' });
+      const raw = (window.location.hash || '#explorar').replace(/^#\/?/, '');
+      if (raw.startsWith('local/')) {
+        setDetailPlaceId(decodeURIComponent(raw.slice('local/'.length)));
+      } else if (raw === 'favoritos') {
+        setDetailPlaceId(null);
+        setActiveTab('favoritos');
+      } else {
+        setDetailPlaceId(null);
+        setActiveTab('explorar');
+      }
     };
     window.addEventListener('hashchange', onHashChange);
     return () => window.removeEventListener('hashchange', onHashChange);
@@ -97,10 +129,67 @@ export default function App() {
     return () => window.clearTimeout(timer);
   }, [toastMessage]);
 
-  const navigateTo = useCallback((hash) => {
-    window.location.hash = hash;
-    setRoute(parseHashRoute());
+  const switchTab = useCallback((tab) => {
+    setDetailPlaceId(null);
+    setActiveTab(tab);
+    const nextHash = `#${tab}`;
+    if (window.location.hash !== nextHash) {
+      window.location.hash = nextHash;
+    }
     window.scrollTo({ top: 0, behavior: 'auto' });
+  }, []);
+
+  const handleOpenDetail = useCallback((placeId) => {
+    if (document.activeElement instanceof HTMLElement) {
+      detailTriggerRef.current = document.activeElement;
+    }
+    setDetailPlaceId(placeId);
+    const targetHash = `#local/${encodeURIComponent(placeId)}`;
+    if (window.location.hash !== targetHash) {
+      window.history.replaceState(null, '', targetHash);
+    }
+  }, []);
+
+  const handleCloseDetail = useCallback(() => {
+    setDetailPlaceId(null);
+    const returnHash = `#${activeTab}`;
+    if (window.location.hash !== returnHash) {
+      window.history.replaceState(null, '', returnHash);
+    }
+    const trigger = detailTriggerRef.current;
+    if (trigger && trigger.isConnected) {
+      window.requestAnimationFrame(() => trigger.focus());
+    }
+  }, [activeTab]);
+
+  const handleOpenRatingModal = useCallback((local) => {
+    if (document.activeElement instanceof HTMLElement) {
+      topModalTriggerRef.current = document.activeElement;
+    }
+    setRatingTargetPlace(local);
+  }, []);
+
+  const handleCloseRatingModal = useCallback(() => {
+    setRatingTargetPlace(null);
+    const trigger = topModalTriggerRef.current;
+    if (trigger && trigger.isConnected) {
+      window.requestAnimationFrame(() => trigger.focus());
+    }
+  }, []);
+
+  const handleOpenSaveModal = useCallback((local) => {
+    if (document.activeElement instanceof HTMLElement) {
+      topModalTriggerRef.current = document.activeElement;
+    }
+    setSaveTargetPlace(local);
+  }, []);
+
+  const handleCloseSaveModal = useCallback(() => {
+    setSaveTargetPlace(null);
+    const trigger = topModalTriggerRef.current;
+    if (trigger && trigger.isConnected) {
+      window.requestAnimationFrame(() => trigger.focus());
+    }
   }, []);
 
   const toggleTheme = () => {
@@ -204,7 +293,7 @@ export default function App() {
     if (!saveRes.ok && saveRes.error) {
       setStorageWarning(saveRes.error);
     }
-    setRatingTargetPlace(null);
+    handleCloseRatingModal();
     setToastMessage('Avaliação publicada com sucesso.');
   };
 
@@ -302,7 +391,8 @@ export default function App() {
     return set.size;
   }, [favoriteLists]);
 
-  const currentDetailPlace = route.view === 'detail' ? allPlacesById[route.placeId] : null;
+  const currentDetailPlace = detailPlaceId ? allPlacesById[detailPlaceId] || null : null;
+  const hasChildModalOpen = Boolean(ratingTargetPlace || saveTargetPlace);
 
   return (
     <div className="app-shell">
@@ -318,7 +408,7 @@ export default function App() {
               className="brand-link"
               onClick={(e) => {
                 e.preventDefault();
-                navigateTo('#explorar');
+                switchTab('explorar');
               }}
             >
               <span className="brand-mark">
@@ -343,11 +433,11 @@ export default function App() {
             <nav aria-label="Navegação principal" className="main-nav">
               <a
                 href="#explorar"
-                className={`nav-link ${route.view === 'explorar' || route.view === 'detail' ? 'is-active' : ''}`}
-                aria-current={route.view === 'explorar' ? 'page' : undefined}
+                className={`nav-link ${activeTab === 'explorar' ? 'is-active' : ''}`}
+                aria-current={activeTab === 'explorar' ? 'page' : undefined}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigateTo('#explorar');
+                  switchTab('explorar');
                 }}
               >
                 <IconSearch size={16} />
@@ -356,11 +446,11 @@ export default function App() {
 
               <a
                 href="#favoritos"
-                className={`nav-link ${route.view === 'favoritos' ? 'is-active' : ''}`}
-                aria-current={route.view === 'favoritos' ? 'page' : undefined}
+                className={`nav-link ${activeTab === 'favoritos' ? 'is-active' : ''}`}
+                aria-current={activeTab === 'favoritos' ? 'page' : undefined}
                 onClick={(e) => {
                   e.preventDefault();
-                  navigateTo('#favoritos');
+                  switchTab('favoritos');
                 }}
               >
                 <IconBookmark size={16} />
@@ -400,7 +490,7 @@ export default function App() {
       )}
 
       <main id="conteudo-principal" className="container main-content" tabIndex={-1}>
-        {route.view === 'explorar' && (
+        {activeTab === 'explorar' && (
           <ExploreView
             locaisFiltrados={locaisFiltrados}
             totalCatalogo={estabelecimentosData.length}
@@ -413,26 +503,14 @@ export default function App() {
             sortBy={sortBy}
             onSortChange={setSortBy}
             onClearFilters={handleClearFilters}
-            onOpenDetail={(id) => navigateTo(`#local/${encodeURIComponent(id)}`)}
-            onOpenSaveModal={(local) => setSaveTargetPlace(local)}
+            onOpenDetail={handleOpenDetail}
+            onOpenSaveModal={handleOpenSaveModal}
             getAveragesForPlace={getAveragesForPlace}
             getListsContainingPlace={getListsContainingPlace}
           />
         )}
 
-        {route.view === 'detail' && (
-          <DetailView
-            local={currentDetailPlace}
-            avaliacoes={getAllReviewsForPlace(currentDetailPlace)}
-            averages={getAveragesForPlace(currentDetailPlace)}
-            savedLists={currentDetailPlace ? getListsContainingPlace(currentDetailPlace.id) : []}
-            onBack={() => navigateTo('#explorar')}
-            onOpenRatingModal={() => setRatingTargetPlace(currentDetailPlace)}
-            onOpenSaveModal={(local) => setSaveTargetPlace(local)}
-          />
-        )}
-
-        {route.view === 'favoritos' && (
+        {activeTab === 'favoritos' && (
           <FavoritesView
             lists={favoriteLists}
             allPlacesById={allPlacesById}
@@ -441,8 +519,8 @@ export default function App() {
             onRenameList={handleRenameList}
             onDeleteList={handleDeleteList}
             onRemovePlaceFromList={handleRemovePlaceFromList}
-            onOpenDetail={(id) => navigateTo(`#local/${encodeURIComponent(id)}`)}
-            onGoExplore={() => navigateTo('#explorar')}
+            onOpenDetail={handleOpenDetail}
+            onGoExplore={() => switchTab('explorar')}
           />
         )}
       </main>
@@ -469,12 +547,25 @@ export default function App() {
         </div>
       </footer>
 
+      {currentDetailPlace && (
+        <DetailView
+          local={currentDetailPlace}
+          avaliacoes={getAllReviewsForPlace(currentDetailPlace)}
+          averages={getAveragesForPlace(currentDetailPlace)}
+          savedLists={getListsContainingPlace(currentDetailPlace.id)}
+          hasChildModalOpen={hasChildModalOpen}
+          onClose={handleCloseDetail}
+          onOpenRatingModal={() => handleOpenRatingModal(currentDetailPlace)}
+          onOpenSaveModal={handleOpenSaveModal}
+        />
+      )}
+
       {cityModalOpen && <CityModal onClose={() => setCityModalOpen(false)} />}
 
       {ratingTargetPlace && (
         <RatingModal
           local={ratingTargetPlace}
-          onClose={() => setRatingTargetPlace(null)}
+          onClose={handleCloseRatingModal}
           onSubmit={(review) => handleAddReview(ratingTargetPlace.id, review)}
         />
       )}
@@ -483,7 +574,7 @@ export default function App() {
         <SaveToListModal
           local={saveTargetPlace}
           lists={favoriteLists}
-          onClose={() => setSaveTargetPlace(null)}
+          onClose={handleCloseSaveModal}
           onTogglePlaceInList={handleTogglePlaceInList}
           onCreateList={handleCreateList}
         />
