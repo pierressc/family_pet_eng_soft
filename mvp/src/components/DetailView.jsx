@@ -18,6 +18,7 @@ import {
   IconMapPin,
   IconMessage,
   IconStar,
+  IconTrash,
 } from './Icons';
 
 export default function DetailView({
@@ -30,10 +31,12 @@ export default function DetailView({
   hasChildModalOpen,
   onClose,
   onOpenRatingModal,
+  onDeleteReview,
   onOpenSaveModal,
 }) {
   const [activeTab, setActiveTab] = useState('visao');
   const [reviewSort, setReviewSort] = useState('recentes');
+  const [confirmingDeleteReview, setConfirmingDeleteReview] = useState(false);
 
   const closeBtnRef = useRef(null);
   const tabRefs = useRef({});
@@ -44,15 +47,17 @@ export default function DetailView({
   useEffect(() => {
     setActiveTab('visao');
     setReviewSort('recentes');
+    setConfirmingDeleteReview(false);
     closeBtnRef.current?.focus();
   }, [local?.id]);
 
-  // Redirecionar automaticamente para "Avaliações" após publicar ou editar avaliação
+  // Redirecionar automaticamente para "Avaliações" após publicar, editar ou excluir avaliação
   useEffect(() => {
     if (focusReviewsToken > lastFocusTokenRef.current) {
       lastFocusTokenRef.current = focusReviewsToken;
       setActiveTab('avaliacoes');
       setReviewSort('recentes');
+      setConfirmingDeleteReview(false);
       window.requestAnimationFrame(() => {
         reviewsPanelRef.current?.focus();
       });
@@ -521,6 +526,58 @@ export default function DetailView({
                             <p className="review-comment is-muted">
                               Avaliação registrada sem comentário.
                             </p>
+                          )}
+
+                          {rev.isUserReview && (
+                            <div className="review-user-footer">
+                              {!confirmingDeleteReview ? (
+                                <div className="review-user-actions">
+                                  <button
+                                    type="button"
+                                    className="btn btn-outline btn-xs"
+                                    onClick={onOpenRatingModal}
+                                  >
+                                    <IconEdit size={14} />
+                                    <span>Editar</span>
+                                  </button>
+                                  <button
+                                    type="button"
+                                    className="btn btn-danger-outline btn-xs"
+                                    onClick={() => setConfirmingDeleteReview(true)}
+                                  >
+                                    <IconTrash size={14} />
+                                    <span>Excluir</span>
+                                  </button>
+                                </div>
+                              ) : (
+                                <div
+                                  className="review-delete-confirm"
+                                  role="alertdialog"
+                                  aria-label="Confirmar exclusão da sua avaliação"
+                                >
+                                  <p>Excluir sua avaliação?</p>
+                                  <div className="confirm-buttons">
+                                    <button
+                                      type="button"
+                                      className="btn btn-danger btn-xs"
+                                      onClick={() => {
+                                        setConfirmingDeleteReview(false);
+                                        onDeleteReview(local.id);
+                                      }}
+                                    >
+                                      Confirmar exclusão
+                                    </button>
+                                    <button
+                                      type="button"
+                                      className="btn btn-outline btn-xs"
+                                      onClick={() => setConfirmingDeleteReview(false)}
+                                    >
+                                      Cancelar
+                                    </button>
+                                  </div>
+                                </div>
+                              )}
+                            </div>
                           )}
                         </li>
                       ))}

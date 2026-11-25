@@ -109,6 +109,13 @@ export function saveStoredReviews(reviewsByPlace) {
   }
 }
 
+export function removeStoredReview(reviewsByPlace, placeId) {
+  const next = { ...reviewsByPlace };
+  delete next[placeId];
+  const res = saveStoredReviews(next);
+  return { ...res, data: next };
+}
+
 export function loadFavoriteLists() {
   try {
     const raw = window.localStorage.getItem(FAVORITES_KEY);

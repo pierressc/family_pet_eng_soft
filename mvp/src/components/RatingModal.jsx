@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { PILLARS } from '../utils/helpers';
-import { IconClose, IconShield, IconStar } from './Icons';
+import { IconClose, IconShield, IconStar, IconTrash } from './Icons';
 
 const MAX_COMMENT = 500;
 
@@ -21,7 +21,13 @@ function getInitialScores(existingReview) {
   return initial;
 }
 
-export default function RatingModal({ local, existingReview = null, onClose, onSubmit }) {
+export default function RatingModal({
+  local,
+  existingReview = null,
+  onClose,
+  onSubmit,
+  onDelete,
+}) {
   const isEditing = Boolean(existingReview);
 
   // undefined = não marcado | 1..5 = nota numérica | null = Não se aplica
@@ -29,6 +35,7 @@ export default function RatingModal({ local, existingReview = null, onClose, onS
   const [autor, setAutor] = useState(() => existingReview?.autor || '');
   const [comentario, setComentario] = useState(() => existingReview?.comentario || '');
   const [errorMsg, setErrorMsg] = useState('');
+  const [confirmingDelete, setConfirmingDelete] = useState(false);
 
   const closeBtnRef = useRef(null);
 
@@ -220,13 +227,54 @@ export default function RatingModal({ local, existingReview = null, onClose, onS
             </p>
           </div>
 
-          <div className="modal-footer">
-            <button type="button" className="btn btn-outline" onClick={onClose}>
-              Cancelar
-            </button>
-            <button type="submit" className="btn btn-primary">
-              {isEditing ? 'Salvar alterações' : 'Publicar avaliação'}
-            </button>
+          <div className={`modal-footer ${isEditing ? 'modal-footer-split' : ''}`}>
+            {isEditing && onDelete && (
+              <div className="modal-delete-area">
+                {!confirmingDelete ? (
+                  <button
+                    type="button"
+                    className="btn btn-danger-outline btn-sm"
+                    onClick={() => setConfirmingDelete(true)}
+                  >
+                    <IconTrash size={15} />
+                    <span>Excluir avaliação</span>
+                  </button>
+                ) : (
+                  <div
+                    className="modal-delete-confirm"
+                    role="alertdialog"
+                    aria-label="Confirmar exclusão da avaliação"
+                  >
+                    <span>Tem certeza?</span>
+                    <div className="confirm-buttons">
+                      <button
+                        type="button"
+                        className="btn btn-danger btn-xs"
+                        onClick={onDelete}
+                      >
+                        Confirmar exclusão
+                      </button>
+                      <button
+                        type="button"
+                        className="btn btn-outline btn-xs"
+                        onClick={() => setConfirmingDelete(false)}
+                      >
+                        Cancelar
+                      </button>
+                    </div>
+                  </div>
+                )}
+              </div>
+            )}
+
+            <div className="modal-primary-buttons">
+              <button type="button" className="btn btn-outline" onClick={onClose}>
+                Cancelar
+              </button>
+              <button type="submit" className="btn btn-primary">
+                {isEditing ? 'Salvar alterações' : 'Publicar avaliação'}
+              </button>
+            </div>
           </div>
         </form>
       </div>

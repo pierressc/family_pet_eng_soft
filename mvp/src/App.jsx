@@ -11,6 +11,7 @@ import {
   loadFavoriteLists,
   loadStoredReviews,
   loadThemePreference,
+  removeStoredReview,
   saveFavoriteLists,
   saveStoredReviews,
   saveThemePreference,
@@ -330,6 +331,17 @@ export default function App() {
     );
   };
 
+  const handleDeleteReview = (placeId) => {
+    const res = removeStoredReview(userReviewsByPlace, placeId);
+    setUserReviewsByPlace(res.data);
+    if (!res.ok && res.error) {
+      setStorageWarning(res.error);
+    }
+    setRatingTargetPlace(null);
+    setReviewsFocusToken((prev) => prev + 1);
+    setToastMessage('Sua avaliação foi excluída.');
+  };
+
   const updateListsWithStorage = (nextLists) => {
     setFavoriteLists(nextLists);
     const saveRes = saveFavoriteLists(nextLists);
@@ -597,6 +609,7 @@ export default function App() {
           hasChildModalOpen={hasChildModalOpen}
           onClose={handleCloseDetail}
           onOpenRatingModal={() => handleOpenRatingModal(currentDetailPlace)}
+          onDeleteReview={handleDeleteReview}
           onOpenSaveModal={handleOpenSaveModal}
         />
       )}
@@ -609,6 +622,7 @@ export default function App() {
           existingReview={ratingTargetUserReview}
           onClose={handleCloseRatingModal}
           onSubmit={(payload) => handleSaveReview(ratingTargetPlace.id, payload)}
+          onDelete={() => handleDeleteReview(ratingTargetPlace.id)}
         />
       )}
 
